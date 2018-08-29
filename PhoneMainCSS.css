@@ -1,0 +1,8 @@
+@media only screen and (max-width: 576px) {
+    body,html {
+        background-image: url(backgroundSmall.jpg);
+    }
+    li:hover{
+    	padding: 0px 0px 0px 10px;
+    }
+}
