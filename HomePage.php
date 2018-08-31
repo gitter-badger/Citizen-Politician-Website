@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set("Africa/Nairobi");
+	require "Connection.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,7 @@ date_default_timezone_set("Africa/Nairobi");
 <body>
 	<div class="container-fluid">
 		<nav class="navbar bg-info navbar-light navbar-expand-sm" style="border-radius: 5px;">
-			<a class="navbar-brand" href="" style="font-family: Cookie,cursive;font-size: 24px;color: darkslategray;border: 1px ridge rgb(0,0,0,0.2);padding-left: 4px;padding-right: 4px;border-radius: 5px;">MwanaNchi</a>
+			<a class="navbar-brand" href="" style="font-family: Cookie,cursive;font-size: 20px;color: darkslategray;border: 1px ridge rgb(0,0,0,0.2);padding-left: 4px;padding-right: 4px;border-radius: 5px;">MwanaNchi</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#smallScreen" style="outline: none;">
 				<span class="navbar-toggler-icon"></span>
@@ -83,24 +83,82 @@ date_default_timezone_set("Africa/Nairobi");
 							  <button type="submit" class="btn btn-info">Submit</button>
 						</form>
 					</div>
+
 					<div class="tab-pane container fade" id="signUp">
 						<form style="padding: 15px;padding-top: 35px;">
 							<div class="form-group">
 								<div class="input-group mb-3">
 									<input type="text" class="form-control" id="user" placeholder="Username" required="">
 								    <div class="input-group-append">
-								      	<span class="input-group-text fa fa-times"></span>
+								      	<span class="input-group-text fa" id="1"></span>
 								    </div>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="input-group mb-3">
-									<input type="email" class="form-control" id="user" placeholder="Email" required="">
+									<input type="email" class="form-control" id="email" placeholder="Email" required="">
 								    <div class="input-group-append">
-								      	<span class="input-group-text fa fa-check"></span>
+								      	<span class="input-group-text fa" id="2"></span>
 								    </div>
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">+254</span>
+								    </div>
+									<input type="text" class="form-control" id="phone" placeholder="Phone" required="">
+								    <div class="input-group-append">
+								      	<span class="input-group-text fa" id="3"></span>
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text" id="showSecret" style="cursor: pointer;"><img src="eye-icon.png" style="width: 23px;height: 23px;"></span>
+								    </div>
+									<input type="password" class="form-control" id="secret" placeholder="Password" required="">
+								    <div class="input-group-append">
+								      	<span class="input-group-text fa" id="4"></span>
+								    </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text" id="showSecretRe" style="cursor: pointer;"><img src="eye-icon.png" style="width: 23px;height: 23px;"></span>
+								    </div>
+									<input type="password" class="form-control" id="secretRe" placeholder="Repeat Password" required="">
+								    <div class="input-group-append">
+								      	<span class="input-group-text fa" id="5"></span>
+								    </div>
+								</div>
+							</div>
+							<br><br>
+							<div class="form-group">
+								<label for="counties"> County:</label>
+								<select class="form-control" id="counties" style="cursor: pointer;">
+									<?php
+										$stmt=$connection->query("Select * from counties");
+										if ($stmt->num_rows > 0) {
+										    while($row = $stmt->fetch_array(MYSQLI_NUM)) {
+        										echo "<option id=$row[0]>$row[1]</option>";
+    										}
+										} else {
+    										echo "<option>No Supported Counties</option>";
+										}
+									?>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="accountType"> Account Type:</label>
+								<select class="form-control" id="accountType" style="cursor: pointer;">
+									<option id="citizen">Citizen</option>
+									<option id="politician">Politician</option>
+								</select>
+							</div>
+							<button type="submit" class="btn btn-info">Submit</button>
 						</form>
 					</div>
 				</div>
