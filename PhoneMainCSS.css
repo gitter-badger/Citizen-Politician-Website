@@ -1,8 +1,14 @@
 @media only screen and (max-width: 576px) {
-    body,html {
-        background-image: url(backgroundSmall.jpg);
+    body{
+    	background-image: url(backgroundSmall.jpg);
+        background-position: center;
+		background-attachment: fixed;
     }
-    li:hover{
-    	padding: 0px 0px 0px 10px;
+    li.navigationBar:hover{
+    	padding-left: 10px;
+    }
+
+    li.here{
+    	padding-left: 10px;
     }
 }
