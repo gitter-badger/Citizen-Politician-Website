@@ -1,6 +1,7 @@
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 992px) {
     body{
-    	background-image: url(backgroundSmall.JPG);
+    	background-image: none;
+    	background-color: rgba(143,188,139,0.5);
     }
 
     li.navigationBar:hover{
