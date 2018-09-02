@@ -4,29 +4,26 @@ body,html {
 }
 body{
   	background: url(background.JPG) no-repeat center center;
-  	-webkit-background-size: cover;
-  	-moz-background-size: cover;
-  	-o-background-size: cover;
   	background-size: cover;
-  	background-color: rgba(0,0,0,0.7);
-  	background-blend-mode: overlay;
   	background-attachment: fixed;
+}
+div.home{
+	background-color: rgba(0,0,0,0.7);
+	width: inherit;
+	height: 120%;
 }
 li.navigationBar:hover{
 	background-color: slategray;
 	border-radius: 5px;
 }
-
 li.here{
 	background-color: slategray;
 	border-radius: 5px;
 }
-
 div.Main{
 	position: relative;
 	top: 40px;
 }
-
 div.Mini{
 	position: absolute;
 	left: 50%;
@@ -34,12 +31,10 @@ div.Mini{
 	margin-left: -200px;
 	display: inline-block;
 }
-
 span.fa{
 	padding-top: 10px;
 	color: limegreen;
 }
-
 input::-ms-reveal{
 	display: none;
 }
