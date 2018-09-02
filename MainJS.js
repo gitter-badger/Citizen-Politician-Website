@@ -34,4 +34,19 @@ $(document).ready(()=>{
 		}
 		$("span#1").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
 	})
+
+	$("#email").keyup(()=>{
+		var email=$("#email").val()
+		var posAt=email.indexOf("@")
+		var posDot=email.lastIndexOf(".")
+		if(email.length===0){
+			$("span#2").removeClass("fa-times").removeClass("fa-check")
+			return;
+		}
+		if(posAt<1||(posAt+2)>posDot||(posDot+2)>=email.length){
+			$("span#2").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+			return;
+		}
+		$("span#2").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+	})
 })
