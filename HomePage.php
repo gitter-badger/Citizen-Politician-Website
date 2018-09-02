@@ -4,13 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-	<title>HomePage</title>
+	<title>MwanaNchi</title>
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<link rel="shortcut icon" type="image/png" href="MwananchiIcon.png">
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="MainCSS.css">
 	<link rel="stylesheet" type="text/css" href="PhoneMainCSS.css">
@@ -23,8 +24,8 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<nav class="navbar bg-info navbar-light navbar-expand-sm" style="border-radius: 5px;">
-			<a class="navbar-brand" href="" style="font-family: Cookie,cursive;font-size: 20px;color: darkslategray;border: 1px ridge rgb(0,0,0,0.2);padding-left: 4px;padding-right: 4px;border-radius: 5px;">MwanaNchi</a>
+		<nav class="navbar bg-info navbar-light navbar-expand-lg" style="border-radius: 5px;">
+			<a class="navbar-brand" href="" style="border: 1px ridge rgba(0,0,0,0.2);border-radius: 5px;background-image: url(MwananchiLogo.png);background-size: 100% 100%;"><pre>            </pre></a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#smallScreen" style="outline: none;">
 				<span class="navbar-toggler-icon"></span>
