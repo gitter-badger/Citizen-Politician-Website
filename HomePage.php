@@ -23,9 +23,9 @@
 	<script src="MainJS.js"></script>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid home">
 		<nav class="navbar bg-info navbar-light navbar-expand-lg" style="border-radius: 5px;">
-			<a class="navbar-brand" href="" style="border: 1px ridge rgba(0,0,0,0.2);border-radius: 5px;background-image: url(MwananchiLogo.png);background-size: 100% 100%;"><pre>            </pre></a>
+			<a class="navbar-brand" href="" style="border: 1px ridge rgba(0,0,0,0.2);border-radius: 5px;background-image: url(MwananchiLogo.png);background-size: 100% 100%;"><pre style="font-size: 12px;">                 </pre></a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#smallScreen" style="outline: none;">
 				<span class="navbar-toggler-icon"></span>
