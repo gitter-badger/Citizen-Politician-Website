@@ -1,9 +1,12 @@
-@media only screen and (max-width: 576px) {
+@media screen and (max-width: 576px) and (max-height: 992px) and (orientation: portrait), (max-width: 992px) and (max-height: 576px) and (orientation: landscape){
     body{
-    	background-image: url(backgroundSmall.jpg);
-        background-position: center;
-		background-attachment: fixed;
-    }
+    	background-image: none;
+    	background-color: rgba(0,0,0,0.1);
+	}  
+	div.home{
+		background-color: transparent;
+		height: 100%;
+	}
     li.navigationBar:hover{
     	padding-left: 10px;
     }
