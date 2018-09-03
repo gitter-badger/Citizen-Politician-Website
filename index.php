@@ -44,6 +44,14 @@
 	<script src="MainJS.js"></script>
 </head>
 <body style="background-image: none;background-color: rgba(0,0,0,0.1);">
+	<script>
+		var screenWidth=screen.width,screenHeight=screen.height
+		if(screenWidth<576||screenHeight<576){
+			location.assign("HomePage.php")
+		}
+	</script>
+
+
 	<div class="container-fluid" style="width: 100%;height: 100%;margin: 0;padding: 0;">
 		<div id="one" style="background: url(backgroundAbout.png) no-repeat center center;background-size: 100% 100%;height: 100%;width: 100%;">
 			<div id="two" style="height: inherit;width: inherit;background-color: rgba(0,0,0,0.7);">
@@ -61,13 +69,13 @@
 		$("#two").fadeIn(1000,()=>{
 			$("#three").show().css({left:"50%"})
 			$("#four").fadeIn(1300,()=>{
-				$('#version').animateNumber({number: 1 * decimal_factor,numberStep: function(now, tween) {
+				$('#version').animateNumber({number: 1 * decimal_factor,easing: 'easeInQuad',numberStep: function(now, tween) {
         			var floored_number = Math.floor(now) / decimal_factor;
         			var target = $(tween.elem);
 			        target.text(floored_number.toFixed(decimal_places));
       			}
-    			},5000,()=>{
-    				$("#version").text("1.0")
+    			},3000,()=>{
+    				$("#version").html("1.0 <i style='font-size: 16px'>https://mwananchi.herokuapp.com</i>")
     			});
     			$("button").slideDown()
 			})
@@ -75,8 +83,3 @@
 	</script>
 </body>
 </html>
-
-
-<?php
-//header("Location: HomePage.php");
-?>
