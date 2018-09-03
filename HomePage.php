@@ -89,7 +89,7 @@
 						<form style="padding: 15px;padding-top: 35px;">
 							<div class="form-group">
 								<div class="input-group mb-3">
-									<input type="text" class="form-control" id="user" placeholder="Username" required="">
+									<input type="text" class="form-control" name="user" id="user" placeholder="Username" required="">
 								    <div class="input-group-append">
 								      	<span class="input-group-text fa" id="1"></span>
 								    </div>
@@ -97,7 +97,7 @@
 							</div>
 							<div class="form-group">
 								<div class="input-group mb-3">
-									<input type="email" class="form-control" id="email" placeholder="Email" required="">
+									<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="">
 								    <div class="input-group-append">
 								      	<span class="input-group-text fa" id="2"></span>
 								    </div>
@@ -108,7 +108,7 @@
 									<div class="input-group-prepend">
 								      	<span class="input-group-text">+254</span>
 								    </div>
-									<input type="text" class="form-control" id="phone" placeholder="Phone" required="">
+									<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required="">
 								    <div class="input-group-append">
 								      	<span class="input-group-text fa" id="3"></span>
 								    </div>
@@ -119,7 +119,7 @@
 									<div class="input-group-prepend">
 								      	<span class="input-group-text" id="showSecret" style="cursor: pointer;"><img src="eye-icon.png" style="width: 23px;height: 23px;"></span>
 								    </div>
-									<input type="password" class="form-control" id="secret" placeholder="Password" required="">
+									<input type="password" class="form-control" name="secret" id="secret" placeholder="Password" required="">
 								    <div class="input-group-append">
 								      	<span class="input-group-text fa" id="4"></span>
 								    </div>
@@ -130,16 +130,22 @@
 									<div class="input-group-prepend">
 								      	<span class="input-group-text" id="showSecretRe" style="cursor: pointer;"><img src="eye-icon.png" style="width: 23px;height: 23px;"></span>
 								    </div>
-									<input type="password" class="form-control" id="secretRe" placeholder="Repeat Password" required="">
+									<input type="password" class="form-control" name="secretRe" id="secretRe" placeholder="Repeat Password" required="">
 								    <div class="input-group-append">
 								      	<span class="input-group-text fa" id="5"></span>
 								    </div>
 								</div>
 							</div>
-							<br><br>
 							<div class="form-group">
+								<div class="custom-file">
+									<input type="file" accept="image/png,image/jpeg" class="custom-file-input border" name="photo" id="photo" style="cursor: pointer;">
+									<label for="photo" class="custom-file-label" id="labelPhoto">Profile Photo <span class="text-secondary">(Optional): </span></label>
+								</div>
+							</div>
+							<br><br>
+							<div class="form-group mb-2">
 								<label for="counties"> County:</label>
-								<select class="form-control" id="counties" style="cursor: pointer;">
+								<select class="custom-select mb-3" name="counties" id="counties" style="cursor: pointer;" required="">
 									<?php
 										$stmt=$connection->query("Select * from counties");
 										if ($stmt->num_rows > 0) {
@@ -151,15 +157,20 @@
 										}
 									?>
 								</select>
+
+								<label>Account type: </label>
+								<div class="custom-control custom-radio">
+								    <input type="radio" class="custom-control-input" id="citizen" name="type" value="citizen" required="">
+								    <label class="custom-control-label" for="citizen">Citizen</label>
+								</div>
+								<div class="custom-control custom-radio">
+									<input type="radio" class="custom-control-input" id="politician" name="type" value="politician" required="">
+								    <label class="custom-control-label" for="politician">Politician</label>
+								</div>
+							</div><br>
+							<div class="form-group mb-3">
+								<button type="submit" class="btn btn-info">Submit</button>
 							</div>
-							<div class="form-group">
-								<label for="accountType"> Account Type:</label>
-								<select class="form-control" id="accountType" style="cursor: pointer;">
-									<option id="citizen">Citizen</option>
-									<option id="politician">Politician</option>
-								</select>
-							</div>
-							<button type="submit" class="btn btn-info">Submit</button>
 						</form>
 					</div>
 				</div>
