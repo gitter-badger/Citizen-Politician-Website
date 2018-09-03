@@ -10,7 +10,7 @@ body{
 div.home{
 	background-color: rgba(0,0,0,0.7);
 	width: inherit;
-	height: 120%;
+	height: 150%;
 }
 li.navigationBar:hover{
 	background-color: slategray;
