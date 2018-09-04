@@ -95,6 +95,7 @@
 								    </div>
 								</div>
 							</div>
+							<div id="userError"></div>
 							<div class="form-group">
 								<div class="input-group mb-3">
 									<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="">
@@ -103,6 +104,7 @@
 								    </div>
 								</div>
 							</div>
+							<div id="emailError"></div>
 							<div class="form-group">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
@@ -114,6 +116,7 @@
 								    </div>
 								</div>
 							</div>
+							<div id="phoneError"></div>
 							<div class="form-group">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
@@ -125,6 +128,7 @@
 								    </div>
 								</div>
 							</div>
+							<div id="secretError"></div>
 							<div class="form-group">
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
@@ -136,6 +140,7 @@
 								    </div>
 								</div>
 							</div>
+							<div id="secretReError"></div>
 							<div class="form-group">
 								<div class="custom-file">
 									<input type="file" accept="image/png,image/jpeg" class="custom-file-input border" name="photo" id="photo" style="cursor: pointer;">
