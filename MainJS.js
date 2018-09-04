@@ -14,13 +14,88 @@ $(document).ready(()=>{
 	}
 
 
+
 	$("#show").click({button: "#show", input: "#passWord"},showPassword)
 	$("#showSecret").click({button: "#showSecret", input: "#secret"},showPassword)
 	$("#showSecretRe").click({button: "#showSecretRe", input: "#secretRe"},showPassword)
 
 	$("div#signUp>form").submit(event=>{
+		var user=$("#user").val()
+		var email=$("#email").val()
+		var phone=$("#phone").val()
+		var pass=$("#secret").val()
+		var passRe=$("#secretRe").val()
+		var image=$("#photo").val()
+		var county=$("#counties").find(":selected").attr("id")
+		var acc=$("input[name=type]:checked").val()
 		
+
+		if(user.length<3){
+			$("div#userError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Username must be atleast 3 characters.")
+			return;
+		}
+		if(checkUser(user)){
+			$("div#userError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Username already exists.")
+			return
+		}
+		if(!isNaN(user.charAt(0))){
+			$("div#userError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Username cannot start with a number.")
+			return
+		}
+		$("div#userError").removeClass("alert").removeClass("alert-danger").html("")
+
+		if(email.indexOf("@")<1||(email.indexOf("@")+2)>email.lastIndexOf(".")||(email.lastIndexOf(".")+2)>=email.length){
+			$("div#emailError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Email is not a valid email.")
+			return;
+		}
+		$("div#emailError").removeClass("alert").removeClass("alert-danger").html("")
+
+		if(phone.charAt(0)!=7){
+			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must start with 7.")
+			return;
+		}
+		if(phone.length!=9){
+			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must be exactly 9 characters long.")
+			return
+		}
+		if(isNaN(phone)){
+			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must be a number.")
+			return
+		}
+		$("div#phoneError").removeClass("alert").removeClass("alert-danger").html("")
+
+		if(pass.length<8){
+			$("div#secretError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Passwords should be 8 characters long.")
+			return
+		}
+		for(var i=0;i<pass.length;i++){
+			if(isNaN(pass.charAt(i))){
+				if(i===pass.length-1){
+					$("div#secretError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Passwords should be have atleast 1 number.")
+					return
+				}
+			}else
+				break;
+		}
+		for(var i=0;i<pass.length;i++){
+			if(isNaN(pass.charAt(i))){
+				break
+			}else{
+				if(i===pass.length-1){
+					$("div#secretError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Passwords should have atleast 1 letter.")
+					return
+				}
+			}
+		}
+		$("div#secretError").removeClass("alert").removeClass("alert-danger").html("")
+
+		if(passRe.localeCompare(pass)!==0){
+			$("div#secretReError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Passwords should match.")
+			return
+		}
+		$("div#secretReError").removeClass("alert").removeClass("alert-danger").html("")
 	})
+
 	$("div.signIn>form").submit(event=>{
 		event.preventDefault()
 	})
@@ -59,7 +134,7 @@ $(document).ready(()=>{
 			$("span#3").removeClass("fa-times").removeClass("fa-check")
 			return;
 		}
-		if(phone.charAt(0)!=7||phone.length!=9){
+		if(phone.charAt(0)!=7||phone.length!=9||isNaN(phone)){
 			$("span#3").removeClass("fa-check").addClass("fa-times").css("color","indianred")
 			return;
 		}
