@@ -39,9 +39,6 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="jquery.animateNumber.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<script src="MainJS.js"></script>
 </head>
 <body style="background-image: none;background-color: rgba(0,0,0,0.1);">
 	<script>
@@ -64,9 +61,8 @@
 	<script>
 		var decimal_places = 2;
 		var decimal_factor = 100;
-		$("div,button").not("div.container-fluid").hide();
-		$("#one").fadeIn(1500)
-		$("#two").fadeIn(1000,()=>{
+		$("div,button").not("div.container-fluid,div#one").hide();
+		$("#two").slideDown(2000,()=>{
 			$("#three").show().css({left:"50%"})
 			$("#four").fadeIn(1300,()=>{
 				$('#version').animateNumber({number: 1 * decimal_factor,easing: 'easeInQuad',numberStep: function(now, tween) {
