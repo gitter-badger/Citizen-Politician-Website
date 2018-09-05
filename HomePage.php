@@ -13,6 +13,7 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="MainCSS.css">
 	<link rel="stylesheet" type="text/css" href="PhoneMainCSS.css">
 
@@ -25,7 +26,7 @@
 <body>
 	<div class="container-fluid home">
 		<nav class="navbar bg-info navbar-light navbar-expand-lg" style="border-radius: 5px;">
-			<a class="navbar-brand" href="" style="border: 1px ridge rgba(0,0,0,0.2);border-radius: 5px;background-image: url(MwananchiLogo.png);background-size: 100% 100%;"><pre style="font-size: 12px;">                 </pre></a>
+			<a class="navbar-brand text-dark" href="" style="font-family: Cookie,cursive;font-size: 24px;padding-bottom: 2px;padding-top: 2px;"><i class="fas fa-user"></i> Mwananchi</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#smallScreen" style="outline: none;">
 				<span class="navbar-toggler-icon"></span>
@@ -38,12 +39,12 @@
 			      </li>
 			      <li class="nav-item navigationBar">
 			        <a class="nav-link text-light" href="ContactsPage.php">Contacts</a>
-			      </li>
-			      <li class="nav-item navigationBar">
-			        <a class="nav-link text-light" href="AboutPage.php">About</a>
 			      </li> 
 			      <li class="nav-item navigationBar">
 			        <a class="nav-link text-light" href="HelpPage.php">Help</a>
+			      </li>
+			      <li class="nav-item navigationBar">
+			        <a class="nav-link text-light" href="BugReport.php">Bug Report</a>
 			      </li> 
 			    </ul>
 			</div>
