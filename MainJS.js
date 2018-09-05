@@ -20,7 +20,6 @@ $(document).ready(()=>{
 	$("#showSecretRe").click({button: "#showSecretRe", input: "#secretRe"},showPassword)
 
 	$("div#signUp>form").submit(event=>{
-		event.preventDefault()
 		var user=$("#user").val()
 		var email=$("#email").val()
 		var phone=$("#phone").val()
@@ -29,6 +28,7 @@ $(document).ready(()=>{
 		var image=$("#photo").val()
 		var county=$("#counties").find(":selected").attr("id")
 		var acc=$("input[name=type]:checked").val()
+		$("#userError,#emailError,#phoneError,#secretError,#secretReError").removeClass("alert").removeClass("alert-danger").html("")
 		
 
 		if(user.length<3){
@@ -97,9 +97,6 @@ $(document).ready(()=>{
 		$("div#secretReError").removeClass("alert").removeClass("alert-danger").html("")
 	})
 
-	$("div.signIn>form").submit(event=>{
-		event.preventDefault()
-	})
 
 	$("#user").keyup(()=>{
 		var user=$("#user").val().trim()
