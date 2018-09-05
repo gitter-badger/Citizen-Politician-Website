@@ -29,10 +29,10 @@
 	<script src="MainJS.js"></script>
 </head>
 <body style="background-color: lavender;background-image: none;">
-	<br><br><br><br><br><br><br>
+	<br><br><br><br>
 	<div class="container alert alert-danger">
 		<h1 class="jumbotron text-secondary">Error Establishing Connection to database.</h1>
-		<div class="alert alert-info">Please contact administrator of: <i class="text-secondary">https://mwananchi.herokuapp.com</i></div>
+		<div class="alert alert-info">Please take a screenshot and contact administrator of: <i class="text-secondary">https://mwananchi.herokuapp.com</i></div>
 		<div class="alert alert-danger">
 			<?php
 				die(mysqli_connect_error()."<br><br>Cannot Connect to Database Thus Site is Shutting Down.");
