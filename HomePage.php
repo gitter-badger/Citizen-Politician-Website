@@ -61,18 +61,18 @@
 
 				<div class="tab-content" style="border: 1px ridge rgb(255,255,255,0.5);border-radius: 10px;border-top-left-radius: 0px;border-top-right-radius: 0px;background-color: whitesmoke;">
 					<div class="tab-pane container active" id="signIn">
-						<form style="padding: 15px;padding-top: 35px;">
+						<form style="padding: 15px;padding-top: 35px;" method="post" action="Login.php" enctype="multipart/form-data">
 							<div class="form-group">
 								<div class="input-group mb-3">
 								    <div class="input-group-prepend">
 								      	<span class="input-group-text">@</span>
 								    </div>
-								    <input type="text" class="form-control" id="userName" placeholder="Username or Email" required="">
+								    <input type="text" class="form-control" name="userName" id="userName" placeholder="Username or Email" required="">
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="input-group mb-3">
-									<input type="password" class="form-control" id="passWord" placeholder="Password" required="">
+									<input type="password" class="form-control" id="passWord" name="passWord" placeholder="Password" required="">
 								    <div class="input-group-append">
 								      	<span class="input-group-text" id="show" style="cursor: pointer;"><img src="eye-icon.png" style="width: 23px;height: 23px;"></span>
 								    </div>
@@ -86,7 +86,7 @@
 					</div>
 
 					<div class="tab-pane container fade" id="signUp">
-						<form style="padding: 15px;padding-top: 35px;">
+						<form style="padding: 15px;padding-top: 35px;" method="post" enctype="multipart/form-data">
 							<div class="form-group">
 								<div class="input-group mb-3">
 									<input type="text" class="form-control" name="user" id="user" placeholder="Username" required="">
