@@ -29,15 +29,15 @@
 	<script src="MainJS.js"></script>
 </head>
 <body style="background-color: lavender;background-image: none;">
-	<br><br><br><br>
+	<br><br>
 	<div class="container alert alert-danger">
-		<h1 class="jumbotron text-secondary">Error Establishing Connection to database.</h1>
-		<div class="alert alert-info">Please take a screenshot and contact administrator of: <i class="text-secondary">https://mwananchi.herokuapp.com</i></div>
-		<div class="alert alert-danger">
+		<h1 class="jumbotron text-secondary" style="text-align: center;"><i class="fas fa-exclamation-triangle"></i> Error Establishing Connection to database. <i class="fas fa-exclamation-triangle"></i></h1>
+		<div class="alert alert-info">Please take a screenshot and contact administrator of: <i class="text-secondary">https://mwananchi.herokuapp.com</i><br><strong>DO NOT TRY TO FIX ON YOUR OWN!</strong><br>We are sorry for any inconveniences this might have caused to you.</div>
+		<div class="alert alert-danger"><i>
 			<?php
 				die(mysqli_connect_error()."<br><br>Cannot Connect to Database Thus Site is Shutting Down.");
 			?>
-		</div>
+		</i></div>
 	</div>
 </body>
 </html>
