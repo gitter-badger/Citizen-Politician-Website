@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-	<title>MwanaNchi</title>
+	<title>Mwananchi</title>
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,13 +38,13 @@
 			        <a class="nav-link text-light" href="">Home</a>
 			      </li>
 			      <li class="nav-item navigationBar">
+			        <a class="nav-link text-light" href="BugReport.php">Bug Report</a>
+			      </li>
+			      <li class="nav-item navigationBar">
 			        <a class="nav-link text-light" href="ContactsPage.php">Contacts</a>
 			      </li> 
 			      <li class="nav-item navigationBar">
 			        <a class="nav-link text-light" href="HelpPage.php">Help</a>
-			      </li>
-			      <li class="nav-item navigationBar">
-			        <a class="nav-link text-light" href="BugReport.php">Bug Report</a>
 			      </li> 
 			    </ul>
 			</div>
