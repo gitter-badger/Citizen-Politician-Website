@@ -1,14 +1,12 @@
 .header {
   	position: relative;
   	font-weight: 300;
-	font-size: 7.0em;
-	color: whitesmoke;
+	  font-size: 7.0em;
+	  color: darkslategray;
 }
 .holder{
-	position: absolute;
+	position: relative;
 	display: inline-block;
-	padding-top: 18%;
-	padding-left: 45%;
 }
 
 .header .anime {
@@ -25,10 +23,10 @@
   	left: 0;
   	top: 0;
   	bottom: 0;
-	margin: auto;
+	  margin: auto;
   	height: 5px;
   	width: 100%;
-  	background-color: whitesmoke;
+  	background-color: darkslategray;
   	transform-origin: 0.5 0;
 }
 
