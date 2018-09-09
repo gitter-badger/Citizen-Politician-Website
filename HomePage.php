@@ -1,9 +1,11 @@
 <?php
 	require "Connection.php";
+	session_start();
+	session_destroy();
 ?>
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<html lang="en">
+<head>
 	<title>Mwananchi</title>
 
 	<meta charset="utf-8">
@@ -63,6 +65,7 @@
 				<div class="tab-content" style="border: 1px ridge rgb(255,255,255,0.5);border-radius: 10px;border-top-left-radius: 0px;border-top-right-radius: 0px;background-color: whitesmoke;">
 					<div class="tab-pane container active" id="signIn">
 						<form style="padding: 15px;padding-top: 35px;" method="post" action="Login.php" enctype="multipart/form-data">
+							<div id="log"></div>
 							<div class="form-group">
 								<div class="input-group mb-3">
 								    <div class="input-group-prepend">
@@ -173,15 +176,21 @@
 									<input type="radio" class="custom-control-input" id="politician" name="type" value="politician" required="">
 								    <label class="custom-control-label" for="politician">Politician</label>
 								</div>
-							</div><br>
-							<div class="form-group mb-3">
-								<button type="submit" class="btn btn-info">Submit</button>
-							</div>
+						</div><br>
+						<div class="form-group mb-3">
+							<button type="submit" class="btn btn-info">Submit</button>
+						</div>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		var cookie=Cookies.get("invalid");
+		if(cookie.localeCompare("undefined")!==0){
+			$("#log").addClass("alert").addClass("alert-danger").html("Invalid "+cookie+".")
+		}
+	</script>
 </body>
 </html>
