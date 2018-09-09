@@ -9,9 +9,6 @@ $(document).ready(()=>{
 			$(event.data.button).removeClass("bg-info")
 		}
 	}
-	function checkUser(user){
-		return false
-	}
 
 
 
@@ -20,7 +17,7 @@ $(document).ready(()=>{
 	$("#showSecretRe").click({button: "#showSecretRe", input: "#secretRe"},showPassword)
 
 	$("div#signUp>form").submit(event=>{
-		var user=$("#user").val()
+		var user=$("#user").val().trim()
 		var email=$("#email").val()
 		var phone=$("#phone").val()
 		var pass=$("#secret").val()
@@ -35,35 +32,11 @@ $(document).ready(()=>{
 			$("div#userError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Username must be atleast 3 characters.")
 			return false;
 		}
-		if(checkUser(user)){
-			$("div#userError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Username already exists.")
-			return false;
-		}
 		if(!isNaN(user.charAt(0))){
 			$("div#userError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Username cannot start with a number.")
 			return false;
 		}
 		$("div#userError").removeClass("alert").removeClass("alert-danger").html("")
-
-		if(email.indexOf("@")<1||(email.indexOf("@")+2)>email.lastIndexOf(".")||(email.lastIndexOf(".")+2)>=email.length){
-			$("div#emailError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Email is not a valid email.")
-			return false;
-		}
-		$("div#emailError").removeClass("alert").removeClass("alert-danger").html("")
-
-		if(phone.charAt(0)!=7){
-			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must start with 7.")
-			return false;
-		}
-		if(phone.length!=9){
-			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must be exactly 9 characters long.")
-			return false;
-		}
-		if(isNaN(phone)){
-			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must be a number.")
-			return false;
-		}
-		$("div#phoneError").removeClass("alert").removeClass("alert-danger").html("")
 
 		if(pass.length<8){
 			$("div#secretError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Passwords should be 8 characters long.")
@@ -95,6 +68,26 @@ $(document).ready(()=>{
 			return false;
 		}
 		$("div#secretReError").removeClass("alert").removeClass("alert-danger").html("")
+
+		if(email.trim().indexOf("@")<1||(email.trim().indexOf("@")+2)>email.trim().lastIndexOf(".")||(email.trim().lastIndexOf(".")+2)>=email.trim().length){
+			$("div#emailError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Email is not a valid email.")
+			return false;
+		}
+		$("div#emailError").removeClass("alert").removeClass("alert-danger").html("")
+
+		if(phone.trim().charAt(0)!=7){
+			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must start with 7.")
+			return false;
+		}
+		if(phone.trim().length!=9){
+			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must be exactly 9 characters long.")
+			return false;
+		}
+		if(isNaN(phone)){
+			$("div#phoneError").addClass("alert").addClass("alert-danger").html("<strong>Error: </strong>Number must be a number.")
+			return false;
+		}
+		$("div#phoneError").removeClass("alert").removeClass("alert-danger").html("")
 	})
 
 
@@ -104,15 +97,24 @@ $(document).ready(()=>{
 			$("span#1").removeClass("fa-times").removeClass("fa-check")
 			return;
 		}
-		if(user.length<3||checkUser(user)===true||!isNaN(user.charAt(0))){
+		if(user.length<3||!isNaN(user.charAt(0))){
 			$("span#1").removeClass("fa-check").addClass("fa-times").css("color","indianred")
 			return;
 		}
+		$.post("checkUser.php",{user:user},data=>{
+			if(data.localeCompare("true")===0){
+				$("span#1").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+			}else if(data.localeCompare("false")===0){
+				$("span#1").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+			}else{
+				alert(data)
+			}
+		})
 		$("span#1").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
 	})
 
 	$("#email").keyup(()=>{
-		var email=$("#email").val()
+		var email=$("#email").val().trim()
 		var posAt=email.indexOf("@")
 		var posDot=email.lastIndexOf(".")
 		if(email.length===0){
@@ -127,7 +129,7 @@ $(document).ready(()=>{
 	})
 
 	$("#phone").keyup(()=>{
-		var phone=$("#phone").val()
+		var phone=$("#phone").val().trim()
 		if(phone.length===0){
 			$("span#3").removeClass("fa-times").removeClass("fa-check")
 			return;
