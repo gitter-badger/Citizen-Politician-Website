@@ -97,15 +97,15 @@
 				</thead>
 				<tr>
 					<?php
-						$stmt=$connection->query("select * from politician_profile where accountVerified=0");
+						$stmt=$connection->query("select * from politician_profile left join politician_politics on politician_profile.userName=politician_politics.userName where accountVerified=0");
 						if(mysqli_num_rows($stmt)>0){
 							for($counter=0;($row=$stmt->fetch_array(MYSQLI_NUM)) && $counter < 4;$counter++){
 								if($row[5]==="male") $photo='user.png';
 								else $photo='userFemale.png';
-								echo "<td><div class='card' style='width:250px'><img class='card-img-top' src='$photo' alt='Card image'><div class='card-body'><h4 class='card-title'>$row[0]</h4><p class='card-text'>$row[5]<br></p><a href='' class='btn btn-primary'>See Profile</a> <a href='' class='btn btn-danger'> Verify Acc </a></div></div></td>";
+								echo "<td><div class='card' style='width:250px;'><img class='card-img-top' src='$photo' alt='Card image'><div class='card-body'><h4 class='card-title' style='font-size: 30px'>$row[0]</h4><p class='card-text'><b>Email:</b> $row[1]<br><b>Phone:</b> $row[3]<br><b>Gender:</b> $row[5]<br><b>Full Names:</b> $row[11]<br><b>Political Seat:</b> $row[13]<br></p><a href='' class='btn btn-primary'>See Profile</a> <a href='' class='btn btn-danger'> Verify Acc </a></div></div></td>";
 							}
 						}else{
-							echo "<td colspan='4'><h4>Nothing to display here.<h4></td>";
+							echo "<td colspan='4'><h4>Nothing to display here<h4></td>";
 						}
 					?>
 				</tr>
