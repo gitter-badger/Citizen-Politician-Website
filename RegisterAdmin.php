@@ -1,16 +1,11 @@
 <?php
-$photo;
 require "Connection.php";
 session_start();
 if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 	header("Location: Homepage.php");
 	return;
 }
-if($_SESSION['gender']==='male'){
-	$photo='user.png';
-}else{
-	$photo='userFemale.png';
-}
+$photo=$_SESSION["photo"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,6 +22,14 @@ if($_SESSION['gender']==='male'){
 	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="Logged.css">
 	<link rel="stylesheet" type="text/css" href="LoggedPhone.css">
+	<style>
+		@media screen and (max-width: 992px){
+			div.collapse{
+				max-height: 320px;
+				overflow-y: auto;
+			}
+		}
+	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -132,7 +135,7 @@ if($_SESSION['gender']==='male'){
 </div>
 <script>
 	var dup=Cookies.get("duplicate")
-	if(dup.localeCompare("undefined")!==0){
+	if(dup!==undefined){
 		$("div#userError").addClass("alert").addClass("alert-danger").html("Username already exists.")
 		$("#user").val(dup)
 		Cookies.remove('duplicate')
