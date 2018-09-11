@@ -18,6 +18,14 @@
 	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="MainCSS.css">
 	<link rel="stylesheet" type="text/css" href="PhoneMainCSS.css">
+	<style>
+		@media screen and (max-width: 992px){
+			div.collapse{
+				max-height: 320px;
+				overflow-y: auto;
+			}
+		}
+	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -188,7 +196,7 @@
 	</div>
 	<script>
 		var cookie=Cookies.get("invalid");
-		if(cookie.localeCompare("undefined")!==0){
+		if(cookie!==undefined){
 			$("#log").addClass("alert").addClass("alert-danger").html("Invalid "+cookie+".")
 		}
 	</script>
