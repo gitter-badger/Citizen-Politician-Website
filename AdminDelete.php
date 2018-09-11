@@ -1,16 +1,11 @@
 <?php
-$photo;
 require "Connection.php";
 session_start();
 if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 	header("Location: Homepage.php");
 	return;
 }
-if($_SESSION['gender']==='male'){
-	$photo='user.png';
-}else{
-	$photo='userFemale.png';
-}
+$photo=$_SESSION['photo'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +22,14 @@ if($_SESSION['gender']==='male'){
 	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="Logged.css">
 	<link rel="stylesheet" type="text/css" href="LoggedPhone.css">
+	<style>
+		@media screen and (max-width: 992px){
+			div.collapse{
+				max-height: 320px;
+				overflow-y: auto;
+			}
+		}
+	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -78,7 +81,7 @@ if($_SESSION['gender']==='male'){
 		<div class="alerts"></div>
 		<script>
 			var del=Cookies.get("delete")
-			if(del.localeCompare("undefined")!==0){
+			if(del!==undefined){
 				$('.alerts').addClass('alert').addClass('alert-info').html(del)
 				$("html, body").animate({ scrollTop: 0 }, "fast");
 				Cookies.remove("delete")
@@ -89,7 +92,7 @@ if($_SESSION['gender']==='male'){
 				<tr><td colspan="4"><div class="jumbotron"><span class="display-4 text-danger">Account Termination</span><br><small>The following are accounts registered on the system.</small></div></td><tr>
 			</thead>
 			<?php
-			$stmt=$connection->query("select adminUserName,userGender,userType from admin_profile union all select username,gender,type from citizen_profile union all select userName,gender,accountType from politician_profile");
+			$stmt=$connection->query("select username,gender,type,photo from citizen_profile union all select userName,gender,accountType,photo from politician_profile where accountVerified=1");
 			if($stmt){
 				if(mysqli_num_rows($stmt)>0){
 					for($count=0;$row = $stmt->fetch_array(MYSQLI_NUM);$count++){
@@ -99,18 +102,36 @@ if($_SESSION['gender']==='male'){
 						if($count===0){
 							echo "<tr>";
 						}
-						if($row[1]==="male") $photo='user.png';
-						else $photo='userFemale.png';
-						echo "<td><div class='card' style='width:250px'><img class='card-img-top' src='$photo' alt='Card image'><div class='card-body'><h4 class='card-title'>$row[0]</h4><p class='card-text'>$row[1]<br>$row[2]<br></p><a href='' class='btn btn-danger delete' id='$row[0]'>Delete Account</a></div></div></td>";
+						echo "<td><div class='card' style='width:250px'><img class='card-img-top' src='$row[3]' alt='Card image'><div class='card-body'><h4 class='card-title'>$row[0]</h4><p class='card-text'>$row[1]<br>$row[2]<br></p><a href='' class='btn btn-danger delete' id='$row[0]'>Deactivate Account</a></div></div></td>";
 					}
 					echo "</tr>";
 				}else{
-					echo "<script>$('.alerts').addClass('alert').addClass('alert-danger').html('The database has no records.')</script>";
-					return;
+					echo "<tr><td class='text-info' colspan='4'>No Accounts in the database.</td></tr>";
 				}
 			}else{
 				echo "<script>$('.alerts').addClass('alert').addClass('alert-danger').html(\"".$connection->error."\")</script>";
-				return;
+			}
+			?>
+			<tr><td colspan="4"><div class="jumbotron"><span class="display-4 text-success">Account Reactivation</span><br><small>The following are accounts can be reactivated.</small></div></td><tr>
+			<?php
+			$stmt=$connection->query("select username,gender,accountType,photo from deactivated_accounts");
+			if($stmt){
+				if(mysqli_num_rows($stmt)>0){
+					for($count=0;$row = $stmt->fetch_array(MYSQLI_NUM);$count++){
+						if($count%4===0&&$count!==0){
+							echo "</tr><tr>";
+						}
+						if($count===0){
+							echo "<tr>";
+						}
+						echo "<td><div class='card' style='width:250px'><img class='card-img-top' src='$row[3]' alt='Card image'><div class='card-body'><h4 class='card-title'>$row[0]</h4><p class='card-text'>$row[1]<br>$row[2]<br></p><a href='' class='btn btn-success reactivate' id='$row[0]'>Reactivate Account</a></div></div></td>";
+					}
+					echo "</tr>";
+				}else{
+					echo "<tr><td class='text-info' colspan='4'>No Accounts have been deactivated yet.</td></tr>";
+				}
+			}else{
+				echo "<script>$('.alerts').addClass('alert').addClass('alert-danger').html(\"".$connection->error."\")</script>";
 			}
 			?>
 		</table>
@@ -118,11 +139,22 @@ if($_SESSION['gender']==='male'){
 	<script>
 		$(".delete").click(event=>{
 			event.preventDefault();
-			var ans=confirm("Are you sure you want to delete account where username is "+$(event.currentTarget).attr("id")+"?");
+			var ans=confirm("Are you sure you want to deactivate account where username is "+$(event.currentTarget).attr("id")+"?");
 			if(ans){
-				$.post("Delete.php",{user:$(event.currentTarget).attr("id")},data=>{
+				$.post("Delete.php",{action:"delete",user:$(event.currentTarget).attr("id")},data=>{
 					Cookies.set("delete",data)
-					location.reload()
+					location.reload(true)
+				})
+			}
+		})
+
+		$(".reactivate").click(event=>{
+			event.preventDefault();
+			var ans=confirm("Are you sure you want to reactivate account where username is "+$(event.currentTarget).attr("id")+"?");
+			if(ans){
+				$.post("Delete.php",{action:"reactivate",user:$(event.currentTarget).attr("id")},data=>{
+					Cookies.set("delete",data)
+					location.reload(true)
 				})
 			}
 		})
