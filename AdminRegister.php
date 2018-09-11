@@ -24,14 +24,15 @@
 	$user=htmlspecialchars($_POST["user"]);
 	$pass=htmlspecialchars($_POST["secret"]);
 	$gender=htmlspecialchars($_POST["gender"]);
+	$photo=($gender==="male")?"user.png":"userFemale.png";
 	require "checkUser.php";
 	if($return==='true'){
 		echo "<script>Cookies.set('duplicate',\"".$user."\");location.replace('RegisterAdmin.php')</script>";
 		return;
 	}
-	$pst=$connection->prepare("insert into admin_profile(adminUserName,adminPassword,userGender) values (?,?,?)");
+	$pst=$connection->prepare("insert into admin_profile(adminUserName,adminPassword,userGender,photo) values (?,?,?,?)");
 	if($pst){
-		if($pst->bind_param("sss",$user,$pass,$gender)){
+		if($pst->bind_param("ssss",$user,$pass,$gender,$photo)){
 			if($pst->execute()){
 				echo "<script>Cookies.set('alert','$user has been added to the admin list successfully.');location.replace('StartAdmin.php')</script>";
 				return;
