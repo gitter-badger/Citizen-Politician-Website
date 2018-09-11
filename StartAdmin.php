@@ -29,16 +29,11 @@
 </head>
 <body style="background-color: whitesmoke">
 	<?php
-		$photo;
 		session_start();
 		if(!isset($_SESSION['username'])){
 			header("Location: HomePage.php");
 		}
-		if($_SESSION['gender']==='male'){
-			$photo='user.png';
-		}else{
-			$photo='userFemale.png';
-		}
+		$photo=$_SESSION["photo"];
 		require "Connection.php";
 	?>
 	<div class="container-fluid">
@@ -84,13 +79,6 @@
 
 		<div class="container" style="position: relative;top: 100px;">
 			<div class="alerts"></div>
-			<script>
-				var alerts=Cookies.get("alert");
-				if(alerts.localeCompare("undefined")!==0){
-					$(".alerts").addClass("alert").addClass("alert-info").html(alerts)
-					Cookies.remove('alert')
-				}
-			</script>
 			<table class="table table-borderless">
 				<thead>
 					<tr><td colspan="4"><div class="jumbotron"><span class="display-4">Account Verification</span><br><small>The following accounts need verification in order to become active.</small></div></td><tr>
@@ -100,16 +88,14 @@
 						$stmt=$connection->query("select * from politician_profile left join politician_politics on politician_profile.userName=politician_politics.userName where accountVerified=0");
 						if(mysqli_num_rows($stmt)>0){
 							for($counter=0;($row=$stmt->fetch_array(MYSQLI_NUM)) && $counter < 4;$counter++){
-								if($row[5]==="male") $photo='user.png';
-								else $photo='userFemale.png';
-								echo "<td><div class='card' style='width:250px;'><img class='card-img-top' src='$photo' alt='Card image'><div class='card-body'><h4 class='card-title' style='font-size: 30px'>$row[0]</h4><p class='card-text'><b>Email:</b> $row[1]<br><b>Phone:</b> $row[3]<br><b>Gender:</b> $row[5]<br><b>Full Names:</b> $row[11]<br><b>Political Seat:</b> $row[13]<br></p><a href='' class='btn btn-primary'>See Profile</a> <a href='' class='btn btn-danger'> Verify Acc </a></div></div></td>";
+								echo "<td><div class='card' style='width:250px;'><img class='card-img-top' src='$row[8]' alt='Card image'><div class='card-body'><h4 class='card-title' style='font-size: 30px'>$row[0]</h4><p class='card-text' style='white-space: nowrap;overflow-x: hidden;'><b>Email:</b> $row[1]<br><b>Phone:</b> $row[3]<br><b>Gender:</b> $row[5]<br><b>Full Names:</b> $row[12]<br><b>Political Seat:</b> $row[14]<br></p><a href='' class='btn btn-primary'>See Profile</a> <a href='' class='btn btn-danger' id='$row[0]'> Verify Acc </a></div></div></td>";
 							}
 						}else{
 							echo "<td colspan='4'><h4>Nothing to display here<h4></td>";
 						}
 					?>
 				</tr>
-				<?php if(mysqli_num_rows($stmt)>4) echo "<tr><td colspan='4'><a class='text-info' href=''>See All Accounts</a></td></tr>"; ?><br>
+				<?php if(mysqli_num_rows($stmt)>4) echo "<tr><td colspan='4'><a class='text-info' href='ViewerProfile.php'>See All Accounts</a></td></tr>"; ?><br>
 				<tr><td colspan="4"><div class="jumbotron"><span class="display-4">Achievement Verification</span><br><small>The following achievements need verification to ensure they are correct and free from propaganda.</small></div></td></tr>
 				<tr><td colspan="4"><div class="jumbotron"><span class="display-4">Critique Verification</span><br><small>The following critiques need verification to ensure they are correct and free from propaganda.</small></div></td></tr>
 				<tr><td colspan="4"><div class="jumbotron"><span class="display-4">Comment Verification</span><br><small>The following comments need verification to ensure they are free from insults to other users or the politician in question.</small></div></td></tr>
@@ -117,5 +103,17 @@
 				<tr><td colspan="4"><div class="jumbotron"><span class="display-4">Bugs</span><br><small>The following bugs were reported to distract user experience.</small></div></td></tr>
 			</table>
 	</div>
+	<script>
+		$(".btn-danger").click(event=>{
+			event.preventDefault();
+			$.post("VerifyPolitician.php",{user:$(event.currentTarget).attr("id")},data=>{
+				if(data.localeCompare("Account successfully verified")===0){
+					$(event.currentTarget).removeClass("btn-danger").addClass("btn-success").html("Verified");
+				}
+				$(".alerts").addClass("alert").addClass("alert-info").html(data)
+				$("body,html").animate({scrollTop:0},'fast')
+			})
+		})
+	</script>
 </body>
 </html>
