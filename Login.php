@@ -33,8 +33,9 @@
 					    		session_start();
 					    		$_SESSION["username"]=$user;
 					    		$_SESSION["password"]=$pass;
-					    		$_SESSION["usertype"]=$row[3];
+					    		$_SESSION["usertype"]=$row[4];
 					    		$_SESSION["gender"]=$row[2];
+					    		$_SESSION["photo"]=$row[3];
 					    		echo "<script>location.replace('StartAdmin.php')</script>";
 					    		return;
 					    	}
