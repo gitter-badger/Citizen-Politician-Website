@@ -1,5 +1,5 @@
 <?php
-	$connection=mysqli_connect("192.168.0.19:3306","root","biggie5941","Citizen-Politician Website");
+	$connection=mysqli_connect("197.237.128.225:3306","root","biggie5941","Citizen-Politician Website");
 	//$connection=mysqli_connect("localhost","root","biggie5941","Citizen-Politician Website");
 	if ($connection) {
 		return;
