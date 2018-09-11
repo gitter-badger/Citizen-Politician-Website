@@ -29,6 +29,14 @@ $sql = "select * from citizen_profile where userName='$user';select * from admin
 	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="Logged.css">
 	<link rel="stylesheet" type="text/css" href="LoggedPhone.css">
+	<style>
+		@media screen and (max-width: 992px){
+			div.collapse{
+				max-height: 320px;
+				overflow-y: auto;
+			}
+		}
+	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
