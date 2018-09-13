@@ -29,7 +29,7 @@
 				if($set=$pst->get_result()){
 					if(mysqli_num_rows($set)>0){
 						while($row=$set->fetch_array(MYSQLI_NUM)){
-					    	if($row[1]===$pass){
+					    	if(password_verify($pass,$row[1])){
 					    		session_start();
 					    		$_SESSION["username"]=$user;
 					    		$_SESSION["password"]=$pass;

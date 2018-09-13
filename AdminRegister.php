@@ -22,7 +22,7 @@
 <body>
 <?php
 	$user=htmlspecialchars($_POST["user"]);
-	$pass=htmlspecialchars($_POST["secret"]);
+	$pass=password_hash(htmlspecialchars($_POST["secret"]),PASSWORD_DEFAULT);
 	$gender=htmlspecialchars($_POST["gender"]);
 	$photo=($gender==="male")?"user.png":"userFemale.png";
 	require "checkUser.php";
