@@ -164,17 +164,17 @@ $photo=$_SESSION["photo"];
 		<div class="container bg-success" id="notifications" style="position: relative;top: 120px;padding: 15px;margin-bottom: 100px;border-radius: 4px;">
 			<div class="jumbotron mb-5"><span class="display-4">Send a Notification.</span><br> <small>Here you can send a notification to specific groups of users. Notifications can be viewed on the notifications page.</small></div>
 			<div class="messages"></div>
-			<form>
+			<form  method="post" action="sendNotifications.php" enctype="multipart/form-data">
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text" style="font-family: Cookie,cursive;width: 60px;">To:</span>
 						</div>
 						<select class="custom-select" name="target" style="cursor: pointer;">
-							<option>All</option>
-							<option>Citizens</option>
-							<option>Politicians</option>
-							<option>Admins</option>
+							<option id="all">All</option>
+							<option id="citizen_profile">Citizens</option>
+							<option id="politician_profile">Politicians</option>
+							<option id="admin_profile">Admins</option>
 						</select>
 					</div>
 				</div>
@@ -194,7 +194,8 @@ $photo=$_SESSION["photo"];
 						<input class="form-control" type="text" name="subject" placeholder="Subject" required="">
 					</div>
 				</div>
-				<textarea style="font-family: courier new;font-size: 16px;" class="form-control mb-3" name="message" rows="15"></textarea>
+				<textarea required="" style="font-family: courier new;font-size: 16px;" class="form-control mb-3" name="message" rows="15"></textarea>
+				<button class="btn btn-info" style="width: 100px;">Send</button>
 			</form>
 		</div>
 	</div>
