@@ -8,6 +8,9 @@ if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 $photo=$_SESSION["photo"];
 date_default_timezone_set("Africa/Nairobi");
 $currDate=date("Y-m-d");
+$countyNo=0;
+$constiNo=0;
+$wardNo=0;
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,8 +40,9 @@ $currDate=date("Y-m-d");
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="SiteSettings.js"></script>
 </head>
-<body style="background-color: whitesmoke">
+<body style="background-color: whitesmoke;min-width: 550px;">
 	<nav class="navbar bg-info navbar-light navbar-expand-lg fixed-top" style="border-radius: 5px;">
 		<a class="navbar-brand text-dark" href="StartAdmin.php" style="font-family: Cookie,cursive;font-size: 24px;padding-bottom: 2px;padding-top: 2px;"><i class="fas fa-user"></i> Mwananchi</a>
 
@@ -63,6 +67,11 @@ $currDate=date("Y-m-d");
 		    </ul>
 		    <ul class="navbar-nav">
 		    	<li class="nav-item navigationBar"><a class="nav-link text-light" href="Settings.php"><span class="fas fa-cog"></span> Settings</a></li>
+		    	<li class="nav-item" style="width: 50px;text-align: center;white-space: nowrap;"><a class="nav-link text-light" href="Notifications.php"><span class="fas fa-bell"></span> <sup class="badge badge-dark" style="text-align: center;white-space: nowrap;"><?php
+			    			$userName=$_SESSION['username'];
+			    			$notifications=$connection->query("select notification from notifications where target='$userName' and isRead=0;");
+			    			echo (mysqli_num_rows($notifications)>0) ? mysqli_num_rows($notifications):"";
+			    		?></sup></a></li>
 		    	<li class="nav-item dropdown navigationBar"><a class="nav-link dropdown-toggle text-light" data-toggle="dropdown" href=""><span class="rounded-circle"><img src="<?php echo $photo; ?>" width="25px" height="25px"></span> My Profile </a>
 		    		<div class="dropdown-menu bg-info" style="padding: 3px;border-radius: 5px;padding-top: 13px">
 		    			<a class="dropdown-item text-dark" href="MyProfile.php">@ <?php echo $_SESSION["username"]; ?></a><hr>
@@ -78,6 +87,12 @@ $currDate=date("Y-m-d");
 		</div>
 	</nav>
 	<div class="container-fluid">
+		<div class="navigatorUp" style="display: none;position: fixed;bottom: 30px;left: 20px;z-index: 99;">
+			<a class="rounded-circle bg-secondary fa fa-arrow-up text-dark" style="padding: 15px;" href=""></a>
+		</div>
+		<div class="navigatorDown" style="position: fixed;bottom: 30px;right: 20px;z-index: 99;">
+			<a class="rounded-circle bg-secondary fa fa-arrow-down text-dark" style="padding: 15px;" href=""></a>
+		</div>
 		<div class="container" style="position: relative;top: 120px;">
 			<div class="alerts"></div>
 			<script>
@@ -101,7 +116,13 @@ $currDate=date("Y-m-d");
 				fclose($file);
 				echo "Unknown";
 			}else echo $date;?></span><button class="btn btn-primary float-right" style="width: 100px" data-toggle="modal" data-target="#changeDate">Change</button></div>
-			<table class="table table-dark table-striped table-hover">
+			<div class="alert alert-secondary">
+				<span class="text-info" style="text-decoration: underline;">Table of Contents</span> <small class="text-dark">(click any link below to navigate to that table.)</small><br>
+				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">County Table</a></span>
+				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">Constituencies Table</a></span>
+				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">Wards Table</a></span>
+			</div>
+			<table id="CountyTable" class="table table-dark table-striped table-hover">
 				<thead>
 					<tr>
 						<td colspan="3"><div class="jumbotron text-dark"><span class="display-4">Counties</span><br><small class="text-secondary">Here are some of the registered counties.</small></div></td>
@@ -115,8 +136,11 @@ $currDate=date("Y-m-d");
 						$stmt=$connection->query("select * from counties");
 						if($stmt){
 							if(mysqli_num_rows($stmt)>0){
-								while($row=$stmt->fetch_array(MYSQLI_NUM))
+								while($row=$stmt->fetch_array(MYSQLI_NUM)){
+									$countyNo++;
 									echo "<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td></tr>";
+								}
+								$countyNo++;
 							}else{
 								echo "<tr><td class='text-info' colspan='3'>No Counties in Database.</td></tr>";
 							}
@@ -125,9 +149,9 @@ $currDate=date("Y-m-d");
 						}
 					?>
 				</tr>
-				<tr><td colspan="3"><button class="btn btn-primary" style="width: 250px" data-toggle="modal" data-target="#governor">Set Governor</button> <button class="btn btn-primary" style="width: 250px">Add More Counties</button></td></tr>
+				<tr><td colspan="3"><button class="btn btn-primary mb-1" style="width: 250px" data-toggle="modal" data-target="#governor">Set Governor</button> <button class="btn btn-primary mb-1" style="width: 250px" data-toggle="modal" data-target="#addCounties">Add More Counties</button></td></tr>
 			</table><br>
-			<table class="table table-dark table-striped table-hover">
+			<table id="ConstituenciesTable" class="table table-dark table-striped table-hover">
 				<thead>
 					<tr>
 						<td colspan="4"><div class="jumbotron text-dark"><span class="display-4">Constituencies</span><br><small class="text-secondary">Here are some of the registered constituencies.</small></div></td>
@@ -141,8 +165,11 @@ $currDate=date("Y-m-d");
 						$stmt=$connection->query("select constituencyID,constituency,County,MP from constituencies left join counties on countyNo=CountyID");
 						if($stmt){
 							if(mysqli_num_rows($stmt)>0){
-								while($row=$stmt->fetch_array(MYSQLI_NUM))
+								while($row=$stmt->fetch_array(MYSQLI_NUM)){
+									$constiNo++;
 									echo "<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
+								}
+								$constiNo++;
 							}else{
 								echo "<tr><td class='text-info' colspan='4'>No Constituencies in Database.</td></tr>";
 							}
@@ -151,9 +178,9 @@ $currDate=date("Y-m-d");
 						}
 					?>
 				</tr>
-				<tr><td colspan="4"><button class="btn btn-primary" style="width: 250px" data-toggle="modal" data-target="#mp">Set MPs</button> <button class="btn btn-primary" style="width: 250px">Add More Constituencies</button></td></tr>
+				<tr><td colspan="4"><button class="btn btn-primary mb-1" style="width: 250px" data-toggle="modal" data-target="#mp">Set MPs</button> <button class="btn btn-primary mb-1" style="width: 250px" data-toggle="modal" data-target="#addConsti">Add More Constituencies</button></td></tr>
 			</table><br>
-			<table class="table table-dark table-striped table-hover">
+			<table id="WardsTable" class="table table-dark table-striped table-hover">
 				<thead>
 					<tr>
 						<td colspan="5"><div class="jumbotron text-dark"><span class="display-4">Wards</span><br><small class="text-secondary">Here are some of the registered wards.</small></div></td>
@@ -167,8 +194,11 @@ $currDate=date("Y-m-d");
 						$stmt=$connection->query("select wardID,Ward,constituency,County,MCA from wards left join (select constituencyID,constituency,County from constituencies left join counties on countyNo=CountyID) as temp on temp.constituencyID=wards.constituencyID;");
 						if($stmt){
 							if(mysqli_num_rows($stmt)>0){
-								while($row=$stmt->fetch_array(MYSQLI_NUM))
+								while($row=$stmt->fetch_array(MYSQLI_NUM)){
+									$wardNo++;
 									echo "<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td></tr>";
+								}
+								$wardNo++;
 							}else{
 								echo "<tr><td class='text-info' colspan='5'>No Constituencies in Database.</td></tr>";
 							}
@@ -177,10 +207,11 @@ $currDate=date("Y-m-d");
 						}
 					?>
 				</tr>
-				<tr><td colspan="5"><button class="btn btn-primary" style="width: 250px" data-toggle="modal" data-target="#MCA">Set MCAs</button> <button class="btn btn-primary" style="width: 250px">Add More Wards</button></td></tr>
+				<tr><td colspan="5"><button class="btn btn-primary mb-1" style="width: 250px" data-toggle="modal" data-target="#MCA">Set MCAs</button> <button class="btn btn-primary mb-1" style="width: 250px" data-toggle="modal" data-target="#addWards">Add More Wards</button></td></tr>
 			</table><br>
 		</div>
 	</div>
+
 	<div id="changeDate" class="modal">
 	  	<div class="modal-dialog">
 		  	<div class="modal-content">
@@ -293,50 +324,92 @@ $currDate=date("Y-m-d");
 		    </div>
 		</div>
 	</div>
-	<script>
-		$('#change').click(()=>{
-			var date=$("#date").val().trim()
-			if(date.length!==0){
-				$.post('ElectionDate.php',{date:date}, data=> {
-					Cookies.set("date",data)
-					location.reload(true)
-	   			});
-			}
-		})
-		
-		$("#setGovernor").click(()=>{
-			var county=$("#counties").find(":selected").attr("id")
-			var gov=$("#govName").val().trim()
-			if(gov.length!==0){
-				$.post("updateLeaders.php",{table:"counties",id:county,governor:gov},data=>{
-					Cookies.set("update",data);
-					location.reload(true)
-				})
-			}
-		})	
 
-		$("#setMP").click(()=>{
-			var consti=$("#constituencies").find(":selected").attr("id")
-			var mp=$("#MPName").val().trim()
-			if(mp.length!==0){
-				$.post("updateLeaders.php",{table:"constituencies",id:consti,governor:mp},data=>{
-					Cookies.set("update",data);
-					location.reload(true)
-				})
-			}
-		})
+	<div id="addCounties" class="modal">
+		<div class="modal-dialog">
+		  	<div class="modal-content">
+		      	<div class="modal-header">
+				  	<h4 class="modal-title">Add County</h4>
+				  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  	</div>
+		      	<div class="modal-body">
+			        <form>
+			        	<input class="form-control mb-3" type="text" id="countyID" value="<?php echo $countyNo;?>" readonly="">
+			        	<input class="form-control mb-3" type="text" id="county" placeholder="County Name">
+			        	<input class="form-control mb-3" type="text" id="countyLeader" value="Undefined">
+			        </form>
+			  	</div>
+			    <div class="modal-footer">
+			    	<button type="button" class="btn btn-info" id="addCounty" data-dismiss="modal">Add County</button>
+			    </div>
+		    </div>
+		</div>
+	</div>
 
-		$("#setMCA").click(()=>{
-			var ward=$("#wards").find(":selected").attr("id")
-			var mca=$("#MCAName").val().trim()
-			if(mca.length!==0){
-				$.post("updateLeaders.php",{table:"wards",id:ward,governor:mca},data=>{
-					Cookies.set("update",data);
-					location.reload(true)
-				})
-			}
-		})	
-	</script>";
-	
+	<div id="addConsti" class="modal">
+		<div class="modal-dialog">
+		  	<div class="modal-content">
+		      	<div class="modal-header">
+				  	<h4 class="modal-title">Add Constituency</h4>
+				  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  	</div>
+		      	<div class="modal-body">
+			        <form>
+			        	<input class="form-control mb-3" type="text" id="constiID" value="<?php echo $constiNo;?>" readonly="">
+			        	<input class="form-control mb-3" type="text" id="consti" placeholder="Constituency Name">
+			        	<select class="custom-select mb-3" id="counti" style="cursor: pointer;" required="">
+							<?php
+								$stmt=$connection->query("Select * from counties");
+								if ($stmt->num_rows > 0) {
+								    while($row = $stmt->fetch_array(MYSQLI_NUM)) {
+        								echo "<option id=$row[0]>$row[1]</option>";
+    								}
+								} else {
+    								echo "<option>No Supported Counties</option>";
+								}
+							?>
+						</select>
+			        	<input class="form-control" type="text" id="constiLeader" value="Undefined">
+			        </form>
+			  	</div>
+			    <div class="modal-footer">
+			    	<button type="button" class="btn btn-info" id="addConst" data-dismiss="modal">Add Constituency</button>
+			    </div>
+		    </div>
+		</div>
+	</div>
+
+	<div id="addWards" class="modal">
+		<div class="modal-dialog">
+		  	<div class="modal-content">
+		      	<div class="modal-header">
+				  	<h4 class="modal-title">Add Wards</h4>
+				  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  	</div>
+		      	<div class="modal-body">
+			        <form>
+			        	<input class="form-control mb-3" type="text" id="wardID" value="<?php echo $wardNo;?>" readonly="">
+			        	<input class="form-control mb-3" type="text" id="ward" placeholder="Ward Name">
+			        	<select class="custom-select mb-3" id="consty" style="cursor: pointer;" required="">
+							<?php
+								$stmt=$connection->query("Select * from constituencies");
+								if ($stmt->num_rows > 0) {
+								    while($row = $stmt->fetch_array(MYSQLI_NUM)) {
+        								echo "<option id=$row[0]>$row[1]</option>";
+    								}
+								} else {
+    								echo "<option>No Supported Counties</option>";
+								}
+							?>
+						</select>
+			        	<input class="form-control" type="text" id="wardLeader" value="Undefined">
+			        </form>
+			  	</div>
+			    <div class="modal-footer">
+			    	<button type="button" class="btn btn-info" id="addWard" data-dismiss="modal">Add Ward</button>
+			    </div>
+		    </div>
+		</div>
+	</div>
 </body>
 </html>
