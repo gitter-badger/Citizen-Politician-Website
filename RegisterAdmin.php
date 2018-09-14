@@ -63,6 +63,11 @@ $photo=$_SESSION["photo"];
 		    </ul>
 		    <ul class="navbar-nav">
 		    	<li class="nav-item navigationBar"><a class="nav-link text-light" href="Settings.php"><span class="fas fa-cog"></span> Settings</a></li>
+		    	<li class="nav-item" style="width: 50px;text-align: center;white-space: nowrap;"><a class="nav-link text-light" href="Notifications.php"><span class="fas fa-bell"></span> <sup class="badge badge-dark" style="text-align: center;white-space: nowrap;"><?php
+			    			$userName=$_SESSION['username'];
+			    			$notifications=$connection->query("select notification from notifications where target='$userName' and isRead=0;");
+			    			echo (mysqli_num_rows($notifications)>0) ? mysqli_num_rows($notifications):"";
+			    		?></sup></a></li>
 		    	<li class="nav-item dropdown navigationBar"><a class="nav-link dropdown-toggle text-light" data-toggle="dropdown" href=""><span class="rounded-circle"><img src="<?php echo $photo; ?>" width="25px" height="25px"></span> My Profile </a>
 		    		<div class="dropdown-menu bg-info" style="padding: 3px;border-radius: 5px;padding-top: 13px">
 		    			<a class="dropdown-item text-dark" href="MyProfile.php">@ <?php echo $_SESSION["username"]; ?></a><hr>

@@ -61,6 +61,11 @@
 			    </ul>
 			    <ul class="navbar-nav">
 			    	<li class="nav-item navigationBar"><a class="nav-link text-light" href="Settings.php"><span class="fas fa-cog"></span> Settings</a></li>
+			    	<li class="nav-item" style="width: 50px;text-align: center;white-space: nowrap;"><a class="nav-link text-light" href="Notifications.php"><span class="fas fa-bell"></span> <sup class="badge badge-dark" style="text-align: center;white-space: nowrap;"><?php
+			    			$userName=$_SESSION['username'];
+			    			$notifications=$connection->query("select notification from notifications where target='$userName' and isRead=0;");
+			    			echo (mysqli_num_rows($notifications)>0) ? mysqli_num_rows($notifications):"";
+			    		?></sup></a></li>
 			    	<li class="nav-item dropdown navigationBar"><a class="nav-link dropdown-toggle text-light" data-toggle="dropdown" href=""><span class="rounded-circle"><img src="<?php echo $photo; ?>" width="25px" height="25px"></span> My Profile </a>
 			    		<div class="dropdown-menu bg-info" style="padding: 3px;border-radius: 5px;padding-top: 13px">
 			    			<a class="dropdown-item text-dark" href="MyProfile.php">@ <?php echo $_SESSION["username"]; ?></a><hr>
@@ -79,6 +84,13 @@
 
 		<div class="container" style="position: relative;top: 100px;">
 			<div class="alerts"></div>
+			<script>
+				var temp=Cookies.get("alert");
+				if(temp!==undefined){
+					$(".alerts").addClass("alert").addClass("alert-success").html(temp)
+					Cookies.remove("alert")
+				}
+			</script>
 			<table class="table table-borderless">
 				<thead>
 					<tr><td colspan="4"><div class="jumbotron"><span class="display-4">Account Verification</span><br><small>The following accounts need verification in order to become active.</small></div></td><tr>
