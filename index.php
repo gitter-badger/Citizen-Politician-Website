@@ -19,15 +19,15 @@
 	<script src="jquery.animateNumber.min.js"></script>
 	<script src="Index.js"></script>
 </head>
-<body  style="margin:0;background-color: whitesmoke;">
+<body  style="margin:0;background-color: whitesmoke;min-width:1200px;">
 	<script>
 		var screenWidth=screen.width,screenHeight=screen.height
 		if(screenWidth<576||screenHeight<576){
 			location.assign("HomePage.php")
 		}
 	</script>
-	<div class="container-fluid mb-1 table-responsive-xl" style="margin: 0px;padding: 0px;height: 100%">
-	<table class="table table-borderless" style="height:100%;position: absolute;background-color: rgba(0,0,0,0.7);margin: 0px;top:0;left:0;bottom:0">
+	<div class="container-fluid mb-1 table-responsive-xl" style="margin: 0px;padding: 0px;height: 100%;min-width:1200px;">
+	<table class="table table-borderless" style="height:100%;position: absolute;background-color: rgba(0,0,0,0.7);margin: 0px;top:0;left:0;bottom:0;min-width:1200px;">
 		<tr style="width: 100%;height: 100%">
 			<td style="width: 50%;padding-left: 20px;padding-top: 70px">
 				<div class="alert alert-info mb-1" id="about" style="position: relative;overflow: auto;display: inline-block;opacity: 0;">
