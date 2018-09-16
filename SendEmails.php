@@ -110,7 +110,7 @@ $photo=$_SESSION["photo"];
 					    <div class="input-group-prepend">
 					      	<span class="input-group-text" style="width: 60px;">From:</span>
 					    </div>
-					    <input style="font-family: courier new;font-size: 16px;" class="form-control" type="text" id="from" name="from" value="mwananchi.herokuapp@gmail.com" readonly="">
+					    <input style="font-family: courier new;font-size: 16px;" class="form-control" type="text" id="from" name="from" value="<?php $file=fopen('Resources/Site Data/SiteEmail.txt','r'); echo fgets($file); fclose($file)?>" readonly="">
 					</div>
 				</div>
 				<div class="form-group">
@@ -121,7 +121,7 @@ $photo=$_SESSION["photo"];
 					    <input style="font-family: courier new;font-size: 16px;" class="form-control" type="text" id="subject" name="subject" placeholder="Subject">
 					</div>
 				</div>
-				<textarea style="font-family: courier new;font-size: 16px;" class="form-control mb-3" rows="15"></textarea>
+				<textarea id="mail" style="font-family: courier new;font-size: 16px;" class="form-control mb-3" rows="15"></textarea>
 				<button id="sendEmail" ng-click="sendEmail()" style="font-family: cursive;width:100px" class="btn btn-primary float-right">Send</button>
 			</form><br>
 		</div>
@@ -150,7 +150,19 @@ $photo=$_SESSION["photo"];
 					$scope.receivers.splice(index,1);
 				}
 				$scope.sendEmail=function(){
-					
+					var users=JSON.stringify($scope.receivers);
+					var subject=$("#subject").val().trim()
+					var message=$("#mail").val().trim()
+					$("#sendEmail").attr("disabled","").addClass("disabled").text("Sending...")
+					$.post("emailSend.php",{users:users,subject:subject,message:message},data=>{
+						$(".alerts").addClass("alert").addClass("alert-info").html(data)
+						$("#sendEmail").removeAttr("disabled").removeClass("disabled").text("Send")
+						$("body,html").animate({scrollTop: 0},'slow')
+					})
+					$scope.receivers=[]
+					$("#subject").val("")
+					$("#mail").val("")
+					$("#to").val("")
 				}
 			});
 			$("#addReceiver,#sendEmail").click(event=>{
@@ -164,6 +176,14 @@ $photo=$_SESSION["photo"];
 		<div class="container bg-success" id="notifications" style="position: relative;top: 120px;padding: 15px;margin-bottom: 100px;border-radius: 4px;">
 			<div class="jumbotron mb-5"><span class="display-4">Send a Notification.</span><br> <small>Here you can send a notification to specific groups of users. Notifications can be viewed on the notifications page.</small></div>
 			<div class="messages"></div>
+			<script>
+				var mess=Cookies.get("message");
+				if(mess!==undefined){
+					$(".messages").addClass("alert").addClass("alert-info").html(mess)
+					Cookies.remove("message")
+					$("body,html").animate({scrollTop: $("#notifications").offset().top},'slow')
+				}
+			</script>
 			<form  method="post" action="sendNotifications.php" enctype="multipart/form-data">
 				<div class="form-group">
 					<div class="input-group">
@@ -171,10 +191,10 @@ $photo=$_SESSION["photo"];
 							<span class="input-group-text" style="font-family: Cookie,cursive;width: 60px;">To:</span>
 						</div>
 						<select class="custom-select" name="target" style="cursor: pointer;">
-							<option id="all">All</option>
-							<option id="citizen_profile">Citizens</option>
-							<option id="politician_profile">Politicians</option>
-							<option id="admin_profile">Admins</option>
+							<option value="all">All</option>
+							<option value="citizen_profile">Citizens</option>
+							<option value="politician_profile">Politicians</option>
+							<option value="admin_profile">Admins</option>
 						</select>
 					</div>
 				</div>
@@ -192,6 +212,19 @@ $photo=$_SESSION["photo"];
 							<span class="input-group-text" style="font-family: Cookie,cursive;width: 60px;">Re:</span>
 						</div>
 						<input class="form-control" type="text" name="subject" placeholder="Subject" required="">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="font-family: Cookie,cursive;width: 60px;">Type:</span>
+						</div>
+						<select class="custom-select" name="type" style="cursor: pointer;">
+							<option value="Important">Important</option>
+							<option value="Polls">Opinion Polls</option>
+							<option value="Changes">Change Log</option>
+							<option value="Other">Other</option>
+						</select>
 					</div>
 				</div>
 				<textarea required="" style="font-family: courier new;font-size: 16px;" class="form-control mb-3" name="message" rows="15"></textarea>
