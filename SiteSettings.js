@@ -8,7 +8,56 @@ $(document).ready(()=>{
 	   		});
 		}
 	})
-		
+
+	$("#changEmail").click(event=>{
+		var email=$("#email").val().trim();
+		var pass=$("#emailPass").val().trim();
+		var test=$("#test").val().trim()
+		if(email.length!==0&&pass.length!==0&&test.length!==0){
+			if(checkEmail(email)){
+				if(checkEmail(test)){
+					$("#email").val("")
+					$("#emailPass").val("")
+					$("#test").val("")
+					$(".alerts").removeClass("alert").removeClass("alert-danger").html("")
+					$("#emailTrack,#testTrack").removeClass("fa-check").removeClass("fa-times")
+					$("#btnEmail").attr("disabled","").text("Changing..")
+					$.post("changeEmail.php",{email:email,pass:pass,test:test},data=>{
+						$(".alerts").addClass("alert").addClass("alert-info").html(data)
+						$("#btnEmail").removeAttr("disabled").text("Change")
+					})
+				}else{
+					$(".alerts").addClass("alert").addClass("alert-danger").html("Test email is not of correct syntax.")
+				}
+			}else{
+				$(".alerts").addClass("alert").addClass("alert-danger").html("The email is not of correct syntax.")
+			}
+		}
+
+	})
+
+	function checkEmail(email){
+		var posAt=email.indexOf("@")
+		var posDot=email.lastIndexOf(".")
+		if(posAt<1||(posAt+2)>posDot||(posDot+2)>=email.length){
+			return false;
+		}
+		return true
+	}
+	
+	$("#email,#test").keyup(event=>{
+		var email=$(event.currentTarget).val().trim()
+		if(email.length===0){
+			$(event.currentTarget).parent().find("span").removeClass("fa-check").removeClass("fa-times")
+			return;
+		}
+		if(checkEmail(email)){
+			$(event.currentTarget).parent().find("span").addClass("fa-check").removeClass("fa-times").css({color:'limegreen'})
+		}else{
+			$(event.currentTarget).parent().find("span").addClass("fa-times").removeClass("fa-check").css({color:'indianred'})
+		}
+	})
+
 	$("#setGovernor").click(()=>{
 		var county=$("#counties").find(":selected").attr("id")
 		var gov=$("#govName").val().trim()

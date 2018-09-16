@@ -116,6 +116,7 @@ $wardNo=0;
 				fclose($file);
 				echo "Unknown";
 			}else echo $date;?></span><button class="btn btn-primary float-right" style="width: 100px" data-toggle="modal" data-target="#changeDate">Change</button></div>
+			<div class="alert alert-success" style="text-align: center;padding-bottom: 25px;"><strong>Site's Official Email Address is: </strong><span id="siteEmail"><?php $file=fopen("Resources/Site Data/SiteEmail.txt", "r");$email=fgets($file);fclose($file);echo $email;?></span><button class="btn btn-info float-right" style="width: 100px" id="btnEmail" data-toggle="modal" data-target="#changeEmail">Change</button></div>
 			<div class="alert alert-secondary">
 				<span class="text-info" style="text-decoration: underline;">Table of Contents</span> <small class="text-dark">(click any link below to navigate to that table.)</small><br>
 				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">County Table</a></span>
@@ -217,7 +218,7 @@ $wardNo=0;
 		  	<div class="modal-content">
 		      	<div class="modal-header">
 				  	<h4 class="modal-title">Change Election Date</h4>
-				  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+				  	<button type="button" class="close" style="outline: none;" data-dismiss="modal">&times;</button>
 			  	</div>
 		      	<div class="modal-body">
 			        <form>
@@ -226,6 +227,37 @@ $wardNo=0;
 			  	</div>
 			    <div class="modal-footer">
 			    	<button type="button" class="btn btn-info" id="change" data-dismiss="modal">Change</button>
+			    </div>
+		    </div>
+		</div>
+	</div>
+
+	<div id="changeEmail" class="modal">
+	  	<div class="modal-dialog">
+		  	<div class="modal-content">
+		      	<div class="modal-header">
+				  	<h4 class="modal-title">Change Site's Email</h4>
+				  	<button type="button" style="outline: none;" class="close" data-dismiss="modal">&times;</button>
+			  	</div>
+		      	<div class="modal-body">
+			        <form>
+			        	<div class="input-group mb-3">
+				        	<input class="form-control" type="email" id="email" placeholder="Email Address" required="">
+				        	<div class="input-group-append">
+								<span class="input-group-text fa" id="emailTrack"></span>
+							</div>
+						</div>
+						<div class="input-group mb-3">
+				        	<input class="form-control" type="email" id="test" placeholder="Test Email Address" required="">
+				        	<div class="input-group-append">
+								<span class="input-group-text fa" id="testTrack"></span>
+							</div>
+						</div>
+			        	<input class="form-control" type="password" id="emailPass" placeholder="Password" required="">
+			        </form>
+			  	</div>
+			    <div class="modal-footer">
+			    	<button type="button" class="btn btn-info" id="changEmail" data-dismiss="modal">Change</button>
 			    </div>
 		    </div>
 		</div>
