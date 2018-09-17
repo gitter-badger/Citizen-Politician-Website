@@ -127,14 +127,21 @@ $photo=$_SESSION["photo"];
 		</div>
 
 		<script>
-			angular.module("app",[]).controller("myctrl",function($scope,$window){
+			angular.module("app",[]).controller("myctrl",function($scope){
 				$scope.receivers=[];
 				$scope.addReceivers=function(){
+					$(".alerts").removeClass("alert").removeClass("alert-info").html("")
 					var temp=$("#to").val().trim()
 					if(temp.length>2 && $.inArray(temp.toLowerCase(),$scope.receivers)===-1){
-						$scope.receivers.push(temp.toLowerCase());
-						$("#to").val("")
-						$("#to").focus()
+						$.post("checkUsername.php",{user:temp},data=>{
+							if(data.localeCompare("true")===0){
+								$scope.$apply(()=>{
+									$scope.receivers.push(temp.toLowerCase());
+								})
+							}else{
+								$(".alerts").addClass("alert").addClass("alert-info").html(data)
+							}
+						})
 					}else{
 						if(temp.length<3){
 							$(".alerts").addClass("alert").addClass("alert-info").html("Recipient name length too short!")
@@ -143,6 +150,8 @@ $photo=$_SESSION["photo"];
 						}
 						$("body,html").animate({scrollTop:0},'slow')
 					}
+					$("#to").val("")
+					$("#to").focus()
 				};
 				$scope.removeReceivers=function($event){
 					var temp=$event.currentTarget.id
@@ -150,6 +159,11 @@ $photo=$_SESSION["photo"];
 					$scope.receivers.splice(index,1);
 				}
 				$scope.sendEmail=function(){
+					if($scope.receivers.length<1){
+						$(".alerts").addClass("alert").addClass("alert-info").html("You need to add atleast 1 recipient.")
+						$("body,html").animate({scrollTop: 0},'slow')
+						return
+					}
 					var users=JSON.stringify($scope.receivers);
 					var subject=$("#subject").val().trim()
 					var message=$("#mail").val().trim()
