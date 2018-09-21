@@ -1,11 +1,9 @@
 <?php
-require "Connection.php";
 session_start();
 if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 	header("Location: Homepage.php");
 	return;
 }
-$photo=$_SESSION["photo"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,14 +20,6 @@ $photo=$_SESSION["photo"];
 	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="Logged.css">
 	<link rel="stylesheet" type="text/css" href="LoggedPhone.css">
-	<style>
-		@media screen and (max-width: 992px){
-			div.collapse{
-				max-height: 320px;
-				overflow-y: auto;
-			}
-		}
-	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -39,49 +29,9 @@ $photo=$_SESSION["photo"];
 </head>
 <body style="background-color: whitesmoke">
 <div class="container-fluid">
-	<nav class="navbar bg-info navbar-light navbar-expand-lg fixed-top" style="border-radius: 5px;">
-		<a class="navbar-brand text-dark" href="StartAdmin.php" style="font-family: Cookie,cursive;font-size: 24px;padding-bottom: 2px;padding-top: 2px;"><i class="fas fa-user"></i> Mwananchi</a>
-
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#smallScreen" style="outline: none;">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="smallScreen">
-			<ul class="navbar-nav mr-auto">
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="StartAdmin.php">Home</a>
-		      </li>
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="BugReport.php">Bug Report</a>
-		      </li>
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="ContactsPage.php">Contacts</a>
-		      </li> 
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="HelpPage.php">Help</a>
-		      </li> 
-		    </ul>
-		    <ul class="navbar-nav">
-		    	<li class="nav-item navigationBar"><a class="nav-link text-light" href="Settings.php"><span class="fas fa-cog"></span> Settings</a></li>
-		    	<li class="nav-item" style="width: 50px;text-align: center;white-space: nowrap;"><a class="nav-link text-light" href="Notifications.php"><span class="fas fa-bell"></span> <sup class="badge badge-dark" style="text-align: center;white-space: nowrap;"><?php
-			    			$userName=$_SESSION['username'];
-			    			$notifications=$connection->query("select notification from notifications where target='$userName' and isRead=0;");
-			    			echo (mysqli_num_rows($notifications)>0) ? mysqli_num_rows($notifications):"";
-			    		?></sup></a></li>
-		    	<li class="nav-item dropdown navigationBar"><a class="nav-link dropdown-toggle text-light" data-toggle="dropdown" href=""><span class="rounded-circle"><img src="<?php echo $photo; ?>" width="25px" height="25px"></span> My Profile </a>
-		    		<div class="dropdown-menu bg-info" style="padding: 3px;border-radius: 5px;padding-top: 13px">
-		    			<a class="dropdown-item text-dark" href="MyProfile.php">@ <?php echo $_SESSION["username"]; ?></a><hr>
-			    			<a class="dropdown-item text-dark" href="Stories.php">Recent Stories</a>
-			    			<a class="dropdown-item text-dark" href="Functions.php">Functions</a>
-			    			<a class="dropdown-item text-dark" href="SiteSettings.php">Site Settings</a>
-			    			<a class="dropdown-item text-dark" href="SendEmails.php">Send Emails</a>
-			    			<a class="dropdown-item text-dark" href="AdminDelete.php">Delete Accounts</a>
-			    			<a class="dropdown-item text-dark" href="Logout.php">Logout</a>
-		    		</div>
-		    	</li>
-		    </ul>
-		</div>
-	</nav>
+	<?php
+	require 'NavBar.php';
+	?>
 
 	<div class="container" id="signUp" style="position: relative;top: 100px;">
 		<form style="padding: 15px;padding-top: 35px;" method="post" action="AdminRegister.php" enctype="multipart/form-data">

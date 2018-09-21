@@ -1,11 +1,9 @@
 <?php
-require "Connection.php";
 session_start();
 if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 	header("Location: Homepage.php");
 	return;
 }
-$photo=$_SESSION["photo"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,14 +20,6 @@ $photo=$_SESSION["photo"];
 	<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="Logged.css">
 	<link rel="stylesheet" type="text/css" href="LoggedPhone.css">
-	<style>
-		@media screen and (max-width: 992px){
-			div.collapse{
-				max-height: 320px;
-				overflow-y: auto;
-			}
-		}
-	</style>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -38,51 +28,17 @@ $photo=$_SESSION["photo"];
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 <body style="background-color: whitesmoke;">
-	<nav class="navbar bg-info navbar-light navbar-expand-lg fixed-top" style="border-radius: 5px;">
-		<a class="navbar-brand text-dark" href="StartAdmin.php" style="font-family: Cookie,cursive;font-size: 24px;padding-bottom: 2px;padding-top: 2px;"><i class="fas fa-user"></i> Mwananchi</a>
-
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#smallScreen" style="outline: none;">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="smallScreen">
-			<ul class="navbar-nav mr-auto">
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="StartAdmin.php">Home</a>
-		      </li>
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="BugReport.php">Bug Report</a>
-		      </li>
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="ContactsPage.php">Contacts</a>
-		      </li> 
-		      <li class="nav-item navigationBar">
-		        <a class="nav-link text-light" href="HelpPage.php">Help</a>
-		      </li> 
-		    </ul>
-		    <ul class="navbar-nav">
-		    	<li class="nav-item navigationBar"><a class="nav-link text-light" href="Settings.php"><span class="fas fa-cog"></span> Settings</a></li>
-		    	<li class="nav-item" style="width: 50px;text-align: center;white-space: nowrap;"><a class="nav-link text-light" href="Notifications.php"><span class="fas fa-bell"></span> <sup class="badge badge-dark" style="text-align: center;white-space: nowrap;"><?php
-			    			$userName=$_SESSION['username'];
-			    			$notifications=$connection->query("select notification from notifications where target='$userName' and isRead=0;");
-			    			echo (mysqli_num_rows($notifications)>0) ? mysqli_num_rows($notifications):"";
-			    		?></sup></a></li>
-		    	<li class="nav-item dropdown navigationBar"><a class="nav-link dropdown-toggle text-light" data-toggle="dropdown" href=""><span class="rounded-circle"><img src="<?php echo $photo; ?>" width="25px" height="25px"></span> My Profile </a>
-		    		<div class="dropdown-menu bg-info" style="padding: 3px;border-radius: 5px;padding-top: 13px">
-		    			<a class="dropdown-item text-dark" href="MyProfile.php">@ <?php echo $_SESSION["username"]; ?></a><hr>
-			    			<a class="dropdown-item text-dark" href="Stories.php">Recent Stories</a>
-			    			<a class="dropdown-item text-dark" href="Functions.php">Functions</a>
-			    			<a class="dropdown-item text-dark" href="SiteSettings.php">Site Settings</a>
-			    			<a class="dropdown-item text-dark" href="RegisterAdmin.php">Add Admin</a>
-			    			<a class="dropdown-item text-dark" href="AdminDelete.php">Delete Accounts</a>
-			    			<a class="dropdown-item text-dark" href="Logout.php">Logout</a>
-		    		</div>
-		    	</li>
-		    </ul>
-		</div>
-	</nav>
+	<?php
+		require 'NavBar.php';
+	?>
 	<div class="container-fluid">
-		<div class="container bg-danger" ng-app="app" ng-controller="myctrl" id="emails" style="position: relative;top: 120px;padding: 15px;margin-bottom: 50px;border-radius: 4px;">
+		<div class="navigatorUp" style="display: none;position: fixed;bottom: 30px;left: 20px;z-index: 99;">
+			<a class="rounded-circle fa fa-arrow-up text-secondary" style="background-color: rgba(0,0,0,0.3);padding: 15px;" href=""></a>
+		</div>
+		<div class="navigatorDown" style="position: fixed;bottom: 30px;right: 20px;z-index: 99;">
+			<a class="rounded-circle fa fa-arrow-down text-secondary" style="background-color: rgba(0,0,0,0.3);padding: 15px;" href=""></a>
+		</div>
+		<div class="container" ng-app="app" ng-controller="myctrl" id="emails" style="background-color: slategray;position: relative;top: 120px;padding: 15px;margin-bottom: 50px;border-radius: 4px;">
 			<div class="jumbotron mb-5"><span class="display-4">Send an Email.</span><br> <small>Here you can send an email from the site to specific users.</small></div>
 			<div class="alerts"></div>
 			<form class="mb-3" style="font-family: Cookie,cursive;font-size: 24px;">
@@ -185,9 +141,29 @@ $photo=$_SESSION["photo"];
 			$("form").submit(event=>{
 				event.preventDefault()
 			})
+			$(window).scroll(()=>{
+				if($(window).scrollTop()<screen.height){
+					$("div.navigatorUp").css({display:"none"})
+					$("div.navigatorDown").css({display:"block"})
+				}else if($(window).scrollTop()>=($(document).height()-2.5*screen.height)){
+					$("div.navigatorUp").css({display:"block"})
+					$("div.navigatorDown").css({display:"none"})
+				}else{
+					$("div.navigatorUp").css({display:"block"})
+					$("div.navigatorDown").css({display:"block"})
+				}
+			})
+			$("div.navigatorUp>a").click(event=>{
+				event.preventDefault()
+				$("body,html").animate({scrollTop:0},'slow')
+			})
+			$("div.navigatorDown>a").click(event=>{
+				event.preventDefault()
+				$("body,html").animate({scrollTop:$(document).height()},'slow')
+			})
 		</script>
 
-		<div class="container bg-success" id="notifications" style="position: relative;top: 120px;padding: 15px;margin-bottom: 100px;border-radius: 4px;">
+		<div class="container" id="notifications" style="background-color: slategray;position: relative;top: 120px;padding: 15px;margin-bottom: 100px;border-radius: 4px;">
 			<div class="jumbotron mb-5"><span class="display-4">Send a Notification.</span><br> <small>Here you can send a notification to specific groups of users. Notifications can be viewed on the notifications page.</small></div>
 			<div class="messages"></div>
 			<script>
@@ -235,7 +211,7 @@ $photo=$_SESSION["photo"];
 						</div>
 						<select class="custom-select" name="type" style="cursor: pointer;">
 							<option value="Important">Important</option>
-							<option value="Polls">Opinion Polls</option>
+							<option value="Activity">Site Activity</option>
 							<option value="Changes">Change Log</option>
 							<option value="Other">Other</option>
 						</select>

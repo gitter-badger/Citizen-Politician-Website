@@ -33,55 +33,11 @@
 		if(!isset($_SESSION['username'])){
 			header("Location: HomePage.php");
 		}
-		$photo=$_SESSION["photo"];
-		require "Connection.php";
 	?>
 	<div class="container-fluid">
-		<nav class="navbar bg-info navbar-light navbar-expand-lg fixed-top" style="border-radius: 5px;">
-			<a class="navbar-brand text-dark" href="" style="font-family: Cookie,cursive;font-size: 24px;padding-bottom: 2px;padding-top: 2px;"><i class="fas fa-user"></i> Mwananchi</a>
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#smallScreen" style="outline: none;">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="smallScreen">
-				<ul class="navbar-nav mr-auto">
-			      <li class="nav-item here">
-			        <a class="nav-link text-light" href="">Home</a>
-			      </li>
-			      <li class="nav-item navigationBar">
-			        <a class="nav-link text-light" href="BugReport.php">Bug Report</a>
-			      </li>
-			      <li class="nav-item navigationBar">
-			        <a class="nav-link text-light" href="ContactsPage.php">Contacts</a>
-			      </li> 
-			      <li class="nav-item navigationBar">
-			        <a class="nav-link text-light" href="HelpPage.php">Help</a>
-			      </li> 
-			    </ul>
-			    <ul class="navbar-nav">
-			    	<li class="nav-item navigationBar"><a class="nav-link text-light" href="Settings.php"><span class="fas fa-cog"></span> Settings</a></li>
-			    	<li class="nav-item" style="width: 50px;text-align: center;white-space: nowrap;"><a class="nav-link text-light" href="Notifications.php"><span class="fas fa-bell"></span> <sup class="badge badge-dark" style="text-align: center;white-space: nowrap;"><?php
-			    			$userName=$_SESSION['username'];
-			    			$notifications=$connection->query("select notification from notifications where target='$userName' and isRead=0;");
-			    			echo (mysqli_num_rows($notifications)>0) ? mysqli_num_rows($notifications):"";
-			    		?></sup></a></li>
-			    	<li class="nav-item dropdown navigationBar"><a class="nav-link dropdown-toggle text-light" data-toggle="dropdown" href=""><span class="rounded-circle"><img src="<?php echo $photo; ?>" width="25px" height="25px"></span> My Profile </a>
-			    		<div class="dropdown-menu bg-info" style="padding: 3px;border-radius: 5px;padding-top: 13px">
-			    			<a class="dropdown-item text-dark" href="MyProfile.php">@ <?php echo $_SESSION["username"]; ?></a><hr>
-			    			<a class="dropdown-item text-dark" href="Stories.php">Recent Stories</a>
-			    			<a class="dropdown-item text-dark" href="Functions.php">Functions</a>
-			    			<a class="dropdown-item text-dark" href="SiteSettings.php">Site Settings</a>
-			    			<a class="dropdown-item text-dark" href="SendEmails.php">Send Emails</a>
-			    			<a class="dropdown-item text-dark" href="RegisterAdmin.php">Add Admin</a>
-			    			<a class="dropdown-item text-dark" href="AdminDelete.php">Delete Accounts</a>
-			    			<a class="dropdown-item text-dark" href="Logout.php">Logout</a>
-			    		</div>
-			    	</li>
-			    </ul>
-			</div>
-		</nav>
-
+		<?php
+			require "NavBar.php";
+		?>
 		<div class="container" style="position: relative;top: 100px;">
 			<div class="alerts"></div>
 			<script>
@@ -118,12 +74,14 @@
 	<script>
 		$(".btn-danger").click(event=>{
 			event.preventDefault();
+			$(event.currentTarget).removeClass("btn-danger").addClass("btn-warning").addClass("disabled").attr("disabled","").text("Verifying...")
 			$.post("VerifyPolitician.php",{user:$(event.currentTarget).attr("id")},data=>{
-				if(data.localeCompare("Account successfully verified")===0){
-					$(event.currentTarget).removeClass("btn-danger").addClass("btn-success").html("Verified");
+				if(data.localeCompare("Email message has been sent successfully")===0){
+					$(event.currentTarget).removeAttr("disabled").removeClass("disabled").removeClass("btn-warning").addClass("btn-success").html("Verified");
+				}else{
+					$(event.currentTarget).removeAttr("disabled").removeClass("disabled").removeClass("btn-warning").addClass("btn-danger").html("Verify Acc");
 				}
 				$(".alerts").addClass("alert").addClass("alert-info").html(data)
-				$("body,html").animate({scrollTop:0},'fast')
 			})
 		})
 	</script>
