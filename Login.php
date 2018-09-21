@@ -36,7 +36,7 @@
 					    		$_SESSION["usertype"]=$row[4];
 					    		$_SESSION["gender"]=$row[2];
 					    		$_SESSION["photo"]=$row[3];
-					    		echo "<script>location.replace('StartAdmin.php')</script>";
+					    		echo "<script>location.replace('Stories.php')</script>";
 					    		return;
 					    	}
 					    	echo "<script>Cookies.set('invalid','password');location.replace('HomePage.php')</script>";
