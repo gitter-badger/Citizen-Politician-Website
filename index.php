@@ -25,7 +25,7 @@
 </head>
 <body style="background: url(03.jpg) no-repeat center center;background-size: cover">
 	<div class="container" style="background-color: rgba(0,0,0,0.6);height: 100%; width: 100%">
-		<div class="jumbotron text-info" style="position: relative;top: 110px;background-color: transparent;"><span class="display-1" style="font-family: Cookie,cursive;line-height: 50px;"><i class="fas fa-user"></i> Mwananchi</span><br><br><span class="display-3 text-light" style="font-family: Comic sans MS">We are Going Live Soon...</span><br><br><span class="display-4 text-secondary">CountDown: <span id="time" class="display-3" style="font-family: Cookie,cursive;"></span></span></div>
+		<div class="jumbotron text-info" style="position: relative;top: 200px;font-family: Cookie,cursive;text-align: center;background-color: transparent;"><span class="display-3" style="line-height: 50px;"><i class="fas fa-user"></i> Mwananchi</span><br><br><span class="row"><span class="display-4 text-secondary col-md-6 text-center">Countdown to Launch: </span><span class="display-4 text-secondary col-md-6 text-center" id="time"></span></span></div>
 	</div>
 </body>
 <script>
@@ -37,6 +37,10 @@
 		var hours = parseInt((diff%(1000*60*60*24))/(1000*60*60))
 		var minutes = parseInt(((diff%(1000*60*60*24))%(1000*60*60))/(1000*60))
 		var seconds = parseInt((((diff%(1000*60*60*24))%(1000*60*60))%(1000*60))/1000)
+		if(seconds<0||days<0||hours<0||minutes<0){
+			$("#time").text(0+" : "+0+" : "+0+" : "+0)
+			return;
+		}
 		$("#time").text(days+" : "+hours+" : "+minutes+" : "+seconds)
 	}
 	setInterval(getTime,0)
