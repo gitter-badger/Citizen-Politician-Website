@@ -42,7 +42,7 @@ if(!isset($_SESSION['username'])){
         <div class="row">
           <div class="col-lg-3 mb-5">
             <div class="text-center">
-              <img src="<?php echo $photo;?>" class="avatar img-circle img-thumbnail mb-2">
+              <img src="<?php echo $photo;?>" class="avatar img-circle img-thumbnail mb-2 w-50">
               <h6 class="mb-3">Upload a different photo...</h6>
               <div class="form-group text-left">
                   <div class="custom-file">
@@ -52,7 +52,7 @@ if(!isset($_SESSION['username'])){
                 </div>
             </div><hr><hr>             
             <ul class="list-group">
-              <li class="list-group-item list-group-item-secondary">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+              <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center"><div>Activity <small>(One Week)</small></div> <i class="fab fa-hotjar"></i></li>
               <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Shares</strong> <span class="badge badge-info ml-auto">125</span></li>
               <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Likes</strong> <span class="badge badge-info ml-auto">13</span></li>
               <li class="list-group-item d-flex justify-content-between align-items-center"><strong>Posts</strong> <span class="badge badge-info ml-auto">37</span></li>
