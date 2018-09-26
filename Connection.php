@@ -1,6 +1,6 @@
 <?php
-	//$connection=mysqli_connect("197.237.128.225:3306","root","biggie5941","Citizen-Politician Website");
-	$connection=mysqli_connect("localhost","root","biggie5941","Citizen-Politician Website");
+	$connection=mysqli_connect("localhost","dqhdzzkgptmtrc","d519e14a854b4182416f6b039dbb7f22cea904c0a78ae57394816d8c65cd1619","d2elm95dd0nvio");
+	//$connection=mysqli_connect("localhost","root","biggie5941","Citizen-Politician Website");
 	if ($connection) {
 		return;
 	}
