@@ -95,5 +95,8 @@ require "Connection.php";
 	}else if(pathname.localeCompare("Settings.php")===0){
 		$(".here").removeClass("here").addClass("navigationBar")
 		$("a[href='Settings.php']").parent().removeClass("navigationBar").addClass("here")
+	}else if(pathname.localeCompare("OpinionPolls.php")===0){
+		$(".here").removeClass("here").addClass("navigationBar")
+		$("a[href='OpinionPolls.php']").parent().removeClass("navigationBar").addClass("here")
 	}
 </script>
