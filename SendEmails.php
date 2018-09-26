@@ -38,20 +38,20 @@ if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 		<div class="navigatorDown" style="position: fixed;bottom: 30px;right: 20px;z-index: 99;">
 			<a class="rounded-circle fa fa-arrow-down text-secondary" style="background-color: rgba(0,0,0,0.3);padding: 15px;" href=""></a>
 		</div>
-		<div class="container" ng-app="app" ng-controller="myctrl" id="emails" style="background-color: slategray;position: relative;top: 120px;padding: 15px;margin-bottom: 50px;border-radius: 4px;">
+		<div class="container alert alert-secondary" ng-app="app" ng-controller="myctrl" id="emails" style="position: relative;top: 120px;padding: 15px;margin-bottom: 50px;border-radius: 4px;">
 			<div class="jumbotron mb-5"><span class="display-4">Send an Email.</span><br> <small>Here you can send an email from the site to specific users.</small></div>
 			<div class="alerts"></div>
-			<form class="mb-3" style="font-family: Cookie,cursive;font-size: 24px;">
+			<form class="mb-3" style="font-size: 24px;">
 				<div class="form-group">
 					<div class="input-group mb-3">
 					    <div class="input-group-prepend">
-					      	<span class="input-group-text" style="width: 60px;">To:</span>
+					      	<span class="input-group-text" style="font-family: Cookie,cursive;width: 60px;">To:</span>
 					    </div>
 					    <input style="font-family: courier new;font-size: 16px;" class="form-control" type="text" id="to" name="to" placeholder="Recipient">
 					</div>
 				</div>
 				<div>
-					<button style="font-family: cursive;" ng-click="addReceivers()" id="addReceiver" class="btn btn-primary float-right mb-3">Add Recipient</button>
+					<button ng-click="addReceivers()" id="addReceiver" class="btn btn-primary float-right mb-3">Add Recipient</button>
 					<div ng-repeat="one in receivers">
 						<div class="alert alert-success alert-dismissible fade show mb-2" style="float: left;font-size: 18px;padding: 5px;width:100px;margin-right: 12px;overflow-x: hidden;">
 								<button ng-click="removeReceivers($event)" type="button" id="{{one}}" class="close" style="font-size: 20px;outline: none;padding:7px" data-dismiss="alert">&times;</button>
@@ -60,11 +60,11 @@ if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 					</div>
 				</div>
 			</form>
-			<form class="mb-5" style="font-family: Cookie,cursive;font-size: 24px;">
+			<form class="mb-5" style="font-size: 24px;">
 				<div class="form-group">
 					<div class="input-group mb-3">
 					    <div class="input-group-prepend">
-					      	<span class="input-group-text" style="width: 60px;">From:</span>
+					      	<span class="input-group-text" style="font-family: Cookie,cursive;width: 60px;">From:</span>
 					    </div>
 					    <input style="font-family: courier new;font-size: 16px;" class="form-control" type="text" id="from" name="from" value="<?php $file=fopen('Resources/Site Data/SiteEmail.txt','r'); echo fgets($file); fclose($file)?>" readonly="">
 					</div>
@@ -72,13 +72,13 @@ if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 				<div class="form-group">
 					<div class="input-group mb-5">
 					    <div class="input-group-prepend">
-					      	<span class="input-group-text" style="width: 60px;">Re:</span>
+					      	<span class="input-group-text" style="font-family: Cookie,cursive;width: 60px;">Re:</span>
 					    </div>
 					    <input style="font-family: courier new;font-size: 16px;" class="form-control" type="text" id="subject" name="subject" placeholder="Subject">
 					</div>
 				</div>
 				<textarea id="mail" style="font-family: courier new;font-size: 16px;" class="form-control mb-3" rows="15"></textarea>
-				<button id="sendEmail" ng-click="sendEmail()" style="font-family: cursive;width:100px" class="btn btn-primary float-right">Send</button>
+				<button id="sendEmail" ng-click="sendEmail()" style="width:100px" class="btn btn-primary float-right">Send</button>
 			</form><br>
 		</div>
 
@@ -163,7 +163,7 @@ if(!isset($_SESSION["username"])||$_SESSION["usertype"]!=="admin"){
 			})
 		</script>
 
-		<div class="container" id="notifications" style="background-color: slategray;position: relative;top: 120px;padding: 15px;margin-bottom: 100px;border-radius: 4px;">
+		<div class="container alert alert-secondary" id="notifications" style="position: relative;top: 120px;padding: 15px;margin-bottom: 100px;border-radius: 4px;">
 			<div class="jumbotron mb-5"><span class="display-4">Send a Notification.</span><br> <small>Here you can send a notification to specific groups of users. Notifications can be viewed on the notifications page.</small></div>
 			<div class="messages"></div>
 			<script>
