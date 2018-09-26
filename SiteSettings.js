@@ -131,7 +131,7 @@ $(document).ready(()=>{
 
 	$(".toc>a").click(event=>{
 		event.preventDefault()
-		var destination="#"+$(event.currentTarget).text().replace(/\ /g,"");
+		var destination="#"+$(event.currentTarget).text()+"Table";
 		$("body,html").animate({scrollTop:$(destination).offset().top},'slow')
 	})
 

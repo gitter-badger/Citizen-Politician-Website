@@ -16,7 +16,7 @@ $wardNo=0;
 	<title>Mwananchi</title>
 
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=0.7">
 
 	<link rel="shortcut icon" type="image/png" href="MwananchiIcon.png">
 
@@ -32,7 +32,7 @@ $wardNo=0;
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<script src="SiteSettings.js"></script>
 </head>
-<body style="background-color: whitesmoke;min-width: 650px;">
+<body style="background-color: whitesmoke;min-width: 550px">
 	<?php
 		require 'NavBar.php';
 	?>
@@ -43,7 +43,7 @@ $wardNo=0;
 		<div class="navigatorDown" style="position: fixed;bottom: 30px;right: 20px;z-index: 99;">
 			<a class="rounded-circle fa fa-arrow-down text-secondary" style="background-color: rgba(0,0,0,0.3);padding: 15px;" href=""></a>
 		</div>
-		<div class="container" style="position: relative;top: 120px;">
+		<div class="container" style="position: relative;top: 90px;">
 			<div class="alerts"></div>
 			<script>
 				var date=Cookies.get("date")
@@ -60,18 +60,18 @@ $wardNo=0;
 				}
 			</script>
 			<div class="jumbotron"><span class="display-4 text-info">Site Settings Page.</span><br><small class="text-secondary">Here you can add more supported counties, constituencies or wards, set leaders for various regions, set the election date, etc.</small></div>
-			<div class="alert alert-info" style="text-align: center;padding-bottom: 25px;"><strong>Next Election Date is: </strong><span id="electionDate"><?php $file=fopen("Resources/Site Data/ElectionDate.txt", "r");$date=fgets($file);fclose($file);if($currDate>$date){
+			<div class="alert alert-info" style="text-align: center;"><div class="mb-1"><strong>Next Election Date is: </strong><span id="electionDate"><?php $file=fopen("Resources/Site Data/ElectionDate.txt", "r");$date=fgets($file);fclose($file);if($currDate>$date){
 				$file=fopen("Resources/Site Data/ElectionDate.txt", "w+");
 				fwrite($file,"Unknown");
 				fclose($file);
 				echo "Unknown";
-			}else echo $date;?></span><button class="btn btn-primary float-right" style="width: 100px" data-toggle="modal" data-target="#changeDate">Change</button></div>
-			<div class="alert alert-success" style="text-align: center;padding-bottom: 25px;"><strong>Site's Official Email Address is: </strong><span id="siteEmail"><?php $file=fopen("Resources/Site Data/SiteEmail.txt", "r");$email=fgets($file);fclose($file);echo $email;?></span><button class="btn btn-info float-right" style="width: 100px" id="btnEmail" data-toggle="modal" data-target="#changeEmail">Change</button></div>
+			}else echo $date;?></span></div> <button class="btn btn-primary" style="width: 100px" data-toggle="modal" data-target="#changeDate">Change</button></div>
+			<div class="alert alert-success" style="text-align: center;"><div class="mb-1"><strong>Site's Official Email Address is: </strong><span id="siteEmail"><?php $file=fopen("Resources/Site Data/SiteEmail.txt", "r");$email=fgets($file);fclose($file);echo $email;?></span></div><button class="btn btn-info" style="width: 100px" id="btnEmail" data-toggle="modal" data-target="#changeEmail">Change</button></div>
 			<div class="alert alert-secondary">
 				<span class="text-info" style="text-decoration: underline;">Table of Contents</span> <small class="text-dark">(click any link below to navigate to that table.)</small><br>
-				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">County Table</a></span>
-				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">Constituencies Table</a></span>
-				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">Wards Table</a></span>
+				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">County</a></span>
+				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">Constituencies</a></span>
+				<span class="toc" style="margin-right: 50px;"><a class="text-secondary" href="">Wards</a></span>
 			</div>
 			<table id="CountyTable" class="table table-dark table-striped table-hover">
 				<thead>
