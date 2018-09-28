@@ -6,14 +6,14 @@ $mail = new PHPMailer;
 //$mail->SMTPDebug = 3;
 
 $mail->isSMTP();
-$mail->Host = 'smtp.gmail.com';
+$mail->Host = $_POST['smtp'];
 $mail->SMTPAuth = true;
 $mail->Username = htmlspecialchars($_POST['email']);
 $mail->Password = htmlspecialchars($_POST['pass']);
-$mail->SMTPSecure = 'tls';
-$mail->Port = 587;
+$mail->SMTPSecure = ($_POST['smtp']=="smtp.mail.yahoo.com") ? 'ssl':'tls';
+$mail->Port = ($_POST['smtp']=="smtp.mail.yahoo.com") ? 465:587;
 
-$mail->setFrom(htmlspecialchars($_POST['email']), 'Mwananchi Website');
+$mail->setFrom(htmlspecialchars($_POST['email']), 'Mwananchi');
 $mail->addAddress(htmlspecialchars($_POST['test']));
 $mail->addReplyTo(htmlspecialchars($_POST['email']), 'Website Admin');
 $mail->isHTML(true);
@@ -30,7 +30,7 @@ if(!$mail->send()) {
     $hmac = hash_hmac('sha256', $cipherText, $key, $as_binary=true);
 	$encryptedPassword = base64_encode( $iv.$hmac.$cipherText);
 	$file=fopen("Resources/Site Data/SiteEmail.txt", "w+");
-	fwrite($file,htmlspecialchars($_POST['email']).PHP_EOL.$encryptedPassword.PHP_EOL.$key);
+	fwrite($file,htmlspecialchars($_POST['email']).PHP_EOL.$_POST['smtp'].PHP_EOL.$encryptedPassword.PHP_EOL.$key);
 	fclose($file);
     echo 'Email has been changed successfully. Check your test email to see if email has been received correctly.';
 }
