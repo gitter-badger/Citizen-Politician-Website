@@ -28,12 +28,10 @@ $(document).ready(()=>{
 		if(email.length<3){
 			return;
 		}
-		var subject="Password Reset"
 		var passcode=makeid(Math.floor(Math.random()*20)+10)
-		var message="Hope you are well. Please follow the url below to reset your password.";
 		$("#getEmail").val("")
 		$("#log").addClass("alert").addClass("alert-info").html("Sending email...")
-		$.post("emailSend.php",{type:"password",user:email,subject:subject,message:message,passCode:passcode},data=>{
+		$.post("emailSend.php",{type:"password",user:email,passCode:passcode},data=>{
 			$("#log").addClass("alert").addClass("alert-info").html(data)
 		})
 
