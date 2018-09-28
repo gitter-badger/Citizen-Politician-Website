@@ -29,7 +29,7 @@
 				require 'Connection.php';
 				$id=$_GET['id'];
 				$checker=$_GET['encodedPassCode'];
-				$stmt=$connection->prepare("select * from emailGetCredentials where passCode=?");
+				$stmt=$connection->prepare("select * from emailGetCredentials where passCode=? and used=0");
 				if($stmt){
 					if($stmt->bind_param("s",$checker)){
 						if($stmt->execute()){
@@ -42,13 +42,14 @@
 											$timeSent=$row[4];
 											$diff=strtotime($currtime)-strtotime($timeSent);
 											if(($diff/60)>15){
+												$stmt=$connection->query("update emailGetCredentials set used=1 where eventID=$row[0]");
 												echo "Your request has timed out. Please request for another password reset email.";
 											}else{
-												$stmt=$connection->query("delete from emailGetCredentials where eventID=$row[0]");
+												$stmt=$connection->query("update emailGetCredentials set used=1 where eventID=$row[0]");
 												if($stmt){
 													$newPass=randomize(random_int(10,20));
 													$encryptPass=password_hash($newPass,PASSWORD_DEFAULT);
-													$stmt="update citizen_profile set Secret='$encryptPass' where Username='$id' or Email='$id';update politician_profile set password='$encryptPass' where userName='$id' or email='$id'";
+													$stmt="update citizen_profile set Secret='$encryptPass' where Username='$id' or Email='$id';update politician_profile set password='$encryptPass' where userName='$id' or email='$id';update admin_profile set adminPassword='$encryptPass' where adminUserName='$id'";
 													if(mysqli_multi_query($connection,$stmt)){
 														echo "Your new password is $newPass. You can now use it to log into your account";
 													}
