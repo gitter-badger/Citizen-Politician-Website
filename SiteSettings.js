@@ -13,6 +13,7 @@ $(document).ready(()=>{
 		var email=$("#email").val().trim();
 		var pass=$("#emailPass").val().trim();
 		var test=$("#test").val().trim()
+		var smtp=$("#smtp").val().trim()
 		if(email.length!==0&&pass.length!==0&&test.length!==0){
 			if(checkEmail(email)){
 				if(checkEmail(test)){
@@ -22,7 +23,7 @@ $(document).ready(()=>{
 					$(".alerts").removeClass("alert").removeClass("alert-danger").html("")
 					$("#emailTrack,#testTrack").removeClass("fa-check").removeClass("fa-times")
 					$("#btnEmail").attr("disabled","").text("Changing..")
-					$.post("changeEmail.php",{email:email,pass:pass,test:test},data=>{
+					$.post("changeEmail.php",{smtp:smtp,email:email,pass:pass,test:test},data=>{
 						$(".alerts").addClass("alert").addClass("alert-info").html(data)
 						$("#btnEmail").removeAttr("disabled").text("Change")
 					})
