@@ -79,6 +79,30 @@ $wardNo=0;
 						<td colspan="3"><div class="jumbotron text-dark"><span class="display-4">Counties</span><br><small class="text-secondary">Here are some of the registered counties.</small></div></td>
 					</tr>
 				</thead>
+				<tr>
+					<td colspan="3">
+						<input class="form-control" type="text" placeholder="Search this table . . . " onkeyup="searchCounty(this)">
+					</td>
+					<script>
+						function searchCounty(event){
+							var value = $(event).val().toLowerCase();
+							var array= value.split(",")
+						    $('tr.countyData').filter(function() {
+						    	var count=0;
+						    	for(var i=0;i<array.length;i++){
+						    		if($(this).text().toLowerCase().indexOf(array[i])>-1){
+						    			count++
+						    		}
+						    	}
+						    	if(count!==array.length){
+						    		$(this).hide()
+						    	}else{
+						    		$(this).show()
+						    	}
+						    });
+						}
+					</script>
+				</tr>
 				<tr class="bg-secondary text-dark">
 					<td>County ID</td><td>County Name</td><td>County Governor</td>
 				</tr>
@@ -89,7 +113,7 @@ $wardNo=0;
 							if(mysqli_num_rows($stmt)>0){
 								while($row=$stmt->fetch_array(MYSQLI_NUM)){
 									$countyNo++;
-									echo "<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td></tr>";
+									echo "<tr class='countyData'><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td></tr>";
 								}
 								$countyNo++;
 							}else{
@@ -108,6 +132,30 @@ $wardNo=0;
 						<td colspan="4"><div class="jumbotron text-dark"><span class="display-4">Constituencies</span><br><small class="text-secondary">Here are some of the registered constituencies.</small></div></td>
 					</tr>
 				</thead>
+				<tr>
+					<td colspan="4">
+						<input class="form-control" type="text" placeholder="Search this table . . . " onkeyup="searchConstituency(this)">
+					</td>
+					<script>
+						function searchConstituency(event){
+							var value = $(event).val().toLowerCase();
+							var array= value.split(",")
+						    $('tr.constituencyData').filter(function() {
+						    	var count=0;
+						    	for(var i=0;i<array.length;i++){
+						    		if($(this).text().toLowerCase().indexOf(array[i])>-1){
+						    			count++
+						    		}
+						    	}
+						    	if(count!==array.length){
+						    		$(this).hide()
+						    	}else{
+						    		$(this).show()
+						    	}
+						    });
+						}
+					</script>
+				</tr>
 				<tr class="bg-secondary text-dark">
 					<td>Constituency ID</td><td>Constituency Name</td><td>County Location</td><td>Member of Parliament</td>
 				</tr>
@@ -118,7 +166,7 @@ $wardNo=0;
 							if(mysqli_num_rows($stmt)>0){
 								while($row=$stmt->fetch_array(MYSQLI_NUM)){
 									$constiNo++;
-									echo "<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
+									echo "<tr class='constituencyData'><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td></tr>";
 								}
 								$constiNo++;
 							}else{
@@ -137,6 +185,30 @@ $wardNo=0;
 						<td colspan="5"><div class="jumbotron text-dark"><span class="display-4">Wards</span><br><small class="text-secondary">Here are some of the registered wards.</small></div></td>
 					</tr>
 				</thead>
+				<tr>
+					<td colspan="5">
+						<input class="form-control" type="text" placeholder="Search this table . . . " onkeyup="searchWard(this)">
+					</td>
+					<script>
+						function searchWard(event){
+							var value = $(event).val().toLowerCase();
+							var array= value.split(",")
+						    $('tr.wardData').filter(function() {
+						    	var count=0;
+						    	for(var i=0;i<array.length;i++){
+						    		if($(this).text().toLowerCase().indexOf(array[i])>-1){
+						    			count++
+						    		}
+						    	}
+						    	if(count!==array.length){
+						    		$(this).hide()
+						    	}else{
+						    		$(this).show()
+						    	}
+						    });
+						}
+					</script>
+				</tr>
 				<tr class="bg-secondary text-dark">
 					<td>Ward ID</td><td>Ward Name</td><td>Constituency Location</td><td>County Location</td><td>Member of County Assembly</td>
 				</tr>
@@ -147,7 +219,7 @@ $wardNo=0;
 							if(mysqli_num_rows($stmt)>0){
 								while($row=$stmt->fetch_array(MYSQLI_NUM)){
 									$wardNo++;
-									echo "<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td></tr>";
+									echo "<tr class='wardData'><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td><td>$row[3]</td><td>$row[4]</td></tr>";
 								}
 								$wardNo++;
 							}else{
@@ -191,6 +263,15 @@ $wardNo=0;
 			  	</div>
 		      	<div class="modal-body">
 			        <form>
+			        	<label for="smtp">Email Provider: </label>
+			        	<select class="custom-select mb-3" id="smtp" style="cursor: pointer;" required="">
+							<option value="smtp.gmail.com">Gmail</option>
+							<option value="smtp.live.com">MS Outlook</option>
+							<option value="smtp.office365.com">Office365</option>
+							<option value="smtp.aol.com">AOL</option>
+							<option value="smtp.mail.com">Mail</option>
+							<option value="smtp.mail.yahoo.com">Yahoo</option>
+						</select>
 			        	<div class="input-group mb-3">
 				        	<input class="form-control" type="email" id="email" placeholder="Email Address" required="">
 				        	<div class="input-group-append">
