@@ -80,7 +80,7 @@ if(!isset($_SESSION['username'])){
 		            <div class="tab-content mb-5" style="border: 1px ridge rgba(0,0,0,0.1);border-radius: 10px;border-top-left-radius: 0px;border-top-right-radius: 0px;background-image: linear-gradient(-200deg,whitesmoke 10%,ghostwhite 90%);">
 		            	<div class="tab-pane container active show" id="Comments">
 	                		<hr>
-	                		<form style="padding-left: 30px;padding-right: 30px;" class="mb-4">
+	                		<form class="mb-4">
 								<div class="form-group mb-0" style="border-bottom-right-radius: 7px !important;box-shadow: 8px 10px 16px rgba(0,0,0,0.3);">
 									<textarea class="form-control" rows="3" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;width: 100%;" name="comment" placeholder="Post a Comment . . . " required=""></textarea>
 									<div class="alert alert-secondary mb-0" style="border-top-left-radius: 0;border-top-right-radius: 0;padding: 0px;">
@@ -95,7 +95,7 @@ if(!isset($_SESSION['username'])){
 						</div>
 						<div class="tab-pane container fade" id="Achievements">
 							<hr>
-	                		<form style="padding-left: 30px;padding-right: 30px;" class="mb-4">
+	                		<form class="mb-4">
 								<div class="form-group mb-0" style="border-bottom-right-radius: 7px !important;box-shadow: 8px 10px 16px rgba(0,0,0,0.3);">
 									<textarea class="form-control" rows="3" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;width: 100%;" name="achievement" placeholder="Post an Achievement . . . " required=""></textarea>
 									<div class="alert alert-secondary mb-0" style="border-top-left-radius: 0;border-top-right-radius: 0;padding: 0px;">
@@ -110,7 +110,7 @@ if(!isset($_SESSION['username'])){
 						</div>
 						<div class="tab-pane container fade" id="Critiques">
 							<hr>
-	                		<form style="padding-left: 30px;padding-right: 30px;" class="mb-4">
+	                		<form class="mb-4">
 								<div class="form-group mb-0" style="border-bottom-right-radius: 7px !important;box-shadow: 8px 10px 16px rgba(0,0,0,0.3);">
 									<textarea class="form-control" rows="3" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;width: 100%;" name="critique" placeholder="Post a Critique . . . " required=""></textarea>
 									<div class="alert alert-secondary mb-0" style="border-top-left-radius: 0;border-top-right-radius: 0;padding: 0px;">
@@ -127,8 +127,6 @@ if(!isset($_SESSION['username'])){
 				</div>
 			</div>
 			<div class="col-md-3 mb-5">
-				<audio src="https://res.cloudinary.com/dkgtd3pil/video/upload/v1537849052/mwananchi/tonightstart.mp3" controls="">The Browser Does Not Support This Element</audio>
-				<video src="biggie%20(2).mp4" width="100%" height="auto" controls="">Not Supported</video>
 			</div>
 		</div>
 	</div>
