@@ -94,7 +94,7 @@ class NewsFeed extends CI_Model {
 			if($this->session->userdata("usertype")==="admin"||$this->session->userdata("usertype")==="politician"){
 				return "";
 			}elseif($this->session->userdata("usertype")==="citizen"){
-				return "<form class='mt-4'><div class='input-group'><textarea class='form-control bg-light' rows='1' name='reply' placeholder='Reply . . .' style='resize:none;height:auto' required=''></textarea><div class='input-group-append'><button style='border-color:rgba(0,0,0,0.2);border-left:none' type='submit' class='btn btn-light'><i class='fas fa-reply text-secondary'></i></button></div></div></form>";
+				return "<form class='mt-4'><div class='input-group'><textarea class='form-control bg-light' rows='1' name='reply' placeholder='Reply . . .' style='resize:none;height:auto' required=''></textarea><div class='input-group-append d-flex align-items-end'><button style='border-color:rgba(0,0,0,0.2);border-left:none;' type='submit' class='btn btn-light'><i class='fas fa-reply text-secondary'></i></button></div><div class='input-group-append d-flex align-items-end'><button style='border-color:rgba(0,0,0,0.2);border-left:none;' type='submit' class='btn btn-light'><i class='fas fa-reply text-secondary'></i></button></div></div></form>";
 			}
 
 		}
