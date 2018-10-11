@@ -2,19 +2,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class NewsFeed extends CI_Model {
-	private $news="";
 	public function index($news_item){
-		$this->news.=$this->get_post_box($news_item);
-		$this->news.=$this->get_news($news_item);
-		return $this->news;
+		$news="";
+		$news.=$this->get_post_box($news_item);
+		$news.=$this->get_news($news_item);
+		return $news;
 	}
 
 	private function get_news($news_item){
-		$this->news.="<table class='table table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>All $news_item</td></tr></thead>";
+		$news="";
+		$news.="<table class='table table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>All $news_item</td></tr></thead>";
 		foreach ($this->get_news_from_db($news_item) as $value) {
-			$this->news.="<tr><td><div class='media border p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 mt-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value->type,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#_$value->commentID'>See All Replies . . . </a><div id='_$value->commentID' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></td></tr>";
+			$news.="<tr><td><div class='media border p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 mt-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value->type,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></td></tr>";
 		}
-		$this->news.="</table>";
+		$news.="</table>";
+		return $news;
 	}
 
 	private function get_likes($type,$news_item){
@@ -94,7 +96,7 @@ class NewsFeed extends CI_Model {
 			if($this->session->userdata("usertype")==="admin"||$this->session->userdata("usertype")==="politician"){
 				return "";
 			}elseif($this->session->userdata("usertype")==="citizen"){
-				return "<form class='mt-4'><div class='input-group'><textarea class='form-control bg-light' rows='1' name='reply' placeholder='Reply . . .' style='resize:none;height:auto' required=''></textarea><div class='input-group-append d-flex align-items-end'><button style='border-color:rgba(0,0,0,0.2);border-left:none;' type='submit' class='btn btn-light'><i class='fas fa-reply text-secondary'></i></button></div><div class='input-group-append d-flex align-items-end'><button style='border-color:rgba(0,0,0,0.2);border-left:none;' type='submit' class='btn btn-light'><i class='fas fa-reply text-secondary'></i></button></div></div></form>";
+				return "<form class='mt-4'><div class='input-group' style='border:1px solid rgba(0,0,0,0.2);border-radius:5px'><textarea class='form-control bg-light' rows='2' name='reply' placeholder='Reply . . .' style='resize:none;border:none;' required=''></textarea><button type='submit' class='input-group-append btn btn-light'><i class='fas fa-reply text-secondary'></i></button></div></form>";
 			}
 
 		}
