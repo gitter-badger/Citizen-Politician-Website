@@ -30,11 +30,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 		<script>
-			$("#isOnline").prop("checked",navigator.onLine)
 			function checkOnline(){
 				$("#isOnline").prop("checked",navigator.onLine)
 			}
-			setInterval(checkOnline,3000)
+			setInterval(checkOnline,2000)
 		</script>
 	</div>
 	<div class="row d-flex">
