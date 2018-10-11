@@ -3,15 +3,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Stories extends CI_Controller {
 	public function index(){
+		
 		$this->load->model("activity");
 		$this->load->model("newsfeed");
+		$this->load->model("opinionpolls");
+		$this->load->model("electiondate");
 		$data['head']=$this->loadscripts->index().$this->loadscripts->load_datatable();
 		$data['navbar']=$this->navbar->load_nav_bar();
 		$data['activity']=$this->activity->get_activity_count_html();
-		$this->session->set_userdata("usertype","citizen");
+		$data['potw']=$this->opinionpolls->get_potw();
+		$data['election_date']=$this->electiondate->index();
 		$data['comments']=$this->newsfeed->index("Comments");
-		//$data['achievements']=$this->newsfeed->index("Achievements");
-		//$data['critiques']=$this->newsfeed->index("Critiques");
+		$data['achievements']=$this->newsfeed->index("Achievements");
+		$data['critiques']=$this->newsfeed->index("Critiques");
 		$this->load->view('news_feed',$data);
 	}
 
