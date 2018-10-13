@@ -31,19 +31,27 @@ class NewsFeed extends CI_Model {
 	private function get_carousel($db,$type){
 		$return=array();
 		if(null!==$this->session->userdata("usertype")){
-			if($type==="Comments"||$type==="Critiques"){
+			if($type==="Comments"){
 				return "";
 			}
 			$api = new \Cloudinary\Api();
 			$images=$api->resources(array("type" => "upload", "prefix" => $db->evidence));
-			array_push($return,"<div id='carousel_".$db->commentID."' class='carousel slide mb-3' data-ride='carousel'><ul class='carousel-indicators'>");
+			$videos=$api->resources(array("resource_type"=>"video","type" => "upload", "prefix" => $db->evidence));
+			array_push($return,"<div id='carousel_".$type."_".$db->commentID."' class='carousel slide mb-3' data-ride='carousel'><ul class='carousel-indicators'>");
 			$counter=0;
 			foreach ($images['resources'] as $value) {
 				if($counter===0){
-					array_push($return,"<li data-target='#carousel_".$db->commentID."' data-slide-to='".$counter++."' class='active'></li>");
+					array_push($return,"<li data-target='#carousel_".$type."_".$db->commentID."' data-slide-to='".$counter++."' class='active'></li>");
 					continue;
 				}
-				array_push($return,"<li data-target='#carousel_".$db->commentID."' data-slide-to='".$counter++."'></li>");
+				array_push($return,"<li data-target='#carousel_".$type."_".$db->commentID."' data-slide-to='".$counter++."'></li>");
+			}
+			foreach ($videos['resources'] as $value) {
+				if($counter===0){
+					array_push($return,"<li data-target='#carousel_".$type."_".$db->commentID."' data-slide-to='".$counter++."' class='active'></li>");
+					continue;
+				}
+				array_push($return,"<li data-target='#carousel_".$type."_".$db->commentID."' data-slide-to='".$counter++."'></li>");
 			}
 			array_push($return,"</ul><div class='carousel-inner'>");
 			$counter=0;
@@ -56,7 +64,16 @@ class NewsFeed extends CI_Model {
 				}
 				array_push($return,"<div class='carousel-item'><img width='100%' height='250px' style='width: 100%;height: 250px' src='$url' alt='$db->commentor'></div>");
 			}
-			array_push($return,"</div><a class='carousel-control-prev' href='#carousel_".$db->commentID."' data-slide='prev'><span class='carousel-control-prev-icon'></span></a><a class='carousel-control-next' href='#carousel_".$db->commentID."' data-slide='next'><span class='carousel-control-next-icon'></span></a></div>");
+			foreach ($videos['resources'] as $value) {
+				$url=$value['secure_url'];
+				if($counter===0){
+					$counter++;
+					array_push($return,"<video class='carousel-item active' width='100%' height='250px' style='width: 100%;height: 250px;background-color: rgba(0,0,0,0.9) !important;' src='$url' controls='' controlsList='nodownload nofullscreen'>$db->commentor</video>");
+					continue;
+				}
+				array_push($return,"<video class='carousel-item' width='100%' height='250px' style='width: 100%;height: 250px;background-color: rgba(0,0,0,0.9) !important;' src='$url' controls='' controlsList='nodownload nofullscreen'>$db->commentor</video>");
+			}
+			array_push($return,"</div><a class='carousel-control-prev' href='#carousel_".$type."_".$db->commentID."' data-slide='prev'><span class='carousel-control-prev-icon'></span></a><a class='carousel-control-next' href='#carousel_".$type."_".$db->commentID."' data-slide='next'><span class='carousel-control-next-icon'></span></a></div>");
 			return implode($return);
 		}
 		redirect(base_url("home.html"),"location");
