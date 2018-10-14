@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php echo $navbar;?>
+<script>$("a[href='<?php echo base_url()?>news_feed.html']").addClass("active");</script>
 <div class="container-fluid" style="position: relative;top: 65px;">
 	<div class="row mb-3">
 		<div class="col-md-3 mb-3">
