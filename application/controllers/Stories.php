@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Stories extends CI_Controller {
 	public function index(){
-		
+
 		$this->load->model("activity");
 		$this->load->model("newsfeed");
 		$this->load->model("opinionpolls");
@@ -24,6 +24,8 @@ class Stories extends CI_Controller {
 			$this->load->model("accounts");
 			$row=$this->accounts->login_politician($_POST['target']);
 			echo (is_object($row))?1:0;
+		}else{
+			redirect(site_url("home"),"location");
 		}
 	}
 }
