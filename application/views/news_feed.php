@@ -5,10 +5,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html>
 <head>
 	<?php echo $head;?>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
 <?php echo $navbar;?>
+<script>$("a[href='<?php echo base_url()?>news_feed.html']").addClass("active");</script>
 <div class="container-fluid" style="position: relative;top: 65px;">
 	<div class="row mb-3">
 		<div class="col-md-3 mb-3">
@@ -31,11 +31,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 		</div>
 		<script>
-			$("#isOnline").prop("checked",navigator.onLine)
 			function checkOnline(){
 				$("#isOnline").prop("checked",navigator.onLine)
 			}
-			setInterval(checkOnline,3000)
+			setInterval(checkOnline,2000)
 		</script>
 	</div>
 	<div class="row d-flex">
@@ -58,17 +57,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            	<div class="tab-pane container active show mt-3 mb-4" id="Comments">
                 		<?php echo $comments;?>
 					</div>
-					<div class="tab-pane container fade" id="Achievements">
+					<div class="tab-pane container fade mt-3 mb-4" id="Achievements">
 						<?php echo $achievements;?>
 					</div>
-					<div class="tab-pane container fade" id="Critiques">
+					<div class="tab-pane container fade mt-3 mb-4" id="Critiques">
 						<?php echo $critiques;?>
 					</div>
 				</div>
 		    </div>
 		</div>
+		<div class="col-lg-3 mb-5">
+	        <?php echo $potw.$election_date;?>
+		</div>
 	</div>
 </div>
 </body>
-<script>$("textarea").autogrow();$("table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});</script>
+<script>$("table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});</script>
 </html>

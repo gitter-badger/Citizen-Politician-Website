@@ -7,9 +7,9 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 <head>
 	<?php echo $head;?>
 </head>
-<body>
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
 <?php echo $navbar;?>
-<div class="row container-fluid" style="background: url(<?php echo base_url();?>resources/background_image_home.JPG) no-repeat top;background-size: cover;background-attachment: fixed;padding: 0px;margin: 0">
+<div class="row container-fluid" style="background: url(<?php echo base_url();?>resources/background_image_home.JPG) no-repeat top;background-size: cover;background-attachment: fixed;padding: 0px;margin: 0;">
 	<div class="row" id="main" style="background-color: rgba(0,0,0,0.6);height: 80%;margin: 0;">
 		<div class="col-lg-12" style="height: 100px"></div>
 			<div class="col-lg-7 container">
@@ -91,7 +91,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		</div>
 </div>
 
-<div class="container-fluid d-flex justify-content-center" style="background-color: transparent;padding: 0px;">
+<div class="container-fluid d-flex justify-content-center" id="signUp" style="background-color: transparent;padding: 0px;">
 	<form style="padding-top: 0.5px;width: 100%;" method="post" enctype="multipart/form-data">
 		<fieldset style="border-radius: 10px;background-image: linear-gradient(-270deg,whitesmoke 10%,ghostwhite 90%);">
 			<legend class="text-light bg-info" style="width: 100%;padding: 5px;padding-left: 20px;padding-bottom: 7px;">Sign Up</legend>
