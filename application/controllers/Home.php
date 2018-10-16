@@ -5,7 +5,7 @@ class Home extends CI_Controller {
 
 	public function index(){
 		$data['navbar']=$this->navbar->index();
-		$data['head']=$this->loadscripts->index().$this->loadscripts->load_main_js();
+		$data['head']=$this->loadscripts->index().$this->loadscripts->load_main_js().$this->loadscripts->load_animeJS();
 		$this->load->model('regions');
 		$data['counties']=$this->regions->get_counties();
 		$this->load->library("emailprepare");
@@ -26,7 +26,13 @@ class Home extends CI_Controller {
 		$data=$this->accounts->login_admin($_POST['userName']);
 		$login=$this->verify_user($data);
 		if(!$login){
-
+			$data=$this->accounts->login_politician($_POST['userName']);
+			$login=$this->verify_user($data);
+			if(!$login){
+				$data=$this->accounts->login_citizen($_POST['userName']);
+				$login=$this->verify_user($data);
+				if(!$login) $this->reject("Username");
+			}
 		}
 	}
 
@@ -48,7 +54,7 @@ class Home extends CI_Controller {
 				if(password_verify($_POST['passWord'],$data->pass)){
 					$this->redirect($data);
 				}else{
-					$this->reject("password");
+					$this->reject("Password");
 				}
 			}else{
 				return false;
