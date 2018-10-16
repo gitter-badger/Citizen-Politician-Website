@@ -6,11 +6,29 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 <html>
 <head>
 	<?php echo $head;?>
+	<style>
+		.carousel-indicators li{
+		    background-color: #33C1FF;
+		}
+		.carousel-indicators .active {
+		    background-color: gray;
+		}
+		.carousel-control-prev-icon {
+		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+		}
+
+		.carousel-control-next-icon {
+		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+		}
+		/*#signUp .modal-content{
+			transform: scale(0);
+		}*/
+	</style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="100">
 <?php echo $navbar;?>
 <div class="row container-fluid" style="background: url(<?php echo base_url();?>resources/background_image_home.JPG) no-repeat top;background-size: cover;background-attachment: fixed;padding: 0px;margin: 0;">
-	<div class="row" id="main" style="background-color: rgba(0,0,0,0.6);height: 80%;margin: 0;">
+	<div class="row" id="main" style="background-color: rgba(0,0,0,0.6);margin: 0;">
 		<div class="col-lg-12" style="height: 100px"></div>
 			<div class="col-lg-7 container">
 				<div id="intro" class="container-fluid" style="margin: 0;word-wrap: break-word;">
@@ -59,8 +77,9 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 									    </div>
 									</div>
 								</div>
-								  	<div class="form-group form-check" style="padding-left: 0px">
+								  	<div class="form-group form-check d-flex justify-content-between" style="padding-left: 0px">
 								    	<a class="text-info" href="" id="safeReset" data-toggle="modal" data-target="#forgotPassword">Forgot Password</a>
+								    	<a class="text-info" href="" data-toggle="modal" data-target="#signUp">Create an Account</a>
 								  	</div>
 								  <button type="submit" class="btn btn-info">Submit</button>
 							</form>
@@ -71,135 +90,179 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 	</div>
 </div>
 
-<div class="modal" id="forgotPassword">
-		<div class="modal-dialog">
-		  	<div class="modal-content">
-		      	<div class="modal-header">
-				  	<h4 class="modal-title">Change Password</h4>
-				  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+<div class="modal fade" id="forgotPassword">
+	<div class="modal-dialog">
+	  	<div class="modal-content">
+	      	<div class="modal-header">
+			  	<h4 class="modal-title">Change Password</h4>
+			  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+		  	</div>
+		  	<form method="post" enctype="multipart/form-data" action="<?php echo base_url()?>home/reset_password.html">
+		      	<div class="modal-body">
+		      		For your password to be reset, you have to provide your working email or username and a reset url will be sent to your email.
+			        <input class="form-control" type="text" name="email" placeholder="Username or Email" required="">
 			  	</div>
-			  	<form method="post" enctype="multipart/form-data" action="<?php echo base_url()?>home/reset_password.html">
-			      	<div class="modal-body">
-			      		For your password to be reset, you have to provide your working email or username and a reset url will be sent to your email.
-				        <input class="form-control" type="text" name="email" placeholder="Username or Email" required="">
-				  	</div>
-				    <div class="modal-footer">
-				    	<button type="submit" class="btn btn-info">Send Email</button>
-				    </div>
-			    </form>
-		    </div>
-		</div>
+			    <div class="modal-footer">
+			    	<button type="submit" class="btn btn-info">Send Email</button>
+			    </div>
+		    </form>
+	    </div>
+	</div>
 </div>
 
-<div class="container-fluid d-flex justify-content-center" id="signUp" style="background-color: transparent;padding: 0px;">
-	<form style="padding-top: 0.5px;width: 100%;" method="post" enctype="multipart/form-data">
-		<fieldset style="border-radius: 10px;background-image: linear-gradient(-270deg,whitesmoke 10%,ghostwhite 90%);">
-			<legend class="text-light bg-info" style="width: 100%;padding: 5px;padding-left: 20px;padding-bottom: 7px;">Sign Up</legend>
-			<div class="row" style="padding: 25px;box-sizing: border-box;width: 100%;">
-				<div class="col-lg-6">
-					<div class="form-group">
-						<div class="input-group mb-3">
-							<input type="text" class="form-control" name="user" id="user" placeholder="Username" required="">
-						    <div class="input-group-append">
-						      	<span class="input-group-text fa" id="1"></span>
-						    </div>
-						</div>
-					</div>
-					<div id="userError"></div>
-					<div class="form-group">
-						<div class="input-group mb-3">
-							<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="">
-						    <div class="input-group-append">
-						      	<span class="input-group-text fa" id="2"></span>
-						    </div>
-						</div>
-					</div>
-					<div id="emailError"></div>
-					<div class="form-group">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-						      	<span class="input-group-text">+254</span>
-						    </div>
-							<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required="">
-						    <div class="input-group-append">
-						      	<span class="input-group-text fa" id="3"></span>
-						    </div>
-						</div>
-					</div>
-					<div id="phoneError"></div>
-					<div class="form-group">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-						      	<span class="input-group-text" id="showSecret" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
-						    </div>
-							<input type="password" class="form-control" name="secret" id="secret" placeholder="Password" required="">
-						    <div class="input-group-append">
-						      	<span class="input-group-text fa" id="4"></span>
-						    </div>
-						</div>
-					</div>
-					<div id="secretError"></div>
-					<div class="form-group">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-						      	<span class="input-group-text" id="showSecretRe" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
-						    </div>
-							<input type="password" class="form-control" name="secretRe" id="secretRe" placeholder="Repeat Password" required="">
-						    <div class="input-group-append">
-						      	<span class="input-group-text fa" id="5"></span>
-						    </div>
-						</div>
-					</div>
-					<div id="secretReError"></div>
-				</div>
-				<div class="col-lg-6">
-					<div class="form-group">
-						<div class="custom-file">
-							<input type="file" accept="image/png,image/jpeg" class="custom-file-input border" name="photo" id="photo" style="cursor: pointer;">
-							<label for="photo" class="custom-file-label" id="labelPhoto">Profile Photo <span class="text-secondary">(Optional): </span></label>
-						</div>
-					</div>
-					<div class="form-group mb-2">
-						<label for="counties"> County:</label>
-						<select class="custom-select mb-3" name="counties" id="counties" style="cursor: pointer;" required="">
-							<?php
-								foreach ($counties as $county) {
-									echo "<option id=$county->CountyID>$county->County</option>";
-								}
-							?>
-						</select>
-						<div class="row">
-							<div class="col">
-								<label>Gender: </label>
-								<div class="custom-control custom-radio">
-								    <input type="radio" class="custom-control-input" id="male" name="gender" value="male" required="">
-								    <label class="custom-control-label" for="male">Male</label>
-								</div>
-								<div class="custom-control custom-radio">
-									<input type="radio" class="custom-control-input" id="female" name="gender" value="female" required="">
-								    <label class="custom-control-label" for="female">Female</label>
-								</div>
-							</div>
-							<div class="col">
-								<label>Account type: </label>
-								<div class="custom-control custom-radio">
-								    <input type="radio" class="custom-control-input" id="citizen" name="type" value="citizen" required="">
-								    <label class="custom-control-label" for="citizen">Citizen</label>
-								</div>
-								<div class="custom-control custom-radio">
-									<input type="radio" class="custom-control-input" id="politician" name="type" value="politician" required="">
-								    <label class="custom-control-label" for="politician">Politician</label>
-								</div>
-							</div>
-						</div>
-					</div><br>
-					<div class="form-group mb-3">
-						<button type="submit" class="btn btn-info">Submit</button>
-					</div>
-				</div>
+<div class="modal" id="signUp">
+	<div class="modal-dialog" style="min-width: 70%;">
+		<div class="modal-content" style="background-image: linear-gradient(-270deg,whitesmoke 10%,ghostwhite 90%);">
+			<div class="text-light bg-info modal-header">
+				<div class="modal-title" style="font-size: 18px;">Sign Up</div>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-		</fieldset>
-	</form>
+			<form style="width: 100%;" method="post" enctype="multipart/form-data">
+				<div class="row modal-body" style="padding: 25px;box-sizing: border-box;width: 100%;">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" name="user" id="user" placeholder="Username" required="">
+							    <div class="input-group-append">
+							      	<span class="input-group-text fa" id="1"></span>
+							    </div>
+							</div>
+						</div>
+						<div id="userError"></div>
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="">
+							    <div class="input-group-append">
+							      	<span class="input-group-text fa" id="2"></span>
+							    </div>
+							</div>
+						</div>
+						<div id="emailError"></div>
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+							      	<span class="input-group-text">+254</span>
+							    </div>
+								<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required="">
+							    <div class="input-group-append">
+							      	<span class="input-group-text fa" id="3"></span>
+							    </div>
+							</div>
+						</div>
+						<div id="phoneError"></div>
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+							      	<span class="input-group-text" id="showSecret" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+							    </div>
+								<input type="password" class="form-control" name="secret" id="secret" placeholder="Password" required="">
+							    <div class="input-group-append">
+							      	<span class="input-group-text fa" id="4"></span>
+							    </div>
+							</div>
+						</div>
+						<div id="secretError"></div>
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+							      	<span class="input-group-text" id="showSecretRe" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+							    </div>
+								<input type="password" class="form-control" name="secretRe" id="secretRe" placeholder="Repeat Password" required="">
+							    <div class="input-group-append">
+							      	<span class="input-group-text fa" id="5"></span>
+							    </div>
+							</div>
+						</div>
+						<div id="secretReError"></div>
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<div class="custom-file">
+								<input type="file" accept="image/png,image/jpeg" class="custom-file-input border" name="photo" id="photo" style="cursor: pointer;">
+								<label for="photo" class="custom-file-label" id="labelPhoto">Profile Photo <span class="text-secondary">(Optional): </span></label>
+							</div>
+						</div>
+						<div class="form-group mb-2">
+							<label for="counties"> County:</label>
+							<select class="custom-select mb-3" name="counties" id="counties" style="cursor: pointer;" required="">
+								<?php
+									foreach ($counties as $county) {
+										echo "<option id=$county->CountyID>$county->County</option>";
+									}
+								?>
+							</select>
+							<div class="row">
+								<div class="col">
+									<label>Gender: </label>
+									<div class="custom-control custom-radio">
+									    <input type="radio" class="custom-control-input" id="male" name="gender" value="male" required="">
+									    <label class="custom-control-label" for="male">Male</label>
+									</div>
+									<div class="custom-control custom-radio">
+										<input type="radio" class="custom-control-input" id="female" name="gender" value="female" required="">
+									    <label class="custom-control-label" for="female">Female</label>
+									</div>
+								</div>
+								<div class="col">
+									<label>Account type: </label>
+									<div class="custom-control custom-radio">
+									    <input type="radio" class="custom-control-input" id="citizen" name="type" value="citizen" required="">
+									    <label class="custom-control-label" for="citizen">Citizen</label>
+									</div>
+									<div class="custom-control custom-radio">
+										<input type="radio" class="custom-control-input" id="politician" name="type" value="politician" required="">
+									    <label class="custom-control-label" for="politician">Politician</label>
+									</div>
+								</div>
+							</div>
+						</div><br>
+					</div>
+				</div>
+				<div class="form-group mb-3 modal-footer">
+					<button type="submit" class="close">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid p-0 text-center" style="padding-top: 20px !important;">
+	<div class="carousel slide" id="carousel" data-ride="carousel">
+		<ul class="carousel-indicators">
+		    <li data-target="#carousel" data-slide-to="0" class="active"></li>
+		    <li data-target="#carousel" data-slide-to="1"></li>
+		    <li data-target="#carousel" data-slide-to="2"></li>
+		    <li data-target="#carousel" data-slide-to="3"></li>
+		</ul>
+		<div class="carousel-inner">
+	    	<div class="carousel-item active">
+	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/communication.jpg')?>" alt="Communication">
+			    <h3>Communication</h3>
+			    <p>Get recent communications from the politicians themselves.</p><br>
+	    	</div>
+	    	<div class="carousel-item">
+	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/socialize.jpg')?>" alt="Socialize">
+	    		<h3>Socialize</h3>
+			    <p>Post comments and get to know what others think.</p><br>
+	    	</div>
+	    	<div class="carousel-item">
+	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/contact.jpg')?>" alt="Contact">
+	    		<h3>Contact</h3>
+			    <p>Get in touch with all the politicians around the country.</p><br>
+	    	</div>
+	    	<div class="carousel-item">
+	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/analyze.jpg')?>" alt="Analyze">
+	    		<h3>Analyze</h3>
+			    <p>Be part of the team that analyzes the success of the leaders in their terms of office.</p><br>
+	    	</div>
+		</div>
+		<a class="carousel-control-prev" href="#carousel" data-slide="prev">
+	    	<span class="carousel-control-prev-icon"></span>
+		</a>
+	  	<a class="carousel-control-next" href="#carousel" data-slide="next">
+	    	<span class="carousel-control-next-icon"></span>
+	  	</a>
+	</div>
 </div>
 
 <script>
@@ -217,6 +280,9 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 			}
 		}
 	}
+	$("#signUp").on("hide.bs.modal",event=>{
+		anime({targets: '.modal-content',scale: {value: 0, duration:1000}})
+	})
 	setInterval(fade,0)
 </script>
 </body>
