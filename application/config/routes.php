@@ -55,3 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 $route['news_feed']= 'stories';
 $route['news_feed/check']= 'stories/checkpolitician';
 $route["reset_user_password/(:any)/(:any)"]= "passwordreset/index/$1/$2";
+$route["start_poll"]="polls";
