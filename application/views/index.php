@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<?php echo $head;?>
 </head>
-<body  style="min-width:1200px;">
+<body  style="min-width:1200px;overflow: hidden;">
 	<script>
 		var screenWidth=screen.width,screenHeight=screen.height
 		if(screenWidth<576||screenHeight<576){
