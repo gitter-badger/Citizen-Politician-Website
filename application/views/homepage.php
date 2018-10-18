@@ -20,16 +20,13 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		.carousel-control-next-icon {
 		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 		}
-		/*#signUp .modal-content{
-			transform: scale(0);
-		}*/
 	</style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="100">
 <?php echo $navbar;?>
-<div class="row container-fluid" style="background: url(<?php echo base_url();?>resources/background_image_home.JPG) no-repeat top;background-size: cover;background-attachment: fixed;padding: 0px;margin: 0;">
+<div class="row container-fluid" style="background: url(<?php echo base_url();?>resources/background_image_home.JPG) no-repeat top;background-size: cover;background-attachment: fixed;padding: 0px;margin: 0;position: relative;margin-top: -34px;height: 100%">
 	<div class="row" id="main" style="background-color: rgba(0,0,0,0.6);margin: 0;">
-		<div class="col-lg-12" style="height: 100px"></div>
+		<div class="col-lg-12 text-center"></div>
 			<div class="col-lg-7 container">
 				<div id="intro" class="container-fluid" style="margin: 0;word-wrap: break-word;">
 				  	<div class="jumbotron" style="background-color: rgba(0,0,0,0.2);padding-top: 20px;padding-bottom: 10px;">
@@ -110,7 +107,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 	</div>
 </div>
 
-<div class="modal" id="signUp">
+<div class="modal fade" id="signUp">
 	<div class="modal-dialog" style="min-width: 70%;">
 		<div class="modal-content" style="background-image: linear-gradient(-270deg,whitesmoke 10%,ghostwhite 90%);">
 			<div class="text-light bg-info modal-header">
@@ -226,42 +223,45 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 	</div>
 </div>
 
-<div class="container-fluid p-0 text-center" style="padding-top: 20px !important;">
-	<div class="carousel slide" id="carousel" data-ride="carousel">
-		<ul class="carousel-indicators">
-		    <li data-target="#carousel" data-slide-to="0" class="active"></li>
-		    <li data-target="#carousel" data-slide-to="1"></li>
-		    <li data-target="#carousel" data-slide-to="2"></li>
-		    <li data-target="#carousel" data-slide-to="3"></li>
-		</ul>
-		<div class="carousel-inner">
-	    	<div class="carousel-item active">
-	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/communication.jpg')?>" alt="Communication">
-			    <h3>Communication</h3>
-			    <p>Get recent communications from the politicians themselves.</p><br>
-	    	</div>
-	    	<div class="carousel-item">
-	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/socialize.jpg')?>" alt="Socialize">
-	    		<h3>Socialize</h3>
-			    <p>Post comments and get to know what others think.</p><br>
-	    	</div>
-	    	<div class="carousel-item">
-	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/contact.jpg')?>" alt="Contact">
-	    		<h3>Contact</h3>
-			    <p>Get in touch with all the politicians around the country.</p><br>
-	    	</div>
-	    	<div class="carousel-item">
-	    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/analyze.jpg')?>" alt="Analyze">
-	    		<h3>Analyze</h3>
-			    <p>Be part of the team that analyzes the success of the leaders in their terms of office.</p><br>
-	    	</div>
+<div class="container-fluid p-0" id="contacts">
+	<div class="bg-info d-flex p-3 text-light">Contact Us</div>
+	<div class="container p-0 text-center" style="padding-top: 20px !important;">
+		<div class="carousel slide" id="carousel" data-ride="carousel">
+			<ul class="carousel-indicators">
+			    <li data-target="#carousel" data-slide-to="0" class="active"></li>
+			    <li data-target="#carousel" data-slide-to="1"></li>
+			    <li data-target="#carousel" data-slide-to="2"></li>
+			    <li data-target="#carousel" data-slide-to="3"></li>
+			</ul>
+			<div class="carousel-inner">
+		    	<div class="carousel-item active">
+		    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/communication.jpg')?>" alt="Communication">
+				    <h3>Communication</h3>
+				    <p>Get recent communications from the politicians themselves.</p><br>
+		    	</div>
+		    	<div class="carousel-item">
+		    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/socialize.jpg')?>" alt="Socialize">
+		    		<h3>Socialize</h3>
+				    <p>Post comments and get to know what others think.</p><br>
+		    	</div>
+		    	<div class="carousel-item">
+		    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/contact.jpg')?>" alt="Contact">
+		    		<h3>Contact</h3>
+				    <p>Get in touch with all the politicians around the country.</p><br>
+		    	</div>
+		    	<div class="carousel-item">
+		    		<img class="rounded-circle" width="130px" height="130px" style="width: 130px;height: 130px" src="<?php echo base_url('resources/analyze.jpg')?>" alt="Analyze">
+		    		<h3>Analyze</h3>
+				    <p>Be part of the team that analyzes the success of the leaders in their terms of office.</p><br>
+		    	</div>
+			</div>
+			<a class="carousel-control-prev" href="#carousel" data-slide="prev">
+		    	<span class="carousel-control-prev-icon"></span>
+			</a>
+		  	<a class="carousel-control-next" href="#carousel" data-slide="next">
+		    	<span class="carousel-control-next-icon"></span>
+		  	</a>
 		</div>
-		<a class="carousel-control-prev" href="#carousel" data-slide="prev">
-	    	<span class="carousel-control-prev-icon"></span>
-		</a>
-	  	<a class="carousel-control-next" href="#carousel" data-slide="next">
-	    	<span class="carousel-control-next-icon"></span>
-	  	</a>
 	</div>
 </div>
 
@@ -280,9 +280,6 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 			}
 		}
 	}
-	$("#signUp").on("hide.bs.modal",event=>{
-		anime({targets: '.modal-content',scale: {value: 0, duration:1000}})
-	})
 	setInterval(fade,0)
 </script>
 </body>
