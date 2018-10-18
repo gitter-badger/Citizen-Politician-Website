@@ -18,11 +18,36 @@ class NewsFeed extends CI_Model {
 		return $news;
 	}
 
+	public function get_search_news($data,$news_item){
+		$news="<table class='table container table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>Searched $news_item</td></tr></thead>";
+		foreach ($this->get_search_news_db($data,$news_item) as $value) {
+			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value->type,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div></div></div></div></td></tr>";
+		}
+		$news.="</table>";
+		return $news;
+	}
+
+	private function get_search_news_db($data,$news_item){
+		$get_news=$this->db->query("select ".strtolower($news_item).".*,ifnull(citizen_profile.photo,'isNull') as citiphoto,ifnull(politician_profile.photo,'isNull') as poliphoto from ".strtolower($news_item)." left join citizen_profile on commentor=citizen_profile.UserName left join politician_profile on commentor=politician_profile.userName where state!=0 and reply=0 and (comment like ? or commentor like ? or referring like ? or time like ?) order by ".strtolower($news_item).".commentID desc",array($data,$data,$data,$data))->result();
+		foreach ($get_news as $value) {
+			if($value->poliphoto==="isNull"&&$value->citiphoto==="isNull"){
+				$value->citiphoto=base_url()."resources/anonymous.png";
+			}elseif($value->citiphoto==="isNull"){
+				$value->citiphoto=$value->poliphoto;
+			}
+			if(stripos($value->citiphoto,"https")===false){
+				$value->citiphoto=base_url()."resources/$value->citiphoto";
+
+			}
+		}
+		return $get_news;
+	}
+
 	private function get_news($news_item){
 		$news="";
 		$news.="<table class='table table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>All $news_item</td></tr></thead>";
 		foreach ($this->get_news_from_db($news_item) as $value) {
-			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value->type,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></div></td></tr>";
+			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value->type,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></div></td></tr>";
 		}
 		$news.="</table>";
 		return $news;
@@ -59,19 +84,19 @@ class NewsFeed extends CI_Model {
 				$url=$value['secure_url'];
 				if($counter===0){
 					$counter++;
-					array_push($return,"<div class='carousel-item active'><img width='100%' height='250px' style='width: 100%;height: 250px' src='$url' alt='$db->commentor'></div>");
+					array_push($return,"<div class='carousel-item active'><img width='100%' height='300px' style='width: 100%;height: 300px' src='$url' alt='$db->commentor'></div>");
 					continue;
 				}
-				array_push($return,"<div class='carousel-item'><img width='100%' height='250px' style='width: 100%;height: 250px' src='$url' alt='$db->commentor'></div>");
+				array_push($return,"<div class='carousel-item'><img width='100%' height='300px' style='width: 100%;height: 300px' src='$url' alt='$db->commentor'></div>");
 			}
 			foreach ($videos['resources'] as $value) {
 				$url=$value['secure_url'];
 				if($counter===0){
 					$counter++;
-					array_push($return,"<video class='carousel-item active' width='100%' height='250px' style='width: 100%;height: 250px;background-color: rgba(0,0,0,0.9) !important;' src='$url' controls='' controlsList='nodownload nofullscreen'>$db->commentor</video>");
+					array_push($return,"<video class='carousel-item active' width='100%' height='300px' style='width: 100%;height: 300px;background-color: rgba(0,0,0,0.9) !important;' src='$url' controls='' controlsList='nodownload nofullscreen'>$db->commentor</video>");
 					continue;
 				}
-				array_push($return,"<video class='carousel-item' width='100%' height='250px' style='width: 100%;height: 250px;background-color: rgba(0,0,0,0.9) !important;' src='$url' controls='' controlsList='nodownload nofullscreen'>$db->commentor</video>");
+				array_push($return,"<video class='carousel-item' width='100%' height='300px' style='width: 100%;height: 300px;background-color: rgba(0,0,0,0.9) !important;' src='$url' controls='' controlsList='nodownload nofullscreen'>$db->commentor</video>");
 			}
 			array_push($return,"</div><a class='carousel-control-prev' href='#carousel_".$type."_".$db->commentID."' data-slide='prev'><span class='carousel-control-prev-icon'></span></a><a class='carousel-control-next' href='#carousel_".$type."_".$db->commentID."' data-slide='next'><span class='carousel-control-next-icon'></span></a></div>");
 			return implode($return);
