@@ -12,7 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container-fluid" style="position: relative;top: 65px;">
 	<div class="row mb-3">
 		<div class="col-md-3 mb-3">
-			<form>
+			<form id="search">
+				<div id="search_errors"></div>
 				<div class="input-group">
 					<input class="form-control" type="text" name="search" placeholder="Search for something . . . " required="">
 					<div class="input-group-append">
@@ -20,6 +21,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</div>
 			</form>
+			<script>
+				$("#search").submit(event=>{
+					event.preventDefault()
+					var word=$("input[name='search']").val().trim()
+					if(word.match(/[a-z]|[0-9]|[ .:_-]/i)===null){
+						$("#search_errors").addClass("alert").addClass("alert-warning").text("Your search string contains unwanted characters.")
+						return;
+					}
+					if(word.match(/[a-z]|[0-9]|[ .:_-]/ig).length!==word.length){
+						$("#search_errors").addClass("alert").addClass("alert-warning").text("Your search string contains unwanted characters.")
+						return;
+					}
+					location.assign("<?php echo base_url()?>"+"search/"+word.split(' ').join('-')+".html")
+				})
+			</script>
 		</div>
 		<div class="col-md-6 text-center text-info">
 			<legend>News_Feed</legend>
