@@ -56,3 +56,7 @@ $route['news_feed']= 'stories';
 $route['news_feed/check']= 'stories/checkpolitician';
 $route["reset_user_password/(:any)/(:any)"]= "passwordreset/index/$1/$2";
 $route["start_poll"]="polls";
+$route["search/(:any)"]="search/index/$1";
+$route["profile/(:any)"]="profile/index/$1";
+
+
