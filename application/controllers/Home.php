@@ -5,7 +5,7 @@ class Home extends CI_Controller {
 
 	public function index(){
 		$data['navbar']=$this->navbar->index();
-		$data['head']=$this->loadscripts->index().$this->loadscripts->load_main_js().$this->loadscripts->load_animeJS();
+		$data['head']=$this->loadscripts->index().$this->loadscripts->load_main_js();
 		$this->load->model('regions');
 		$data['counties']=$this->regions->get_counties();
 		$this->load->library("emailprepare");
