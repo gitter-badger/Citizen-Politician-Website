@@ -27,6 +27,22 @@ class NewsFeed extends CI_Model {
 		return $news;
 	}
 
+	public function get_specific_news($news_item,$user){
+		$get_news=$this->db->query("select ".strtolower($news_item).".*,ifnull(citizen_profile.photo,'isNull') as citiphoto,ifnull(politician_profile.photo,'isNull') as poliphoto from ".strtolower($news_item)." left join citizen_profile on commentor=citizen_profile.UserName left join politician_profile on commentor=politician_profile.userName where state!=0 and reply=0 and commentor=? order by ".strtolower($news_item).".commentID desc",$user)->result();
+		foreach ($get_news as $value) {
+			if($value->poliphoto==="isNull"&&$value->citiphoto==="isNull"){
+				$value->citiphoto=base_url()."resources/anonymous.png";
+			}elseif($value->citiphoto==="isNull"){
+				$value->citiphoto=$value->poliphoto;
+			}
+			if(stripos($value->citiphoto,"https")===false){
+				$value->citiphoto=base_url()."resources/$value->citiphoto";
+
+			}
+		}
+		return $get_news;
+	}
+
 	private function get_search_news_db($data,$news_item){
 		$get_news=$this->db->query("select ".strtolower($news_item).".*,ifnull(citizen_profile.photo,'isNull') as citiphoto,ifnull(politician_profile.photo,'isNull') as poliphoto from ".strtolower($news_item)." left join citizen_profile on commentor=citizen_profile.UserName left join politician_profile on commentor=politician_profile.userName where state!=0 and reply=0 and (comment like ? or commentor like ? or referring like ? or time like ?) order by ".strtolower($news_item).".commentID desc",array($data,$data,$data,$data))->result();
 		foreach ($get_news as $value) {
@@ -53,7 +69,7 @@ class NewsFeed extends CI_Model {
 		return $news;
 	}
 
-	private function get_carousel($db,$type){
+	protected function get_carousel($db,$type){
 		$return=array();
 		if(null!==$this->session->userdata("usertype")){
 			if($type==="Comments"){
@@ -62,7 +78,7 @@ class NewsFeed extends CI_Model {
 			$api = new \Cloudinary\Api();
 			$images=$api->resources(array("type" => "upload", "prefix" => $db->evidence));
 			$videos=$api->resources(array("resource_type"=>"video","type" => "upload", "prefix" => $db->evidence));
-			array_push($return,"<div id='carousel_".$type."_".$db->commentID."' class='carousel slide mb-3' data-ride='carousel'><ul class='carousel-indicators'>");
+			array_push($return,"<div id='carousel_".$type."_".$db->commentID."' class='carousel slide mb-3' data-interval='false' data-ride='carousel'><ul class='carousel-indicators'>");
 			$counter=0;
 			foreach ($images['resources'] as $value) {
 				if($counter===0){
@@ -104,7 +120,7 @@ class NewsFeed extends CI_Model {
 		redirect(base_url("home.html"),"location");
 	}
 
-	private function get_likes($type,$news_item){
+	protected function get_likes($type,$news_item){
 		if(null!==$this->session->userdata("username")){
 			if($this->session->userdata("usertype")==="admin"||$this->session->userdata("usertype")==="politician"){
 				if($this->session->userdata("usertype")==="admin"){
@@ -127,7 +143,7 @@ class NewsFeed extends CI_Model {
 		redirect(base_url()."home.html","location");
 	}
 
-	private function get_verify($verified,$news_item){
+	protected function get_verify($verified,$news_item){
 		if(null!==$this->session->userdata("username")){
 			if($this->session->userdata("usertype")==="citizen"||$this->session->userdata("usertype")==="politician"){
 				return ($verified==='1'&&$news_item!=="Comments")? "<span class='row ml-3'><span class='col mr-4'><a class='text-success fas fa-check'> Verified</a></span></span>":"";
@@ -138,7 +154,7 @@ class NewsFeed extends CI_Model {
 		redirect(base_url("home.html"),"location");
 	}
 
-	private function get_replies($news_item,$id){
+	protected function get_replies($news_item,$id){
 		$replies=array();
 		foreach ($this->get_replies_from_db($news_item,$id) as $value) {
 			array_push($replies,"<div class='media mt-3 mb-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:45px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Replied on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p>$value->comment</p></div></div>");
@@ -179,7 +195,7 @@ class NewsFeed extends CI_Model {
 		return $get_news;
 	}
 
-	private function get_reply_box(){
+	protected function get_reply_box(){
 		if(null!==$this->session->userdata("username")){
 			if($this->session->userdata("usertype")==="admin"||$this->session->userdata("usertype")==="politician"){
 				return "";
@@ -197,7 +213,7 @@ class NewsFeed extends CI_Model {
 				return "";
 			}else{
 				if(($this->session->userdata("usertype")==="politician"&&$type!=="Comments")||$this->session->userdata("usertype")==="citizen"){
-					return "<hr><form class='mb-4'><div class='form-group mb-0' style='border-radius: 4px !important;box-shadow: 0px 0px 12px rgba(0,0,0,0.5);'><div class='input-group'><div class='input-group-prepend'><div style='border-bottom-left-radius: 0;' class='input-group-text'>@</div></div><input onkeyup='check(this)' placeholder='Target . . . ' required='' style='border-bottom-left-radius: 0;border-bottom-right-radius: 0;' name='target' type='text' class='form-control'><div class='input-group-append'><span style='border-bottom-right-radius: 0;' class='input-group-text fa'></span></div></div><textarea class='form-control' rows='3' style='border-radius: 0;width: 100%;border-top: none;' name='comment' placeholder='Post $type . . . ' required=''></textarea><div class='alert alert-secondary mb-0' style='border-top-left-radius: 0;border-top-right-radius: 0;padding: 0px;'><div class='d-flex justify-content-between align-items-center'><span class='text-muted p-2' style='font-family: Cookie,cursive;'><i class='fa fa-user'></i> Mwananchi</span><button type='submit' class='btn btn-info rounded-0'  style='width: 70px;border-bottom-right-radius: 3px !important;'>Post</button></div></div></div></form><hr><script>function check(event){ var temp=$(event).val().trim();if(temp.length===0){ $(event).parents().find('span.fa').removeClass('fa-check').removeClass('fa-times');return;}$.post('".site_url('news_feed/check')."',{target:temp},data=>{ if(data){ $(event).parents().find('span.fa').removeClass('fa-times').addClass('fa-check').css({color:'limegreen'});}else{ $(event).parents().find('span.fa').removeClass('fa-check').addClass('fa-times').css({color:'indianred'});}},'json')}</script>";
+					return "<hr><form class='mb-4'><div class='form-group mb-0' style='border-radius: 4px !important;box-shadow: 0px 0px 12px rgba(0,0,0,0.5);'><div class='input-group'><div class='input-group-prepend'><div style='border-bottom-left-radius: 0;' class='input-group-text'>@</div></div><input onkeyup='check(this)' placeholder='Target . . . ' required='' style='border-bottom-left-radius: 0;border-bottom-right-radius: 0;' name='target' type='text' class='form-control'><div class='input-group-append'><span style='border-bottom-right-radius: 0;' class='input-group-text fa'></span></div></div><textarea class='form-control' rows='2' style='border-radius: 0;width: 100%;border-top: none;' name='comment' placeholder='Post $type . . . ' required=''></textarea><div class='alert alert-secondary mb-0' style='border-top-left-radius: 0;border-top-right-radius: 0;padding: 0px;'><div class='d-flex justify-content-between align-items-center'><span class='text-muted p-2' style='font-family: Cookie,cursive;'><i class='fa fa-user'></i> Mwananchi</span><button type='submit' class='btn btn-info rounded-0'  style='width: 70px;border-bottom-right-radius: 3px !important;'>Post</button></div></div></div></form><hr><script>function check(event){ var temp=$(event).val().trim();if(temp.length===0){ $(event).parents().find('span.fa').removeClass('fa-check').removeClass('fa-times');return;}$.post('".site_url('news_feed/check')."',{target:temp},data=>{ if(data){ $(event).parents().find('span.fa').removeClass('fa-times').addClass('fa-check').css({color:'limegreen'});}else{ $(event).parents().find('span.fa').removeClass('fa-check').addClass('fa-times').css({color:'indianred'});}},'json')}</script>";
 				}
 			}
 
