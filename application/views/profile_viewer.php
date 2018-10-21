@@ -20,9 +20,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 		}
 		.nav .nav-item .active{
-			background-color: #17a2b8;
-			color: white;
-			border-color: #17a2b8;
+			background-color: whitesmoke;
+			color: gray;
+			border-color: whitesmoke;
+			border-bottom-color: darkgray;
 		}
 		.nav-pills .nav-item .active{
 			background-color: darkgray;
@@ -33,5 +34,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php echo $navbar;?>
+<div class="container-fluid p-0">
+	<?php echo $top?>
+</div>
 </body>
+<script>$("table").DataTable({ordering:false,"info":false,"pageLength":10,"lengthChange":false});</script>
 </html>
