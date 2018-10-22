@@ -43,6 +43,10 @@ class Accounts extends CI_Model {
 	public function check_email_verified($email){
 		return $this->db->query("select emailVerified as verified from politician_profile where email=? union all select verifyEmail as verified from citizen_profile where Email=?",array($email,$email))->row()->verified;
 	}
+
+	public function get_politician_info($politician){
+		return $this->db->query("select * from politician_profile left join politician_politics on politician_profile.userName=politician_politics.userName left join politician_education on politician_profile.userName=politician_education.userName where politician_profile.userName=?",$politician)->row();
+	}
 }
 
 ?>
