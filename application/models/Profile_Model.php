@@ -18,7 +18,24 @@ class Profile_Model extends NewsFeed {
 		$this->load->model("accounts");
 		$data=$this->accounts->get_politician_info($user);
 		if(isset($data)){
-			return "<div><ul class='nav nav-tabs'><li class='nav-item'><a class='nav-link active' href='#basic' data-toggle='tab'>Basic Information</a></li><li class='nav-item'><a class='nav-link' data-toggle='tab'>Political Information</a></li><li class='nav-item'><a class='nav-link' data-toggle='tab'>Educational Background</a></li></ul><div class='tab-content'><div class='tab-pane' id='basic'></div><div></div>";
+			$verified=($data->emailVerified==='1') ? "<a href='mailto: $data->email' class='text-success fas fa-check'> Verified</a>":"";
+			$account=($data->accountVerified==='1') ? "<a class='text-success fas fa-check'> Verified</a>":"<a class='text-danger fas fa-times'> Not Verified</a>";
+			$vying=($data->Vying==='1') ? "Yes":"No";
+			return "<div><ul class='nav nav-tabs'><li class='nav-item'><a class='nav-link active' href='#basic' data-toggle='tab'>Basic Information</a></li><li class='nav-item'><a class='nav-link' data-toggle='tab' href='#political'>Political Information</a></li><li class='nav-item'><a class='nav-link' href='#educational' data-toggle='tab'>Educational Background</a></li></ul>
+				<div class='tab-content mt-3 mb-4'>
+					<div class='tab-pane active' id='basic'>
+						<div class='text-success'>Popularity 40%</div>
+						<div class='text-success'>Efficiancy 52%</div>
+						<div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-user'></i> Username: </b> <span>$data->userName</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-envelope'></i> Email: </b> <span>$data->email <span style='font-size:14px'>$verified</span></span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-transgender'></i> Gender: </b> <span>$data->gender</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px' class='mr-5'><b><i class='fas fa-globe-africa'></i> County: </b> <span>$data->County</span></div><div style='font-size:20px' class='mr-5'><b><i class='fas fa-globe-africa'></i> Constituency: </b> <span>$data->constituency</span></div><div style='font-size:20px'><b><i class='fas fa-globe-africa'></i> Ward: </b> <span>$data->Ward</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-user-clock'></i> Creation Date: </b> <span>".date_format(date_create($data->CreationDate),"F d,Y h:i a")."</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-user-circle'></i> Account: </b> <span style='font-size:14px'>$account</span></div>
+						</div>
+					</div>
+					<div class='tab-pane' id='political'>
+						<div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-user'></i> Full Names: </b> <span>$data->FullNames</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-calendar-alt'></i> Date of Birth: </b> <span>".date_format(date_create($data->DateOfBirth),"F d, Y")."</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='far fa-id-card'></i> Political Seat: </b> <span>$data->PoliticalSeat</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='far fa-clock'></i> Political Years: </b> <span>$data->PoliticalYears</span></div></div><div class='media border p-3 mb-3 bg-light' style='border-color:red !important'><div style='font-size:20px'><b> Participation in next election: </b> <span>$vying</span></div></div>
+					</div>
+					<div class='tab-pane' id='educational'>
+						<div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-user'></i> Full Names: </b> <span>$data->FullNames</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='fas fa-calendar-alt'></i> Date of Birth: </b> <span>".date_format(date_create($data->DateOfBirth),"F d, Y")."</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='far fa-id-card'></i> Political Seat: </b> <span>$data->PoliticalSeat</span></div></div><div class='media border p-3 mb-3'><div style='font-size:20px'><b><i class='far fa-clock'></i> Political Years: </b> <span>$data->PoliticalYears</span></div></div><div class='media border p-3 mb-3 bg-light' style='border-color:red !important'><div style='font-size:20px'><b> Participation in next election: </b> <span>$vying</span></div></div>
+						</div>
+					<div></div>";
 		}
 		return "<div>No data to display</div>";
 	}
