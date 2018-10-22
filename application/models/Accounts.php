@@ -45,7 +45,7 @@ class Accounts extends CI_Model {
 	}
 
 	public function get_politician_info($politician){
-		return $this->db->query("select * from politician_profile left join politician_politics on politician_profile.userName=politician_politics.userName left join politician_education on politician_profile.userName=politician_education.userName where politician_profile.userName=?",$politician)->row();
+		return $this->db->query("select * from politician_profile left join politician_politics on politician_profile.userName=politician_politics.userName left join politician_education on politician_profile.userName=politician_education.userName left join counties on CountyID=countyNo left join constituencies on constituencyID=ConstituencyNo left join wards on wardID=WardNo where politician_profile.userName=?",$politician)->row();
 	}
 }
 
