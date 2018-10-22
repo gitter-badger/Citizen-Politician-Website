@@ -15,7 +15,12 @@ class Profile_Model extends NewsFeed {
 
 	private function get_politician($user){
 		if($this->get_type($user)!=='politician') return "";
-		return "<div class='display-4'>This is a Politician</div>";
+		$this->load->model("accounts");
+		$data=$this->accounts->get_politician_info($user);
+		if(isset($data)){
+			return "<div><ul class='nav nav-tabs'><li class='nav-item'><a class='nav-link active' href='#basic' data-toggle='tab'>Basic Information</a></li><li class='nav-item'><a class='nav-link' data-toggle='tab'>Political Information</a></li><li class='nav-item'><a class='nav-link' data-toggle='tab'>Educational Background</a></li></ul><div class='tab-content'><div class='tab-pane' id='basic'></div><div></div>";
+		}
+		return "<div>No data to display</div>";
 	}
 
 	private function check_usertype($user){
