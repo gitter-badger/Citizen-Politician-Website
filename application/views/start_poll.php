@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container" style="position: relative;top: 60px">
 	<?php echo $this->session->flashdata("log"); ?>
 	<legend class="text-info">Poll Form</legend>
-	<form class="mb-5" method="post" action="" style="border-radius: 5px;box-shadow: 0px 0px 10px rgba(0,0,0,0.5);padding: 10px;">
+	<form class="mb-5" method="post" action="<?php echo site_url('submit_poll')?>" style="border-radius: 5px;box-shadow: 0px 0px 10px rgba(0,0,0,0.5);padding: 10px;">
 		<fieldset style="padding: 30px">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
