@@ -5,6 +5,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html>
 <head>
 	<?php echo $head;?>
+	<style>
+		a{
+			cursor: pointer;
+		}
+	</style>
 </head>
 <body>
 <?php echo $navbar;?>
@@ -13,7 +18,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row mb-3">
 		<div class="col-md-3 mb-3">
 			<form id="search">
-				<div id="search_errors"></div>
 				<div class="input-group">
 					<input class="form-control" type="text" name="search" placeholder="Search for something . . . " required="">
 					<div class="input-group-append">
@@ -62,31 +66,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	        </div><hr><hr>
 	        <?php echo $activity;?>
 		</div>
-		<div class="col-lg-6 mb-5 p-0" style="width: 100%">
+		<div class="col-lg-6 p-0" style="width: 100%">
+			<div id="search_errors"></div>
+			<?php echo $this->session->flashdata('log'); ?>
 			<div>
-				<ul class="nav nav-tabs bg-info d-flex justify-content-between">
-		            <li class="nav-item" style="width: 33%"><a class="nav-link active" style="color: darkslategray;border-radius: 0" data-toggle="tab" href="#Comments">Comments</a></li>
-		            <li class="nav-item" style="width: 34%"><a class="nav-link" style="color: darkslategray;border-radius: 0" data-toggle="tab" href="#Achievements">Achievements</a></li>
-		            <li class="nav-item" style="width: 33%;"><a class="nav-link" style="color: darkslategray;border-radius: 0;w" data-toggle="tab" href="#Critiques">Critiques</a></li>
+				<ul class="nav nav-tabs bg-info nav-justified">
+		            <li class="nav-item"><a class="nav-link active" style="color: darkslategray;border-radius: 0" data-toggle="tab" href="#Comments">Comments</a></li>
+		            <li class="nav-item"><a class="nav-link" style="color: darkslategray;border-radius: 0" data-toggle="tab" href="#Achievements">Achievements</a></li>
+		            <li class="nav-item"><a class="nav-link" style="color: darkslategray;border-radius: 0;w" data-toggle="tab" href="#Critiques">Critiques</a></li>
 		        </ul>
-		        <div class="tab-content mb-5" style="border: 1px solid rgba(0,0,0,0.1);border-radius: 10px;border-top-left-radius: 0px;border-top-right-radius: 0px;background-color: white">
-	            	<div class="tab-pane container active show mt-3 mb-4" id="Comments">
+		        <div class="tab-content" style="border: 1px solid rgba(0,0,0,0.1);background-color: white">
+	            	<div class="tab-pane container active show mt-3 mb-5" id="Comments">
                 		<?php echo $comments;?>
 					</div>
-					<div class="tab-pane container fade mt-3 mb-4" id="Achievements">
+					<div class="tab-pane container fade mt-3 mb-5" id="Achievements">
 						<?php echo $achievements;?>
 					</div>
-					<div class="tab-pane container fade mt-3 mb-4" id="Critiques">
+					<div class="tab-pane container fade mt-3 mb-5" id="Critiques">
 						<?php echo $critiques;?>
 					</div>
 				</div>
 		    </div>
 		</div>
-		<div class="col-lg-3 mb-5">
+		<div class="col-lg-3 mb-5 mt-3">
 	        <?php echo $potw.$election_date;?>
 		</div>
 	</div>
 </div>
 </body>
-<script>$("table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});</script>
+<script>
+	$("table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});
+	function answerPoll(event){
+		var answer=(event.target.nodeName.toLowerCase().localeCompare('input')===0) ? $(event.currentTarget).val():$(event.currentTarget).children().text();
+		answer=(event.target.nodeName.localeCompare('BUTTON')===0) ? $(event.currentTarget).parent().find('textarea').val():answer
+		if(answer===undefined) return
+		if(answer.length<1) return
+		id=$(event.currentTarget).parent().parent().attr('id').substring($(event.currentTarget).parent().parent().attr('id').lastIndexOf('_')+1)
+		var parent=$(event.currentTarget).parent().parent()
+		parent.fadeOut(()=>{
+			$.post("<?php echo site_url('submit_poll_answer')?>",{pollID:id,answer:answer},data=>{
+				if(data.localeCompare('Failure')===0){
+					$("#search_errors").addClass('alert').addClass('alert-danger').html("Poll not answered. Please try again!");
+					$("#otherpolls").find('.close').trigger('click')
+				}else{
+					data=(data==="") ? "<div class='text-muted'>This poll has been answered</div>":data;
+					parent.html(data)
+					parent.fadeIn()
+				}
+			})
+		})
+	}
+</script>
 </html>
