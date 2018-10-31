@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH."/third_party/Cloudinary/autoload.php";
 require APPPATH."/third_party/Cloudinary/src/Api.php";
+require APPPATH."/third_party/Cloudinary/src/Cloudinary.php";
+require APPPATH."/third_party/Cloudinary/src/Helpers.php";
+require APPPATH."/third_party/Cloudinary/src/Uploader.php";
 class NewsFeed extends CI_Model {
 	public function __construct(){
 		parent::__construct();
@@ -18,10 +21,21 @@ class NewsFeed extends CI_Model {
 		return $news;
 	}
 
+	public function add_comment($table,$comment,$target,$evidence=""){
+		$id=$this->db->query("select max(commentID) as num from $table")->row()->num+1;
+		$target_dir= "mwananchi/".strtolower($table)."/$id/";
+		if($evidence!==""){
+			foreach($_FILES['evidence']['tmp_name'] as $value){
+				\Cloudinary\Uploader::upload($value, array("resource_type" => "auto","folder" => $target_dir));
+			}
+		}
+		return ($evidence==="") ? $this->db->query("insert into $table (commentID,comment,commentor,referring) values (?,?,?,?)",array($id,$comment,$this->session->userdata('username'),$target)):$this->db->query("insert into $table (commentID,comment,commentor,referring,evidence) values (?,?,?,?,?)",array($id,$comment,$this->session->userdata('username'),$target,$target_dir));
+	}
+
 	public function get_search_news($data,$news_item){
 		$news="<table class='table container table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>Searched $news_item</td></tr></thead>";
 		foreach ($this->get_search_news_db($data,$news_item) as $value) {
-			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value->type,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div></div></div></div></td></tr>";
+			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p>".$this->get_like_count($value,$news_item)."<a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div></div></div></div></td></tr>";
 		}
 		$news.="</table>";
 		return $news;
@@ -61,9 +75,9 @@ class NewsFeed extends CI_Model {
 
 	private function get_news($news_item){
 		$news="";
-		$news.="<table class='table table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>All $news_item</td></tr></thead>";
+		$news.="<table class='table table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>All $news_item</td></tr></thead><tr id='loading_".$news_item."'><td><div class='d-flex justify-content-center'><i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i><span class='sr-only'>Loading...</span><div></td></tr><script>$('#loading_".$news_item."').hide()</script>";
 		foreach ($this->get_news_from_db($news_item) as $value) {
-			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value->type,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></div></td></tr>";
+			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p>".$this->get_like_count($value,$news_item)." <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></div></td></tr>";
 		}
 		$news.="</table>";
 		return $news;
@@ -127,20 +141,36 @@ class NewsFeed extends CI_Model {
 					if($news_item!=="Comments"){
 						return "";
 					}
-					if($type==="-1"){
+					if($type->type==="-1"){
 						return "<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a href='' class='text-success' style='cursor:pointer'> Positive</a></span> <span class='col-xs-6 mr-4'><a href='' class='text-danger' style='cursor:pointer'> Negative</a></span></span>";
-					}elseif ($type==="0") {
+					}elseif ($type->type==="0") {
 						return "<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a class='text-danger'> Negative</a></span></span>";
-					}elseif ($type==="1") {
+					}elseif ($type->type==="1") {
 						return "<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a class='text-success'> Positive</a></span></span>";
 					}
 				}
 				return "";
 			}else if($this->session->userdata("usertype")==="citizen"){
-				return " <a href='' class='text-secondary mr-4'><i class='fas fa-share-alt'></i></a> <a href='' class='mr-4 text-info'><i class='fas fa-thumbs-up'></i> </a> <a href='' class='text-danger'><i class='fas fa-thumbs-up' style='transform:rotate(180deg)'></i></a>";
+				return "<a onclick='like(\"$type->commentID\",\"$news_item\",-1)' class='text-secondary mr-4'><i class='fas fa-share-alt'></i></a> <a onclick='like(\"$type->commentID\",\"$news_item\",1)' class='mr-4 text-info'><i class='fas fa-thumbs-up'></i> </a> <a onclick='like(\"$type->commentID\",\"$news_item\",0)' class='text-danger'><i class='fas fa-thumbs-up' style='transform:rotate(180deg)'></i></a>";
 			}
 		}
 		redirect(base_url()."home.html","location");
+	}
+
+	private function get_liked($news_item,$id,$action){
+		if($action==-1) return $this->db->query("select * from analysisdata where type=-1 and analysor=? and analysis=? and parentID=?",array($this->session->userdata('username'),$news_item,$id))->row();
+		return $this->db->query("select * from analysisdata where type!=-1 and analysor=? and analysis=? and parentID=?",array($this->session->userdata('username'),$news_item,$id))->row();
+	}
+
+	protected function get_like_count($value,$news_item){
+		$like_count=$this->db->query("select count(type) as num from analysisdata where analysis=? and parentID=? and (type=1 or type=0)",array($news_item,$value->commentID))->row();
+		$share_count=$this->db->query("select count(type) as num from analysisdata where analysis=? and parentID=? and type=-1",array($news_item,$value->commentID))->row();
+		return "<div class='row d-flex mb-3'><div class='col-sm-6'><i class='fa fa-heart mr-3 text-danger'></i><span class='badge badge-info' id='likes_".$news_item."_$value->commentID'>$like_count->num</span></div><div class='col-sm-6'><i class='fas fa-share mr-3 text-muted'></i><span class='badge badge-info' id='shares_".$news_item."_$value->commentID'>$share_count->num</span></div></div>";
+	}
+
+	public function like($news_item,$parentID,$action){
+		$id=$this->db->query("select max(analysisID) as id from analysisdata")->row()->id+1;
+		return ($this->get_liked($news_item,$parentID,$action)) ? false:$this->db->query("insert into analysisdata(analysisID,analysis,type,parentID,analysor) values (?,?,?,?,?)",array($id,$news_item,$action,$parentID,$this->session->userdata('username')));
 	}
 
 	protected function get_verify($verified,$news_item){
@@ -213,7 +243,8 @@ class NewsFeed extends CI_Model {
 				return "";
 			}else{
 				if(($this->session->userdata("usertype")==="politician"&&$type!=="Comments")||$this->session->userdata("usertype")==="citizen"){
-					return "<hr><form class='mb-4'><div class='form-group mb-0' style='border-radius: 4px !important;box-shadow: 0px 0px 12px rgba(0,0,0,0.5);'><div class='input-group'><div class='input-group-prepend'><div style='border-bottom-left-radius: 0;' class='input-group-text'>@</div></div><input onkeyup='check(this)' placeholder='Target . . . ' required='' style='border-bottom-left-radius: 0;border-bottom-right-radius: 0;' name='target' type='text' class='form-control'><div class='input-group-append'><span style='border-bottom-right-radius: 0;' class='input-group-text fa'></span></div></div><textarea class='form-control' rows='2' style='border-radius: 0;width: 100%;border-top: none;' name='comment' placeholder='Post $type . . . ' required=''></textarea><div class='alert alert-secondary mb-0' style='border-top-left-radius: 0;border-top-right-radius: 0;padding: 0px;'><div class='d-flex justify-content-between align-items-center'><span class='text-muted p-2' style='font-family: Cookie,cursive;'><i class='fa fa-user'></i> Mwananchi</span><button type='submit' class='btn btn-info rounded-0'  style='width: 70px;border-bottom-right-radius: 3px !important;'>Post</button></div></div></div></form><hr><script>function check(event){ var temp=$(event).val().trim();if(temp.length===0){ $(event).parents().find('span.fa').removeClass('fa-check').removeClass('fa-times');return;}$.post('".site_url('news_feed/check')."',{target:temp},data=>{ if(data){ $(event).parents().find('span.fa').removeClass('fa-times').addClass('fa-check').css({color:'limegreen'});}else{ $(event).parents().find('span.fa').removeClass('fa-check').addClass('fa-times').css({color:'indianred'});}},'json')}</script>";
+					$photos=($type==="Comments")?"":"<div class='input-group-append'><span style='border-bottom-left-radius: 0;border-bottom-right-radius: 0;' class='input-group-text'><i class='fas fa-images align-self-center' style='cursor:pointer' onclick='$(this).parent().find(\"input\").trigger(\"click\")'></i><input type='file' name='evidence' multiple='' style='display:none'></span></div>";
+					return "<hr><form enctype='multipart/form-data' onsubmit='event.preventDefault();post_data(\"$type\",event);' class='mb-4'><div class='form-group mb-0' style='border-radius: 4px !important;box-shadow: 0px 0px 12px rgba(0,0,0,0.5);'><div class='input-group'><div class='input-group-prepend'><div style='border-bottom-left-radius: 0;' class='input-group-text'>@</div></div><input onkeyup='check(this)' placeholder='Target . . . ' required='' style='border-bottom-left-radius: 0;border-bottom-right-radius: 0;' name='target' type='text' class='form-control'><div class='input-group-append'><span style='border-bottom-right-radius: 0;' class='input-group-text fa'></span></div>$photos</div><textarea class='form-control' rows='2' style='border-radius: 0;width: 100%;border-top: none;' name='comment' placeholder='Post $type . . . ' required=''></textarea><div class='alert alert-secondary mb-0' style='border-top-left-radius: 0;border-top-right-radius: 0;padding: 0px;'><div class='d-flex justify-content-between align-items-center'><span class='text-muted p-2' style='font-family: Cookie,cursive;'><i class='fa fa-user'></i> Mwananchi</span><button type='submit' class='btn btn-info rounded-0'  style='width: 70px;border-bottom-right-radius: 3px !important;'>Post</button></div></div></div></form><hr><script>function check(event){ var temp=$(event).val().trim();if(temp.length===0){ $(event).parents().find('span.fa').removeClass('fa-check').removeClass('fa-times');return;}$.post('".site_url('news_feed/check')."',{target:temp},data=>{ if(data){ $(event).parent().find('span.fa').removeClass('fa-times').addClass('fa-check').css({color:'limegreen'});}else{ $(event).parent().find('span.fa').removeClass('fa-check').addClass('fa-times').css({color:'indianred'});}},'json')}</script>";
 				}
 			}
 
