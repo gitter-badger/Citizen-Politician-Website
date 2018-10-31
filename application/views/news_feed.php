@@ -6,6 +6,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<?php echo $head;?>
 	<style>
+		.carousel-indicators li{
+		    background-color: #33C1FF;
+		}
+		.carousel-indicators .active {
+		    background-color: gray;
+		}
+		.carousel-control-prev-icon {
+		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+		}
+		.carousel-control-next-icon {
+		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+		}
 		a{
 			cursor: pointer;
 		}
@@ -60,11 +72,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="row d-flex">
 		<div class="col-lg-3 mb-5">
 			<div class="text-center">
-				<a class="text-muted" style="text-decoration: none;" href="">
+				<a class="text-muted" style="text-decoration: none;" href="<?php echo site_url('profile/'.$this->session->userdata('username'));?>">
 	            <img src="<?php echo $this->session->userdata('photo');?>" class="rounded-circle img-thumbnail mb-2 w-50"><br>
 	            <span style="text-transform: capitalize;font-size: 24px;font-weight: bolder;">@ <?php echo $this->session->userdata('username');?></span></a>
 	        </div><hr><hr>
-	        <?php echo $activity;?>
+	        <div id='activity'><?php echo $activity;?></div>
 		</div>
 		<div class="col-lg-6 p-0" style="width: 100%">
 			<div id="search_errors"></div>
@@ -96,6 +108,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </body>
 <script>
 	$("table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});
+	function like(id,analysis,action){
+		$.post("<?php echo site_url('stories/like_function')?>",{analysis:analysis,id:id,action:action},data=>{
+			if(data.localeCompare("Success")===0){
+				if(action===-1){
+					$('#shares_'+analysis+'_'+id).fadeOut(()=>{
+						$('#shares_'+analysis+'_'+id).text(parseInt($('#shares_'+analysis+'_'+id).text())+1).slideDown()
+					})
+					$('#shares').text(parseInt($('#shares').text())+1)
+				}else{
+					$('#likes_'+analysis+'_'+id).fadeOut(()=>{
+						$('#likes_'+analysis+'_'+id).text(parseInt($('#likes_'+analysis+'_'+id).text())+1).slideDown()
+					})
+					$('#likes').text(parseInt($('#likes').text())+1)
+				}
+			}
+		})
+	}
 	function answerPoll(event){
 		var answer=(event.target.nodeName.toLowerCase().localeCompare('input')===0) ? $(event.currentTarget).val():$(event.currentTarget).children().text();
 		answer=(event.target.nodeName.localeCompare('BUTTON')===0) ? $(event.currentTarget).parent().find('textarea').val():answer
@@ -114,6 +143,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					parent.fadeIn()
 				}
 			})
+		})
+	}
+	function post_data(type,event){
+		$(event.target).find('button').addClass('disabled').prop('disabled',true)
+		$('#loading_'+type).fadeIn(700,()=>{
+			var target=$(event.target).find("input[name='target']").val().trim()
+			var comment=$(event.target).find("textarea[name='comment']").val().trim()
+			var evidence=($(event.target).find("input[name='evidence']").val()===undefined) ? "":$(event.target).find("input[name='evidence']").val()
+			if(evidence.length<1){
+				$.post('<?php echo site_url("stories/post")?>',{table:type,target:target,comment:comment,evidence:evidence},data=>{
+					if(data.indexOf("<table class='table table-borderless' style='width:100%'><thead>")!==-1){
+						$('#'+type).html(data)
+						$('#search_errors').removeClass('alert').removeClass('alert-warning').html("")
+						$("#"+type+">table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});
+						$('#posts').text(parseInt($('#posts').text())+1)
+					}else{
+						$('#search_errors').addClass('alert').addClass('alert-warning').html(data)
+						$(event.target).find('button').removeClass('disabled').prop('disabled',false)
+						$('#loading_'+type).fadeOut(700)
+					}
+				})
+				return;
+			}
+			var file_data = $(event.target).find("input[name='evidence']").prop("files");
+			var form = new FormData()
+			for(var i=0;i<file_data.length;i++){
+				form.append("evidence[]",file_data[i])
+			}
+			form.append("table",type)
+			form.append("target",target)
+			form.append("comment",comment)
+			$.ajax({url: '<?php echo site_url("stories/post")?>',data: form,dataType: 'text',contentType: false,processData: false,type: 'POST',success: data=>{
+				if(data.indexOf("<table class='table table-borderless' style='width:100%'><thead>")!==-1){
+					$('#search_errors').removeClass('alert').removeClass('alert-warning').html("")
+					$('#'+type).html(data)
+					$("#"+type+">table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});
+					$('#posts').text(parseInt($('#posts').text())+1)
+				}else{
+					$('#search_errors').addClass('alert').addClass('alert-warning').html(data)
+					$(event.target).find('button').removeClass('disabled').prop('disabled',false)
+					$('#loading_'+type).fadeOut(700)
+				}
+			},error:function(error){
+				$('#search_errors').addClass('alert').addClass('alert-danger').html(error.responseText)
+				$(event.target).find('button').removeClass('disabled').prop('disabled',false)
+				$('#loading_'+type).fadeOut(700)
+			}})
 		})
 	}
 </script>
