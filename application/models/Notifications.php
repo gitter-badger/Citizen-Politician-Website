@@ -14,9 +14,9 @@ class Notifications extends CI_Model {
 		return $this->db->get("notifications",$limit,$offset)->result();
 	}
 
-	public function get_specific($target,$limit,$offset){
-		$data=array($target,$limit,$offset);
-		return $this->db->query("select * from notifications where target=? and isRead=0 order by notificationID desc limit ? offset ?",$data)->result();
+	public function get_specific($target){
+		$data=array($target);
+		return $this->db->query("select * from notifications where target=? and isRead=0 order by notificationID desc",$data)->result();
 	}
 
 	public function get_unread_notifications($target){
