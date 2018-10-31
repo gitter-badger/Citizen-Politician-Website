@@ -8,6 +8,7 @@ $(document).ready(()=>{
 			$(event.data.input).attr("type","password")
 			$(event.data.button).removeClass("bg-info")
 		}
+		$(event.data.input).focus()
 	}
 
 	$("#show").click({button: "#show", input: "#passWord"},showPassword)
