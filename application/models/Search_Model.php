@@ -9,6 +9,9 @@ class Search_Model extends CI_Model {
 		}elseif ($db==="Comments"||$db==="Achievements"||$db==="Critiques") {
 			$this->load->model("newsfeed");
 			return $this->newsfeed->get_search_news($data,$db);
+		}elseif($db==="Polls"){
+			$this->load->model("opinionpolls");
+			return $this->opinionpolls->get_search_polls($data);
 		}
 	}
 
@@ -32,7 +35,12 @@ class Search_Model extends CI_Model {
 	private function get_follow($data){
 		if($this->session->userdata("usertype")===null) redirect(site_url("home"),"location");
 		if($data->type==="politician"&&$this->session->userdata("usertype")==="citizen"){
-			return "<button class='btn btn-info mr-3'>Follow</button>";
+			$this->load->model('activity');
+			if($this->activity->check_follow($data->UserName)<1){
+				return "<button class='btn btn-success mr-3' id='follow_".$data->UserName."' onclick='follow(this)'>Follow</button>";
+			}else{
+				return "<button class='btn btn-info mr-3' id='unfollow_".$data->UserName."' onclick='follow(this)'>Unfollow</button>";
+			}
 		}
 		return "";
 	}
