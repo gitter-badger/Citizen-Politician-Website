@@ -12,11 +12,10 @@ class OpinionPolls extends CI_Model {
 			redirect(base_url("home.html"));
 		}
 		if($this->session->userdata("usertype")==="citizen"){
-			$br=($potw->type==="") ? "<br>":"";
 			if(date("oW",strtotime($potw->time))!==date("oW",strtotime(date("Y-m-d h:i:s")))) {
 				return "<div class='jumbotron'><span class='text-success' style='font-size: 24px'>Poll Of The Week</span><br><p>No Poll This Week</p><a class='text-info' data-toggle='modal' href='#otherpolls'><i class='fas fa-poll'></i> Other Polls.</a></div>".$this->get_other_polls();
 			}else{
-				return "<div class='jumbotron'><span class='text-success' style='font-size: 24px'>Poll Of The Week</span><br><b>$potw->poll</b><span id='potw_$potw->pollID'>$potw->type</span> $br<a class='text-info'data-toggle='modal' href='#otherpolls'><i class='fas fa-poll'></i> Other Polls.</a></div>".$this->get_other_polls($potw->pollID);
+				return "<div class='jumbotron'><span class='text-success' style='font-size: 24px'>Poll Of The Week</span><br><b>$potw->poll</b><br><span id='potw_$potw->pollID'>$potw->type</span> <br><a class='text-info'data-toggle='modal' href='#otherpolls'><i class='fas fa-poll'></i> Other Polls.</a></div>".$this->get_other_polls($potw->pollID);
 			}
 		}
 		return "";
@@ -26,7 +25,7 @@ class OpinionPolls extends CI_Model {
 		$return="<div class='modal fade' id='otherpolls'><div class='modal-dialog' style='min-width:70%;overflow-y: initial !important'><div class='modal-content p-4' ><div class='modal-header'><h4 class='modal-title'>Poll Up</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body p-3' style='height: 500px;overflow-y: auto'>";
 		$data="";
 		foreach ($this->get_other_polls_db($db) as $value) {
-			$data.="<div class='border mb-3 p-3 row'><b class='col-lg-6 mb-3'>$value->poll</b><div class='col-lg-6' id='other_polls_$value->pollID'>".str_replace('margin-left:-1.5em;margin-right:-1.5em','margin-left:0em;margin-right:0em', $value->type)."</div></div>";
+			$data.="<div class='border mb-3 p-3 row'><b class='col-12 mb-3'>$value->poll</b><div class='col-12' id='other_polls_$value->pollID'>".str_replace('margin-left:-1.5em;margin-right:-1.5em','margin-left:0em;margin-right:0em', $value->type)."</div></div>";
 		}
 		return ($data==="") ? "$return No Data to display here</div></div></div></div>":"$return $data </div></div></div></div>";
 	}
@@ -85,7 +84,15 @@ class OpinionPolls extends CI_Model {
 	}
 
 
-
+	public function get_search_polls($data){
+		$db=$this->db->query("select * from opinionpolls where poll like ? or poller like ? or time like ? or type like ?",array($data,$data,$data,$data))->result();
+		$return="<table class='table container table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>Searched Polls</td></tr></thead>";
+		foreach ($db as $value) {
+			$value=$this->modify_type($value);
+			$return.="<tr><td><div class='border mb-3 p-3 row'><b class='col-12 mb-3'>$value->poll</b><div class='col-12' id='other_polls_$value->pollID'>".str_replace('margin-left:-1.5em;margin-right:-1.5em','margin-left:0em;margin-right:0em', $value->type)."</div></div></td></tr>";
+		}
+		return $return."</table>";
+	}
 
 
 
