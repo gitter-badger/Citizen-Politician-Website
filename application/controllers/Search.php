@@ -11,6 +11,7 @@ class Search extends CI_Controller {
 		$data['comments']=$this->search_model->index($item,"Comments");
 		$data['achievements']=$this->search_model->index($item,"Achievements");
 		$data['critiques']=$this->search_model->index($item,"Critiques");
+		$data['polls']=$this->search_model->index($item,"Polls");
 		$this->load->view("search_view",$data);
 	}
 }
