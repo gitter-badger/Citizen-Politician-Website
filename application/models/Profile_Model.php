@@ -91,7 +91,7 @@ class Profile_Model extends NewsFeed {
 			}
 		}
 		foreach ($temp as $value) {
-			$news.="<tr><td><div class='border'>".$this->newsfeed->get_carousel($value,$value->news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->newsfeed->get_likes($value->type,$value->news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->newsfeed->get_verify($value->state,$value->news_item)."</span></p> <a class='text-info' data-toggle='collapse' href='#".$value->news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$value->news_item."_".$value->commentID."' class='collapse container'>".implode($this->newsfeed->get_replies($value->news_item,$value->commentID))."</div>".$this->newsfeed->get_reply_box()."</div></div></div></td></tr>";
+			$news.="<tr><td><div class='border'>".$this->newsfeed->get_carousel($value,$value->news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->newsfeed->get_likes($value,$value->news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->newsfeed->get_verify($value->state,$value->news_item)."</span></p>".$this->newsfeed->get_like_count($value,$value->news_item)."<a class='text-info' data-toggle='collapse' href='#".$value->news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$value->news_item."_".$value->commentID."' class='collapse container'>".implode($this->newsfeed->get_replies($value->news_item,$value->commentID))."</div>".$this->newsfeed->get_reply_box()."</div></div></div></td></tr>";
 		}
 		$news.="</table></div></div>";
 		return $news;
@@ -104,7 +104,12 @@ class Profile_Model extends NewsFeed {
 	private function get_follow($data){
 		if($this->session->userdata("usertype")===null) redirect(site_url("home"),"location");
 		if($data->type==="politician"&&$this->session->userdata("usertype")==="citizen"){
-			return "<button class='btn btn-info mr-3'>Follow</button>";
+			$this->load->model('activity');
+			if($this->activity->check_follow($data->UserName)<1){
+				return "<button class='btn btn-success mr-3' id='follow_".$data->UserName."' onclick='follow(this)'>Follow</button>";
+			}else{
+				return "<button class='btn btn-info mr-3' id='unfollow_".$data->UserName."' onclick='follow(this)'>Unfollow</button>";
+			}
 		}
 		return "";
 	}
