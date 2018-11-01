@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class SendResetEmail extends CI_Model {
+class Sendresetemail extends CI_Model {
 	private $passcode;
 	function __construct(){
 		parent::__construct();
