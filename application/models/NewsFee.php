@@ -5,7 +5,7 @@ require APPPATH."/third_party/Cloudinary/src/Api.php";
 require APPPATH."/third_party/Cloudinary/src/Cloudinary.php";
 require APPPATH."/third_party/Cloudinary/src/Helpers.php";
 require APPPATH."/third_party/Cloudinary/src/Uploader.php";
-class NewsFeed extends CI_Model {
+class Newsfeed extends CI_Model {
 	public function __construct(){
 		parent::__construct();
 		\Cloudinary::config(array( 

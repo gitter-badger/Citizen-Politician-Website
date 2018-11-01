@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class OpinionPolls extends CI_Model {
+class Opinionpolls extends CI_Model {
 	public function index(){
 		return $this->db->query("select * from opinionpolls")->result();
 	}
