@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once (APPPATH."third_party/PHPMailer/PHPMailerAutoload.php");
 class Emailprepare {
 	private $CI;
 	public $mailer;
@@ -56,7 +56,6 @@ class Emailprepare {
 	}
 
 	private function set_preferences(){
-		require_once (APPPATH."third_party/PHPMailer/PHPMailerAutoload.php");
 		$mail = new PHPMailer;
 
 		//$mail->SMTPDebug = 3;
