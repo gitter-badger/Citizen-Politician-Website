@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ElectionDate extends CI_Model {
+class Electiondate extends CI_Model {
 	public function index(){
 		$url="./resources/site_data/ElectionDate.txt";
 		$file=fopen($url,'r');
