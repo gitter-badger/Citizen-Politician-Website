@@ -27,7 +27,8 @@ function cloudinary_autoloader($class_name)
     }
 
     $classes_dir = realpath(__DIR__ . DIRECTORY_SEPARATOR . 'src') . DIRECTORY_SEPARATOR;
-    $class_file = str_replace('_', "/", $class_name) . '.php';
+    $class_file = str_replace('_', DIRECTORY_SEPARATOR, $class_name) . '.php';
+    $class_file = str_replace('\\', DIRECTORY_SEPARATOR, $class_file);
     $ns_prefix = CLOUDINARY_NAMESPACE;
     if (substr($class_file, 0, strlen($ns_prefix)) == $ns_prefix) {
         $class_file = substr($class_file, strlen($ns_prefix)+1);
