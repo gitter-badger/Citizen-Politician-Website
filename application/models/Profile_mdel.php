@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once APPPATH."/models/NewsFeed.php";
 
-class Profile_Model extends NewsFeed {
+class Profile_model extends NewsFeed {
 	public function index($user){
 		$profile_info=$this->get_head($user);
 		$profile_info.="<div class='p-3'><ul class='nav nav-tabs'><li class='nav-item'><a data-toggle='tab' class='active nav-link' href='#news'>News_Feed</a></li>".$this->check_usertype($user)."<li class='nav-item'><a href='#photos' class='nav-link' data-toggle='tab'>Photos</a></li></ul><div class='tab-content mt-3 mb-5'><div class='tab-pane active' id='news'>";
