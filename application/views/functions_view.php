@@ -112,6 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="border p-3 rounded">
 										<div style="font-weight: bold;"><?php echo $role->Roles;?></div>
 										<div class="p-3"><?php echo $role->Explanation;?></div>
+										<button class="btn btn-info mr-4" onclick='edit(this)' id="<?php echo $role->functionID;?>">Edit</button><button class="btn btn-danger" onclick='remove(this)' id="<?php echo $role->functionID;?>">Remove</button>
 									</div>
 								</td>
 							</tr>
@@ -242,6 +243,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       			});
     		}
   		});
+  		function remove(event){
+  			$(event).parent().parent().parent().fadeOut()
+  		}
 	</script>
 </body>
 </html>
