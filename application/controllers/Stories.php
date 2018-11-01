@@ -25,7 +25,11 @@ class Stories extends CI_Controller {
 
 	public function checkPolitician($here=1){
 		if(isset($_POST['target'])){
-			$row=$this->accounts->login_politician($_POST['target']);
+			if($_POST['target']==='anonymous'){
+				if($here===1)  echo 1;
+				return true;
+			}
+			$row=$this->accounts->check_politician($_POST['target']);
 			if($here===1) echo (is_object($row))?1:0;
 			return (is_object($row));
 		}else{
@@ -44,7 +48,7 @@ class Stories extends CI_Controller {
 	public function post(){
 		if(!isset($_POST)) redirect(site_url("news_feed"),"location");
 		if(!$this->checkPolitician(0)){
-			echo "Politician does not exist.";
+			echo "Politician does not exist or is not from your county.";
 			return;
 		}
 		if($_POST['table']!=="Comments"){

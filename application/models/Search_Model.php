@@ -16,7 +16,7 @@ class Search_Model extends CI_Model {
 	}
 
 	private function search_accounts_db($data){
-		return $this->db->query("select UserName,Email,verifyEmail,phone,verifyPhone,gender,type,County,photo from citizen_profile where UserName like ? or Email like ? or Phone like ? or Gender like ? union all select userName,email,emailVerified,phone,phoneVerified,gender,accountType,countyNo,photo from politician_profile where userName like ? or email like ? or phone like ? or gender like ?",array($data,$data,$data,$data,$data,$data,$data,$data))->result();
+		return $this->db->query("select UserName,Email,verifyEmail,phone,verifyPhone,gender,type,County,photo from citizen_profile where (UserName like ? or Email like ? or Phone like ? or Gender like ?) union all select userName,email,emailVerified,phone,phoneVerified,gender,accountType,countyNo,photo from politician_profile where (userName like ? or email like ? or phone like ? or gender like ?) and accountVerified=1",array($data,$data,$data,$data,$data,$data,$data,$data))->result();
 	}
 
 	private function search_accounts($data){
@@ -26,10 +26,15 @@ class Search_Model extends CI_Model {
 				$value->photo=base_url()."resources/$value->photo";
 
 			}
-			$return.="<tr><td><div class='border p-0 rounded'><div class='d-flex align-items-end' style='width: 100%;height: 100px;background-color:rgba(".random_int(0,255).",".random_int(0,255).",".random_int(0,255).",0.3)'><img width='75px' height='75px' class='rounded rounded-0 mr-3' style='width: 75px;height: 75px;background-color: rgba(0,0,0,0.5)' src='$value->photo'><h5>$value->UserName</h5><h5 class='ml-auto'><button class='btn btn-primary mr-3' onclick='location.assign(\"".site_url("profile/".$value->UserName)."\")'>Profile</button>".$this->get_follow($value)."</h5></div><div class='p-2'><span>".$this->activity($value)."</span><br><b>User Type:</b> $value->type<br><b>Email:</b> $value->Email<br><b>Phone Number:</b> $value->phone</div></div></td></tr>";
+			$return.="<tr><td><div class='border p-0 rounded'><div class='d-flex align-items-end' style='width: 100%;height: 100px;background-color:rgba(".random_int(0,255).",".random_int(0,255).",".random_int(0,255).",0.3)'><img width='75px' height='75px' class='rounded rounded-0 mr-3' style='width: 75px;height: 75px;background-color: rgba(0,0,0,0.5)' src='$value->photo'><h5>$value->UserName</h5><h5 class='ml-auto'><button class='btn btn-primary mr-3' onclick='location.assign(\"".site_url("profile/".$value->UserName)."\")'>Profile</button>".$this->get_follow($value)."</h5></div><div class='p-2'><span>".$this->activity($value)."</span>".$this->get_main($value)."<br><b>User Type:</b> $value->type<br><b>Email:</b> $value->Email<br><b>Phone Number:</b> $value->phone</div></div></td></tr>";
 		}
 		$return.="</table>";
 		return $return;
+	}
+
+	private function get_main($value){
+		$this->load->model("main");
+		return ($value->type==='politician') ? "<div style='font-size: 24px;font-family: Cookie,cursive'><div class='text-muted'>Efficiency: ".$this->main->get_efficiency($value->UserName)."%</div><div class='text-muted'>Popularity: ".$this->main->get_popularity($value->UserName)."%</div></div>":"";
 	}
 
 	private function get_follow($data){

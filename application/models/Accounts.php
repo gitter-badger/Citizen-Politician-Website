@@ -14,12 +14,16 @@ class Accounts extends CI_Model {
 		return (is_object($this->login_politician_email($user_name))) ? $this->login_politician_email($user_name) : $this->login_politician_user($user_name);
 	}
 
+	public function check_politician($user_name){
+		return $this->db->query("select * from politician_profile where userName=? and countyNo=? and accountVerified=1",array($user_name,$this->session->userdata('county')))->row();
+	}
+
 	private function login_politician_email($email){
-		return $this->db->query("select userName as username,Password as pass,photo,accountType as usertype from politician_profile where email=?",$email)->row();
+		return $this->db->query("select userName as username,Password as pass,photo,accountType as usertype,countyNo as county from politician_profile where email=? and accountVerified=1",$email)->row();
 	}
 
 	private function login_politician_user($user_name){
-		return $this->db->query("select userName as username,Password as pass,photo,accountType as usertype from politician_profile where userName=?",$user_name)->row();
+		return $this->db->query("select userName as username,Password as pass,photo,accountType as usertype,countyNo as county from politician_profile where userName=? and accountVerified=1",$user_name)->row();
 	}
 
 	public function login_citizen($user_name){
@@ -27,11 +31,11 @@ class Accounts extends CI_Model {
 	}
 
 	private function login_citizen_email($email){
-		return $this->db->query("select UserName as username,Secret as pass,photo,type as usertype from citizen_profile where Email=?",$email)->row();
+		return $this->db->query("select UserName as username,Secret as pass,photo,type as usertype,County as county from citizen_profile where Email=?",$email)->row();
 	}
 
 	private function login_citizen_user($user_name){
-		return $this->db->query("select userName as username,Secret as pass,photo,type as usertype from citizen_profile where UserName=?",$user_name)->row();
+		return $this->db->query("select userName as username,Secret as pass,photo,type as usertype,County as county from citizen_profile where UserName=?",$user_name)->row();
 	}
 
 	public function get_email($username){

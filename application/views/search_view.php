@@ -36,9 +36,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php echo $navbar;?>
-<div class="container-fluid row" style="position: relative;top:70px">
-	<div class="col-lg-9">
-		<h3 class="text-info">Search Results: <small class="text-muted"><?php echo $word;?></small></h3><br>
+<div class="container-fluid row d-flex align-items-center" style="position: relative;top:55px">
+	<h3 class="text-info col-lg-9" style="word-wrap: break-word;">Search Results: <small class="text-muted"><?php echo $word;?></small></h3>
+	<form id="search" class="mt-3 mb-3 container col-lg-3">
+		<div class="input-group">
+			<input class="form-control" type="text" name="search" placeholder="Search for something else. . . " required="">
+			<div class="input-group-append">
+				<button type="submit" class="btn btn-info">Search</button>
+			</div>
+		</div>
+	</form>
+	<script>
+		$("#search").submit(event=>{
+			event.preventDefault()
+			var word=$("input[name='search']").val().trim()
+			if(word.match(/[a-z]|[0-9]|[ .:_-]/i)===null){
+				$("#search_errors").addClass("alert").addClass("alert-warning").text("Your search string contains unwanted characters.")
+				return;
+			}
+			if(word.match(/[a-z]|[0-9]|[ .:_-]/ig).length!==word.length){
+				$("#search_errors").addClass("alert").addClass("alert-warning").text("Your search string contains unwanted characters.")
+				return;
+			}
+			location.assign("<?php echo base_url()?>"+"search/"+word.split(' ').join('-')+".html")
+		})
+	</script>
+</div>
+<div class="container" style="position: relative;top:70px" id="search_errors"></div>
+<div class="container-fluid row" style="position: relative;top:75px">
+	<div class="col-lg-8">
 		<div class="container-fluid p-0">
 			<ul class="nav nav-tabs nav-justified">
 				<li class="nav-item">
@@ -47,9 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			  	<li class="nav-item">
 			    	<a class="nav-link" data-toggle="tab" href="#news">News</a>
 			  	</li>
-			  	<li class="nav-item">
-			    	<a class="nav-link" data-toggle="tab" href="#polls">Polls</a>
-			  	</li>
+			  	<?php
+					if($this->session->userdata('usertype')==='citizen'){
+						echo '<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#polls">Polls</a></li>';
+					}
+				?>
 			  	<li class="nav-item">
 			    	<a class="nav-link" data-toggle="tab" href="#leadership">Leaders</a>
 			  	</li>
@@ -76,19 +104,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</div>
-				<div class="tab-pane" id="polls">
-					<?php echo $polls;?>
-				</div>
+				<?php
+					if($this->session->userdata('usertype')==='citizen'){
+						echo "<div class='tab-pane' id='polls'>$polls</div>";
+					}
+				?>
 				<div class="tab-pane" id="leadership">
 					
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="col-lg-4 mb-5">
+		<div class="text-center">
+			<a class="text-muted" style="text-decoration: none;" href="<?php echo site_url('profile/'.$this->session->userdata('username'));?>">
+            <img src="<?php echo $this->session->userdata('photo');?>" class="rounded-circle img-thumbnail mb-2 w-50"><br>
+            <span style="text-transform: capitalize;font-size: 24px;font-weight: bolder;">@ <?php echo $this->session->userdata('username');?></span></a>
+        </div><hr><hr>
+        <div id='activity'>
+        	<?php 
+        	echo $activity;
+        	echo $potw.$election_date;
+        	?>
+        </div>
+	</div>
 </div>
 </body>
 <script>
-	$("table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});
+	$("table").DataTable({ordering:false,"info":false,"pageLength":10,"lengthChange":false});
 	function like(id,analysis,action){
 		$.post("<?php echo site_url('stories/like_function')?>",{analysis:analysis,id:id,action:action},data=>{
 			if(data.localeCompare("Success")===0){
@@ -183,6 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			if(data.localeCompare('Success')===0){
 				$(event).removeClass('btn-success').addClass('btn-info').text('Unfollow').attr('id','unfollow_'+username[1])
 				$('#followers_'+username[1]).text(parseInt($('#followers_'+username[1]).text())+1)
+				$('#following').text(parseInt($('#following').text())+1)
 			}
 		})
 	}
@@ -191,6 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			if(data.localeCompare('Success')===0){
 				$(event).addClass('btn-success').removeClass('btn-info').text('Follow').attr('id','follow_'+username)
 				$('#followers_'+username).text(parseInt($('#followers_'+username).text())-1)
+				$('#following').text(parseInt($('#following').text())-1)
 			}
 		})
 	}

@@ -22,12 +22,12 @@ class OpinionPolls extends CI_Model {
 	}
 
 	private function get_other_polls($db=-1){
-		$return="<div class='modal fade' id='otherpolls'><div class='modal-dialog' style='min-width:70%;overflow-y: initial !important'><div class='modal-content p-4' ><div class='modal-header'><h4 class='modal-title'>Poll Up</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body p-3' style='height: 500px;overflow-y: auto'>";
+		$return="<div class='modal fade' id='otherpolls'><div class='modal-dialog' style='min-width:70%;overflow-y: initial !important'><div class='modal-content' ><div class='modal-header bg-info text-light'><h4 class='modal-title'>Poll Up</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div><div class='modal-body p-3 bg-light' style='height: 500px;overflow-y: auto;border-bottom-right-radius:5px;border-bottom-left-radius:5px'><div class='container'>";
 		$data="";
 		foreach ($this->get_other_polls_db($db) as $value) {
 			$data.="<div class='border mb-3 p-3 row'><b class='col-12 mb-3'>$value->poll</b><div class='col-12' id='other_polls_$value->pollID'>".str_replace('margin-left:-1.5em;margin-right:-1.5em','margin-left:0em;margin-right:0em', $value->type)."</div></div>";
 		}
-		return ($data==="") ? "$return No Data to display here</div></div></div></div>":"$return $data </div></div></div></div>";
+		return ($data==="") ? "$return No Data to display here</div></div></div></div></div>":"$return $data </div></div></div></div></div>";
 	}
 
 	private function get_other_polls_db($db){

@@ -37,8 +37,9 @@ class Home extends CI_Controller {
 	}
 
 	private function redirect($data){
+		$data->county=($data->usertype==='admin') ? -1:$data->county;
 		$photo=(stripos($data->photo, "https")===false) ? base_url()."resources/$data->photo":$data->photo;
-		$userdata=array('username'=>$data->username,'photo'=>$photo,'usertype'=>$data->usertype);
+		$userdata=array('username'=>$data->username,'photo'=>$photo,'usertype'=>$data->usertype,'county'=>$data->county);
 		$this->session->set_userdata($userdata);
 		redirect(base_url()."news_feed.html","location");
 	}

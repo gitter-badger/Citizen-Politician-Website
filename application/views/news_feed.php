@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 </body>
 <script>
-	$("table").DataTable({ordering:false,"info":false,"pageLength":25,"lengthChange":false});
+	$("table").DataTable({ordering:false,"info":false,"pageLength":10,"lengthChange":false});
 	function like(id,analysis,action){
 		$.post("<?php echo site_url('stories/like_function')?>",{analysis:analysis,id:id,action:action},data=>{
 			if(data.localeCompare("Success")===0){
