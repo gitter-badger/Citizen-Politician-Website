@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class PasswordReset extends CI_Controller{
+class Passwordreset extends CI_Controller{
 
 	public function index($email,$passcode){
 		$this->load->model("sendresetemail");
