@@ -51,6 +51,30 @@ class Accounts extends CI_Model {
 	public function get_politician_info($politician){
 		return $this->db->query("select * from politician_profile left join politician_politics on politician_profile.userName=politician_politics.userName left join politician_education on politician_profile.userName=politician_education.userName left join counties on CountyID=countyNo left join constituencies on constituencyID=ConstituencyNo left join wards on wardID=WardNo where politician_profile.userName=?",$politician)->row();
 	}
+
+	public function check_verified($politician){
+		return ($this->db->query("select userName as username,Password as pass,photo,accountType as usertype,countyNo as county from politician_profile where email=?",$politician)->row()===null)?$this->db->query("select userName as username,Password as pass,photo,accountType as usertype,countyNo as county from politician_profile where userName=?",$politician)->row():$this->db->query("select userName as username,Password as pass,photo,accountType as usertype,countyNo as county from politician_profile where email=?",$politician)->row();
+	}
+
+	public function check_name($username){
+		return $this->db->query("select adminUserName from admin_profile where adminUserName=? union all select UserName from citizen_profile where UserName=? union all select userName from politician_profile where userName=?",array($username,$username,$username))->row();
+	}
+
+	public function add_admin($username,$password,$gender){
+		$photo=(strtolower($gender)==='male') ? "user.png":"userFemale.png";
+		return $this->db->query("insert into admin_profile(adminUserName,adminPassword,userGender,photo) values (?,?,?,?)",array($username,password_hash($password,PASSWORD_DEFAULT),$gender,$photo));
+	}
+
+	public function get_accounts(){
+		$return=$this->db->query("select UserName,gender,type,photo from citizen_profile union all select username,gender,accountType,photo from politician_profile where accountVerified=1")->result();
+		foreach ($return as $value) {
+			if(stripos($value->photo,"https")===false){
+				$value->photo=base_url()."resources/$value->photo";
+
+			}
+		}
+		return $return;
+	}
 }
 
 ?>

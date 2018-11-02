@@ -10,3 +10,4 @@ class Profile extends CI_Controller {
 		$this->load->view("profile_viewer",$data);
 	}
 }
+?>

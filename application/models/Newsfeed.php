@@ -35,7 +35,7 @@ class Newsfeed extends CI_Model {
 	public function get_search_news($data,$news_item){
 		$news="<table class='table container table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>Searched $news_item</td></tr></thead>";
 		foreach ($this->get_search_news_db($data,$news_item) as $value) {
-			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p>".$this->get_like_count($value,$news_item)."<a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div></div></div></div></td></tr>";
+			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value,$news_item)."</span></p>".$this->get_like_count($value,$news_item)."<a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div></div></div></div></td></tr>";
 		}
 		$news.="</table>";
 		return $news;
@@ -77,7 +77,7 @@ class Newsfeed extends CI_Model {
 		$news="";
 		$news.="<table class='table table-borderless' style='width:100%'><thead><tr style='display:none'><td class='table-secondary' style='border-radius:5px;'>All $news_item</td></tr></thead><tr id='loading_".$news_item."'><td><div class='d-flex justify-content-center'><i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i><span class='sr-only'>Loading...</span><div></td></tr><script>$('#loading_".$news_item."').hide()</script>";
 		foreach ($this->get_news_from_db($news_item) as $value) {
-			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value->state,$news_item)."</span></p>".$this->get_like_count($value,$news_item)." <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></div></td></tr>";
+			$news.="<tr><td><div class='border'>".$this->get_carousel($value,$news_item)."<div class='media p-3'><img src='$value->citiphoto' alt='$value->commentor' class='align-self-start mr-3 rounded-circle' style='width:60px;'><div class='media-body'><h4>$value->commentor <small style='font-size:14px;'><i>Posted on ".date_format(date_create($value->time),'F d,Y h:i a')."</i></small></h4><p><strong>Target: </strong>$value->referring<br>$value->comment</p><p class='row'><span class='mb-3 ml-3 mr-auto col-xs-6 d-flex justify-content-left'>".$this->get_likes($value,$news_item)."</span><span class='d-flex justify-content-right col-xs-6'>".$this->get_verify($value,$news_item)."</span></p>".$this->get_like_count($value,$news_item)." <a class='text-info' data-toggle='collapse' href='#".$news_item."_".$value->commentID."'>See All Replies . . . </a><div id='".$news_item."_".$value->commentID."' class='collapse container'>".implode($this->get_replies($news_item,$value->commentID))."</div>".$this->get_reply_box()."</div></div></div></td></tr>";
 		}
 		$news.="</table>";
 		return $news;
@@ -142,7 +142,7 @@ class Newsfeed extends CI_Model {
 						return "";
 					}
 					if($type->type==="-1"){
-						return "<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a href='' class='text-success' style='cursor:pointer'> Positive</a></span> <span class='col-xs-6 mr-4'><a href='' class='text-danger' style='cursor:pointer'> Negative</a></span></span>";
+						return "<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a onclick='change_type(\"$type->commentID\",1,this)' class='text-success' style='cursor:pointer'> Positive</a></span> <span class='col-xs-6 mr-4'><a onclick='change_type(\"$type->commentID\",0,this)' class='text-danger' style='cursor:pointer'> Negative</a></span></span>";
 					}elseif ($type->type==="0") {
 						return "<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a class='text-danger'> Negative</a></span></span>";
 					}elseif ($type->type==="1") {
@@ -155,6 +155,10 @@ class Newsfeed extends CI_Model {
 			}
 		}
 		redirect(base_url()."home.html","location");
+	}
+
+	public function modify_type($id,$type){
+		return $this->db->query("update comments set type=? where commentID=?",array($type,$id));
 	}
 
 	private function get_liked($news_item,$id,$action){
@@ -176,12 +180,16 @@ class Newsfeed extends CI_Model {
 	protected function get_verify($verified,$news_item){
 		if(null!==$this->session->userdata("username")){
 			if($this->session->userdata("usertype")==="citizen"||$this->session->userdata("usertype")==="politician"){
-				return ($verified==='1'&&$news_item!=="Comments")? "<span class='row ml-3'><span class='col mr-4'><a class='text-success fas fa-check'> Verified</a></span></span>":"";
+				return ($verified->state==='1'&&$news_item!=="Comments")? "<span class='row ml-3'><span class='col mr-4'><a class='text-success fas fa-check'> Verified</a></span></span>":"";
 			}else if($this->session->userdata("usertype")==="admin"){
-				return ($verified==='-1')?"<span class='row ml-3'><span class='col-xs-6 mr-4'><a class='text-success fas fa-check' style='cursor:pointer'> Verify</a></span> <span class='col-xs-6 mr-4'><a class='text-danger fas fa-times' style='cursor:pointer'> Deny</a></span></span>":"<span class='row ml-3'><span class='col mr-4'><a class='text-success fas fa-check' style='cursor:pointer' disabled=''> Verified</a></span></span>";
+				return ($verified->state==='-1')?"<span class='row ml-3'><span class='col-xs-6 mr-4'><a onclick='verify(\"$verified->commentID\",\"$news_item\",1,this)' class='text-success fas fa-check' style='cursor:pointer'> Verify</a></span> <span class='col-xs-6 mr-4'><a class='text-danger fas fa-times' onclick='verify(\"$verified->commentID\",\"$news_item\",0,this)' style='cursor:pointer'> Deny</a></span></span>":"<span class='row ml-3'><span class='col mr-4'><a class='text-success fas fa-check' style='cursor:pointer' disabled=''> Verified</a></span></span>";
 			}
 		}
 		redirect(base_url("home.html"),"location");
+	}
+
+	public function verify_post($id,$table,$verify){
+		return $this->db->query("update ".strtolower($table)." set state=? where commentID=?",array($verify,$id));
 	}
 
 	protected function get_replies($news_item,$id){

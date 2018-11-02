@@ -31,7 +31,19 @@ class Home extends CI_Controller {
 			if(!$login){
 				$data=$this->accounts->login_citizen($_POST['userName']);
 				$login=$this->verify_user($data);
-				if(!$login) $this->reject("Username");
+				if(!$login){
+					$data=$this->accounts->check_verified($_POST['userName']);
+					if(is_object($data)){
+						if(password_verify($_POST['passWord'],$data->pass)){
+							$this->session->set_flashdata('log',"<div class='alert alert-warning'><strong>Don't Worry!</strong> Your account has not yet been verified by our team but we are working on it. In the meantime, make sure you have verified your email address and phone number.</div>");
+							redirect(base_url()."home.html","location");
+						}else{
+							$this->reject("Password");
+						}
+					}else{
+						$this->reject("Username");
+					}
+				}
 			}
 		}
 	}

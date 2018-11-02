@@ -7,7 +7,7 @@ class Notifications extends CI_Model {
 	}
 
 	public function index(){
-		return $this->db->get("notifications")->result();
+		return $this->db->query("select * from notifications where target=? order by isRead asc,notificationID desc",$this->session->userdata('username'))->result();
 	}
 
 	public function get_with_offset($limit,$offset){

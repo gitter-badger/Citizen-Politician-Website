@@ -5,8 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html>
 <head>
 	<?php echo $head;?>
+	<style>a{cursor: pointer;}</style>
 </head>
-<body data-spy="scroll" data-target="#scrollspy" data-offset="60" style="height: 200%">
+<body data-spy="scroll" data-target="#scrollspy" data-offset="60">
 	<?php echo $navbar;?>
 	<script>$("a[href='<?php echo site_url('functions')?>']").addClass("active");</script>
 	<div class="rounded bg-info p-1 text-light text-center" style="position: fixed;bottom: 20px;z-index: 100;right: 20px;width: 60px;font-family: Cookie,cursive;font-size: 20px;cursor: pointer;" onclick="$('body,html').animate({scrollTop:0})">Top</div>
@@ -112,10 +113,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="border p-3 rounded">
 										<div style="font-weight: bold;"><?php echo $role->Roles;?></div>
 										<div class="p-3"><?php echo $role->Explanation;?></div>
-										<button class="btn btn-info mr-4" onclick='edit(this)' id="<?php echo $role->functionID;?>">Edit</button><button class="btn btn-danger" onclick='remove(this)' id="<?php echo $role->functionID;?>">Remove</button>
+										<?php if($this->session->userdata('usertype')==='admin'){?>
+											<button class="btn btn-danger" onclick='remove(this)' id="<?php echo $role->functionID;?>">Remove</button>
+										<?php }?>
 									</div>
 								</td>
 							</tr>
+						<?php } if($this->session->userdata('usertype')==='admin'){?>
+						<tr><td><button class="btn btn-outline-info w-100 mt-3" data-toggle="modal" data-target="#add_function">Add Function</button></td></tr>
 						<?php }?>
 					</table>
 				</div>
@@ -140,9 +145,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="border p-3 rounded">
 										<div style="font-weight: bold;"><?php echo $role->Roles;?></div>
 										<div class="p-3"><?php echo $role->Explanation;?></div>
+										<?php if($this->session->userdata('usertype')==='admin'){?>
+											<button class="btn btn-danger" onclick='remove(this)' id="<?php echo $role->functionID;?>">Remove</button>
+										<?php }?>
 									</div>
 								</td>
 							</tr>
+						<?php } if($this->session->userdata('usertype')==='admin'){?>
+						<tr><td><button class="btn btn-outline-info w-100 mt-3" data-toggle="modal" data-target="#add_function">Add Function</button></td></tr>
 						<?php }?>
 					</table>
 				</div>
@@ -167,9 +177,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="border p-3 rounded">
 										<div style="font-weight: bold;"><?php echo $role->Roles;?></div>
 										<div class="p-3"><?php echo $role->Explanation;?></div>
+										<?php if($this->session->userdata('usertype')==='admin'){?>
+											<button class="btn btn-danger" onclick='remove(this)' id="<?php echo $role->functionID;?>">Remove</button>
+										<?php }?>
 									</div>
 								</td>
 							</tr>
+						<?php } if($this->session->userdata('usertype')==='admin'){?>
+						<tr><td><button class="btn btn-outline-info w-100 mt-3" data-toggle="modal" data-target="#add_function">Add Function</button></td></tr>
 						<?php }?>
 					</table>
 				</div>
@@ -194,9 +209,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="border p-3 rounded">
 										<div style="font-weight: bold;"><?php echo $role->Roles;?></div>
 										<div class="p-3"><?php echo $role->Explanation;?></div>
+										<?php if($this->session->userdata('usertype')==='admin'){?>
+											<button class="btn btn-danger" onclick='remove(this)' id="<?php echo $role->functionID;?>">Remove</button>
+										<?php }?>
 									</div>
 								</td>
 							</tr>
+						<?php } if($this->session->userdata('usertype')==='admin'){?>
+						<tr><td><button class="btn btn-outline-info w-100 mt-3" data-toggle="modal" data-target="#add_function">Add Function</button></td></tr>
 						<?php }?>
 					</table>
 				</div>
@@ -221,15 +241,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="border p-3 rounded">
 										<div style="font-weight: bold;"><?php echo $role->Roles;?></div>
 										<div class="p-3"><?php echo $role->Explanation;?></div>
+										<?php if($this->session->userdata('usertype')==='admin'){?>
+											<button class="btn btn-danger" onclick='remove(this)' id="<?php echo $role->functionID;?>">Remove</button>
+										<?php }?>
 									</div>
 								</td>
 							</tr>
+						<?php } if($this->session->userdata('usertype')==='admin'){?>
+						<tr><td><button class="btn btn-outline-info w-100 mt-3" data-toggle="modal" data-target="#add_function">Add Function</button></td></tr>
 						<?php }?>
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="add_function">
+	<div class="modal-dialog">
+	  	<div class="modal-content">
+	      	<div class="modal-header">
+			  	<h4 class="modal-title">Add New Function</h4>
+			  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+		  	</div>
+		  	<form method="post" enctype="multipart/form-data" action="<?php echo site_url('functions/add')?>">
+		      	<div class="modal-body">
+		      		<label>Politician</label>
+		      		<select class="form-control mb-3" name="politician">
+		      			<option value="governor">Governor</option>
+		      			<option value="senate">Senator</option>
+		      			<option value="wrep">Women Representative</option>
+		      			<option value="mp">Member of Parliament</option>
+		      			<option value="mca">Member of County Assembly</option>
+		      		</select>
+			        <input class="form-control mb-3" type="text" name="title" placeholder="Function Title" required="">
+			        <textarea class="form-control" name="explanation" rows="4"></textarea>
+			  	</div>
+			    <div class="modal-footer">
+			    	<button type="submit" class="btn btn-info">Submit</button>
+			    </div>
+		    </form>
+	    </div>
+	</div>
+</div>
+
+
+
 	<script>
 		$("table").DataTable({ordering:false,"info":false,"pageLength":10,"lengthChange":false});
 		$("#scrollspy li a").on('click', function(event) {
@@ -244,7 +300,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     		}
   		});
   		function remove(event){
-  			$(event).parent().parent().parent().fadeOut()
+  			$.post("<?php echo site_url('functions/remove')?>",{id:$(event).attr('id')},data=>{
+  				if(data.localeCompare("Success")===0){
+  					$(event).parent().parent().parent().fadeOut()
+  				}
+  			})
   		}
 	</script>
 </body>

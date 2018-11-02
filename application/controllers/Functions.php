@@ -20,5 +20,17 @@ class Functions extends CI_Controller {
 		$data['mca_roles']=$this->polifunctions->get_mca();
 		$this->load->view('functions_view',$data);
 	}
+
+	public function remove(){
+		if(!isset($_POST['id'])) redirect(site_url('functions'),'location');
+		if($this->polifunctions->remove_function($_POST['id'])){
+			echo "Success";
+		}
+	}
+
+	public function add(){
+		$this->polifunctions->add_function($_POST['politician'],$_POST['explanation'],$_POST['title']);
+		redirect(site_url('functions'),'location');
+	}
 }
 ?>

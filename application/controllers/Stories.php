@@ -72,5 +72,19 @@ class Stories extends CI_Controller {
 			echo $this->newsfeed->index($_POST['table']);
 		}
 	}
+
+	public function change_type(){
+		if(!isset($_POST)) redirect(site_url("news_feed"),"location");
+		if($this->newsfeed->modify_type($_POST['id'],$_POST['type'])){
+			echo "Success";
+		}
+	}
+
+	public function verify(){
+		if(!isset($_POST)) redirect(site_url("news_feed"),"location");
+		if($this->newsfeed->verify_post($_POST['id'],$_POST['table'],$_POST['type'])){
+			echo "Success";
+		}
+	}
 }
 ?>

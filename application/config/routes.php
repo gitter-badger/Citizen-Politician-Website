@@ -62,5 +62,7 @@ $route["follow_user"]="follow/follow_user";
 $route["unfollow_user"]="follow/unfollow_user";
 $route["submit_poll"]="polls/submit_poll";
 $route["submit_poll_answer"]="polls/submit_answer";
+$route["notifications"]="notification";
+$route["drop_accounts"]="register/drop_accounts";
 
 

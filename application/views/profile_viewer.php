@@ -30,10 +30,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			color: white;
 			border-color: darkgray;
 		}
+		a{
+			cursor: pointer;
+		}
 	</style>
 </head>
 <body>
 <?php echo $navbar;?>
+<script>
+	if(location.href.localeCompare("<?php echo site_url('profile/'.$this->session->userdata('username'))?>")===0)
+		$("a[href='<?php echo site_url('profile/'.$this->session->userdata('username'))?>']").addClass("active");
+</script>
 <div class="container-fluid p-0">
 	<div id="search_errors"></div>
 	<?php echo $top?>
@@ -143,6 +150,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			if(data.localeCompare('Success')===0){
 				$(event).addClass('btn-success').removeClass('btn-info').text('Follow').attr('id','follow_'+username)
 				$('#followers_'+username).text(parseInt($('#followers_'+username).text())-1)
+			}
+		})
+	}
+	function change_type(id,type,event){
+		$.post("<?php echo site_url('stories/change_type')?>",{id:id,type:type},data=>{
+			if(data.localeCompare('Success')===0){
+				data=(type===0)? "<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a class='text-danger'> Negative</a></span></span>":"<span class='row ml-1 mb-1'><span class='col-xs-6 mr-4'><a class='text-success'> Positive</a></span></span>";
+				$(event).parent().parent().parent().html(data)
+			}
+		})
+	}
+
+	function verify(id,table,type,event){
+		$.post("<?php echo site_url('stories/verify')?>",{id:id,type:type,table:table},data=>{
+			if(data.localeCompare('Success')===0){
+				if(type===1){
+					$(event).parent().parent().html("<span class='col mr-4'><a class='text-success fas fa-check' style='cursor:pointer' disabled=''> Verified</a></span>")
+				}else{
+					$(event).closest('tr').fadeOut()
+				}
 			}
 		})
 	}
