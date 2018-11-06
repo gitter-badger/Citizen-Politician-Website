@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2018 at 05:53 AM
+-- Generation Time: Nov 06, 2018 at 05:00 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -197,7 +197,7 @@ CREATE TABLE `citizen_profile` (
 INSERT INTO `citizen_profile` (`UserName`, `Email`, `verifyEmail`, `phone`, `verifyPhone`, `gender`, `type`, `County`, `photo`, `Secret`) VALUES
 ('ericko', 'kevin.kathendu@strathmore.edu', 1, '0734124567', 0, 'male', 'citizen', 3, 'user.png', '$2y$10$QZ9HYc2dB5Hg5zZJIbM5JuN7EfPZLMyo6gyiwGaaEs3ZTWm7Zs6J.'),
 ('fahm_de', 'oboke69@gmail.com', 1, '0792261344', 0, 'male', 'citizen', 5, 'user.png', '$2y$10$BJcM6nxVr7h7Kj1sWDk6auzBa2Qn99UfVH/J/sR.cpWOM.122mfdC'),
-('glokym', 'glorynkatha15@gmail.com', 1, '0792141986', 1, 'female', 'citizen', 5, 'userFemale.png', '$2y$10$WtKI13xJ4XtulgpCUVZkdeHO2arV36nuHVj0aGZsy19DG50axYNrq'),
+('glokym', 'glorynkatha15@gmail.com', 1, '0792141986', 1, 'female', 'citizen', 5, 'userFemale.png', '$2y$10$u/z4nkcu2zrY7deN9sXl3OYZxZso3hRmLwNQg.LnW2TafJu.EY4KC'),
 ('julz', 'julie.munyui@strathmore.edu', 0, '0797345678', 0, 'female', 'citizen', 7, 'userFemale.png', '$2y$10$yxqaTMt70A2Dfg33uUwNOOQ8kI6OdaRNqlcurV8n32jxwNPj5M6wG'),
 ('mathenge', 'oboke69@yahoo.com', 1, '0765423433', 0, 'male', 'citizen', 9, 'user.png', '$2y$10$4rYIid0Zh2HePW0zgjLWju2QXCOj61k07sQWiD9IxieiVtJ2irw6q'),
 ('Mirry', 'mirrymukami@gmail.com', 0, '0712345678', 0, 'female', 'citizen', 2, 'userFemale.png', '$2y$10$NHNRwm3JYNp1S7/feqfQiOBn9jW0H3MyM7BXdP2bMGxKfLSJSBzzq'),
@@ -277,6 +277,34 @@ INSERT INTO `constituencies` (`constituencyID`, `constituency`, `countyNo`, `MP`
 (8, 'Mwea', 8, 'Undefined'),
 (9, 'Bobasi', 9, 'Undefined'),
 (10, 'Kandara', 10, 'Undefined');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact`
+--
+
+CREATE TABLE `contact` (
+  `contactID` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `question` text NOT NULL,
+  `replied` int(11) NOT NULL DEFAULT '0',
+  `reply` text NOT NULL,
+  `faq` int(11) NOT NULL DEFAULT '0',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact`
+--
+
+INSERT INTO `contact` (`contactID`, `name`, `email`, `question`, `replied`, `reply`, `faq`, `time`) VALUES
+(1, 'dopesky', 'oboke69@gmail.com', 'What is this site all about?', 1, 'This site is a social media site.', 1, '2018-11-05 12:13:17'),
+(2, 'ericko', 'ericgburugu@gmail.com', 'Where can i sign up?', 1, 'There is a sign up button at the login form. Please use that to sign up to the site.', 1, '2018-11-05 12:18:40'),
+(3, 'brayo', 'kevin.kathendu@strathmore.edu', 'What can i do to be a part of this amazing project?', 0, '', 0, '2018-11-05 13:16:37'),
+(4, 'shawn', 'amthatguy3@gmail.com', 'Where can i go to get a face to face with you guys?', 0, '', 0, '2018-11-05 13:17:51'),
+(5, 'rozey', 'rosekathendu@gmail.com', 'I think this is a very good idea that has been implemented here. Big up yourselves.', 0, '', 0, '2018-11-05 13:20:10');
 
 -- --------------------------------------------------------
 
@@ -433,7 +461,10 @@ INSERT INTO `emailgetcredentials` (`eventID`, `userEmail`, `passCode`, `type`, `
 (17, 'fahm_de', '2Z9QBRzaDvA', 'password', '2018-10-02 08:10:41', 1, 'Me'),
 (18, 'fahm_de', '4kyFfzZL1eABeC1a37', 'password', '2018-10-02 08:27:30', 1, 'Me'),
 (19, 'fahm_de', 'YSBdzARyiNpfF2Rm', 'password', '2018-10-03 10:37:19', 1, 'Me'),
-(20, 'ericko', '1NnupEiFYztDm7JYR', 'password', '2018-10-29 07:58:18', 1, 'Me');
+(20, 'ericko', '1NnupEiFYztDm7JYR', 'password', '2018-10-29 07:58:18', 1, 'Me'),
+(21, 'glokym', 'ueF0ZrbejciEPZRDOSLv', 'password', '2018-11-04 18:14:01', 1, 'Me'),
+(22, 'glokym', 'SQE1z60R49oPjtwMYU', 'password', '2018-11-04 18:14:41', 1, 'Me'),
+(23, 'julz', 'lEiTlC9xlxeGUUXg69X', 'password', '2018-11-04 18:21:11', 0, 'Me');
 
 -- --------------------------------------------------------
 
@@ -910,6 +941,12 @@ ALTER TABLE `comments`
 ALTER TABLE `constituencies`
   ADD PRIMARY KEY (`constituencyID`),
   ADD KEY `FK` (`countyNo`);
+
+--
+-- Indexes for table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`contactID`);
 
 --
 -- Indexes for table `counties`
