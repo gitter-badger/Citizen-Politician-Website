@@ -58,7 +58,7 @@ class Emailprepare {
 	private function set_preferences(){
 		$mail = new PHPMailer;
 
-		//$mail->SMTPDebug = 3;
+		$mail->SMTPDebug = 3;
 
 		$mail->isSMTP();
 		$mail->Host = $this->get_smtp_server();

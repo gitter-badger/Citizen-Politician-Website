@@ -17,7 +17,7 @@ class Home extends CI_Controller {
 		if(!isset($_POST['email'])) redirect(base_url()."home.html","location");
 		$this->load->model("sendresetemail");
 		$this->session->set_flashdata('log',$this->sendresetemail->index($_POST['email']));
-		redirect(base_url()."home.html","location");
+		//redirect(base_url()."home.html","location");
 	}
 
 	public function login(){
