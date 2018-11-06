@@ -2,9 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Passwordreset extends CI_Controller{
+	public function __construct(){
+		parent::__construct();
+		$this->load->model("sendresetemail");
+	}
 
 	public function index($email,$passcode){
-		$this->load->model("sendresetemail");
 		$data['data']=$this->analyze_log($this->sendresetemail->get_log($passcode),$email,$passcode);
 		$this->load->view("password_reset_view",$data);
 	}
@@ -19,7 +22,6 @@ class Passwordreset extends CI_Controller{
 					if(((strtotime(date("Y-m-d H:i:s"))-strtotime($value->timestamp))/60)>15){
 						return "<div class='alert alert-warning'><strong>Warning!</strong> Your request has timed out. Please request for another password reset email.</div>";
 					}else{
-						$this->load->model("sendresetemail");
 						$new_pass=$this->sendresetemail->generate_random_string(random_int(10,20));
 						if($this->sendresetemail->user_reset($value->eventID,$new_pass,$value->userEmail)){
 							return "<div class='alert alert-success'><strong>Success!</strong> Password reset for $value->userEmail successful. Your new password is $new_pass.</div>";
