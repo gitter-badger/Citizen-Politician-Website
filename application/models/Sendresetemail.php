@@ -18,7 +18,7 @@ class Sendresetemail extends CI_Model {
 			return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Email because your email is not verified.</div>";
 		}
 		if($this->log_event($email->user)){
-			if($this->email->send_email($email->email,"Password Reset Request.","We hope that you are well. Below is a link that will enable you to reset your password. <br><br> <a style='text-align:center;border-radius:5px;background-color: #03869b;color: white;padding:10px;text-decoration:none;' href='".site_url("reset_user_password/$email->user/$this->passcode")."'>Reset My Password</a><br>")){
+			if($this->email->send_email($email->email,"Password Reset Request.","We hope that you are well. Below is a link that will enable you to reset your password. <br><br> <a style='text-align:center;border-radius:5px;background-color: #03869b;color: white;padding:10px;text-decoration:none;' href='".site_url("reset_user_password/$email->user/$this->passcode")."'>Reset My Password</a><br>",$email->user)){
 				return "<div class='alert alert-success'><strong>Success!</strong> Password Reset Email Successfully Sent to your Email.</div>";
 			}else{
 				return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Email. ".$this->emailprepare->mailer->ErrorInfo."</div>";
