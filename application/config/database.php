@@ -97,10 +97,10 @@ $db['test'] = array(
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'sql2.freemysqlhosting.net',
-	'username' => 'sql2263816',
-	'password' => 'sB7%pI1*',
-	'database' => 'sql2263816',
+	'hostname' => 'den1.mysql6.gear.host',
+	'username' => 'version1',
+	'password' => '[biggie5941]',
+	'database' => 'version1',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
