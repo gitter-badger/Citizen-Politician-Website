@@ -30,6 +30,9 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		  	text-align: left !important;
 		  }
 		}
+		.col-xl-2:hover{
+			background-color: whitesmoke;
+		}
 	</style>
 </head>
 <body data-spy="scroll" data-target=".navbar">
@@ -319,20 +322,22 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 			<?php endforeach ?>
 		</table>
 	</div>
-	<script>$("table").DataTable({ordering:false,"info":false,"pageLength":5,"lengthChange":false});</script>
+	<script>$("table").DataTable({ordering:false,"info":false,"pageLength":5,"lengthChange":false,"fnDrawCallback": function( oSettings ) {
+      $('body,html').scrollTop($('#faq').offset().top)}});</script>
 </div>
 
-<div class="p-0">
-	<div class="bg-info d-flex p-2 text-light" style="font-size: 20px">Sponsors</div>
-	<div class="container-fluid p-3 d-flex justify-content-around" style="background-color: lavender">
-		<img class="rounded border p-1" style="filter: grayscale(90%);" width="50" height="50" src="<?php echo base_url('resources/github_icon.png')?>" alt="Github">
-		<img class="rounded border p-1" style="filter: grayscale(90%);" width="50" height="50" src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-android.png" alt="Androis">
-		<img class="rounded border p-1" style="filter: grayscale(90%);" width="50" height="50" src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-google.png" alt="Google">
-		<img class="rounded border p-1" style="filter: grayscale(90%);" width="50" height="50" src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-youtube.png" alt="Youtube">
+<div class="p-0 w-100" style="background-color: white">
+	<div class="w-100 row" style="padding-left: 2em">
+		<a class="col-xl-2 p-3 text-muted" href="">Privacy Statement</a>
+		<a class="col-xl-2 p-3 text-muted" href="">Terms and Conditions</a>
+		<a class="col-xl-2 p-3 text-muted" href="">Cookie Policy</a>
+		<a class="col-xl-2 p-3 text-muted" href="">Account Security</a>
+		<a class="col-xl-2 p-3 text-muted" href="">Sponsors</a>
+		<a class="col-xl-2 p-3 text-muted" href="<?php echo site_url('about')?>">About</a>
 	</div>
 </div>
 
-<div style="height: 36px"></div>
+<div style="height: 40px"></div>
 
 <script>
 	function fade(){
