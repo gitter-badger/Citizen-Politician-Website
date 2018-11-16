@@ -22,7 +22,7 @@ class Home extends CI_Controller {
 
 	public function reset_password(){
 		if(!isset($_POST['email'])) redirect(site_url("home"),"location");
-		$this->session->set_flashdata('log',$this->sendresetemail->index($_POST['email']));
+		$this->session->set_flashdata('log',$this->sendresetemail->index(trim($_POST['email'])));
 		redirect(site_url("home"),"location");
 	}
 
