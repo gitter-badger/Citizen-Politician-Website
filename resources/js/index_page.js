@@ -17,7 +17,7 @@ $(document).ready(()=>{
 					$("#four").fadeIn(1300,()=>{
 						$("button").show()
 						var button=anime({targets: 'button',opacity: 1, marginLeft: '0' ,width: {value: 130,delay:300,duration: 500},duration: 200})
-						$('#version').animateNumber({number: 1 * decimal_factor,easing: 'easeInQuad',numberStep: function(now, tween) {
+						$('#version').animateNumber({number: 1.1 * decimal_factor,easing: 'easeInQuad',numberStep: function(now, tween) {
 			       			var floored_number = Math.floor(now) / decimal_factor;
 			       			var target = $(tween.elem);
 					        target.text(floored_number.toFixed(decimal_places));
