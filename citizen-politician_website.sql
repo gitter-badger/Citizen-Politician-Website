@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2018 at 05:00 PM
+-- Generation Time: Nov 20, 2018 at 05:06 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -63,6 +63,7 @@ INSERT INTO `achievements` (`commentID`, `comment`, `commentor`, `referring`, `t
 CREATE TABLE `admin_profile` (
   `adminUserName` varchar(255) NOT NULL,
   `adminPassword` varchar(255) NOT NULL,
+  `adminEmail` varchar(255) NOT NULL,
   `userGender` varchar(255) NOT NULL,
   `photo` varchar(255) NOT NULL,
   `userType` varchar(255) DEFAULT 'admin'
@@ -72,9 +73,10 @@ CREATE TABLE `admin_profile` (
 -- Dumping data for table `admin_profile`
 --
 
-INSERT INTO `admin_profile` (`adminUserName`, `adminPassword`, `userGender`, `photo`, `userType`) VALUES
-('dopesky', '$2y$10$QLJ.ITobnhfNE.8HbOKDZOYi6IrE5aWbjz3VknTwPNlgN6KwNVEIm', 'male', 'user.png', 'admin'),
-('essnj', '$2y$10$vBCaC5SVDwAqDxUoKa8/Vu1dF/QixjczlS4at.4/gF0HUDVZbOCTi', 'female', 'userFemale.png', 'admin');
+INSERT INTO `admin_profile` (`adminUserName`, `adminPassword`, `adminEmail`, `userGender`, `photo`, `userType`) VALUES
+('dopesky', '$2y$10$QLJ.ITobnhfNE.8HbOKDZOYi6IrE5aWbjz3VknTwPNlgN6KwNVEIm', 'oboke69@gmail.com', 'male', 'user.png', 'admin'),
+('essnj', '$2y$10$vBCaC5SVDwAqDxUoKa8/Vu1dF/QixjczlS4at.4/gF0HUDVZbOCTi', 'njoroge.esther@strathmore.edu', 'female', 'userFemale.png', 'admin'),
+('kevosky', '$2y$10$QLJ.ITobnhfNE.8HbOKDZOYi6IrE5aWbjz3VknTwPNlgN6KwNVEIm', 'mwananchi.herokuapp@gmail.com', 'male', 'user.png', 'superadmin');
 
 -- --------------------------------------------------------
 
@@ -185,24 +187,26 @@ CREATE TABLE `citizen_profile` (
   `verifyPhone` int(11) NOT NULL DEFAULT '0',
   `gender` varchar(255) NOT NULL,
   `type` varchar(255) DEFAULT 'citizen',
+  `country` int(11) NOT NULL,
   `County` int(11) DEFAULT NULL,
   `photo` varchar(255) NOT NULL,
-  `Secret` varchar(255) DEFAULT NULL
+  `Secret` varchar(255) DEFAULT NULL,
+  `deactivated` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `citizen_profile`
 --
 
-INSERT INTO `citizen_profile` (`UserName`, `Email`, `verifyEmail`, `phone`, `verifyPhone`, `gender`, `type`, `County`, `photo`, `Secret`) VALUES
-('ericko', 'kevin.kathendu@strathmore.edu', 1, '0734124567', 0, 'male', 'citizen', 3, 'user.png', '$2y$10$QZ9HYc2dB5Hg5zZJIbM5JuN7EfPZLMyo6gyiwGaaEs3ZTWm7Zs6J.'),
-('fahm_de', 'oboke69@gmail.com', 1, '0792261344', 0, 'male', 'citizen', 5, 'user.png', '$2y$10$BJcM6nxVr7h7Kj1sWDk6auzBa2Qn99UfVH/J/sR.cpWOM.122mfdC'),
-('glokym', 'glorynkatha15@gmail.com', 1, '0792141986', 1, 'female', 'citizen', 5, 'userFemale.png', '$2y$10$u/z4nkcu2zrY7deN9sXl3OYZxZso3hRmLwNQg.LnW2TafJu.EY4KC'),
-('julz', 'julie.munyui@strathmore.edu', 0, '0797345678', 0, 'female', 'citizen', 7, 'userFemale.png', '$2y$10$yxqaTMt70A2Dfg33uUwNOOQ8kI6OdaRNqlcurV8n32jxwNPj5M6wG'),
-('mathenge', 'oboke69@yahoo.com', 1, '0765423433', 0, 'male', 'citizen', 9, 'user.png', '$2y$10$4rYIid0Zh2HePW0zgjLWju2QXCOj61k07sQWiD9IxieiVtJ2irw6q'),
-('Mirry', 'mirrymukami@gmail.com', 0, '0712345678', 0, 'female', 'citizen', 2, 'userFemale.png', '$2y$10$NHNRwm3JYNp1S7/feqfQiOBn9jW0H3MyM7BXdP2bMGxKfLSJSBzzq'),
-('olamide', 'wole.olamide@strathmore.edu', 0, '0789564321', 0, 'male', 'citizen', 6, 'user.png', '$2y$10$vGfkZEPVZozDmG8mjartVuSh9nRtPB.VjbnTXWSIrwpLuQ/Kb1WKO'),
-('smurfet', 'njoroge.esther@strathmore.edu', 1, '0743215786', 0, 'female', 'citizen', 10, 'userFemale.png', '$2y$10$.C/PtzLkHz9MIbaJ03LI2O/va787JAJlepru1DF5b32S2e.84UbN.');
+INSERT INTO `citizen_profile` (`UserName`, `Email`, `verifyEmail`, `phone`, `verifyPhone`, `gender`, `type`, `country`, `County`, `photo`, `Secret`, `deactivated`) VALUES
+('ericko', 'kevin.kathendu@strathmore.edu', 1, '0734124567', 0, 'male', 'citizen', 1, 3, 'user.png', '$2y$10$QZ9HYc2dB5Hg5zZJIbM5JuN7EfPZLMyo6gyiwGaaEs3ZTWm7Zs6J.', 0),
+('fahm_de', 'oboke69@gmail.com', 1, '0792261344', 0, 'male', 'citizen', 1, 5, 'user.png', '$2y$10$BHPA1Qsoc4h4ALOdnpbwduvf4z4RLXW1TpVIOzRple1/vfDW1r5j2', 0),
+('glokym', 'glorynkatha15@gmail.com', 1, '0792141986', 1, 'female', 'citizen', 1, 5, 'userFemale.png', '$2y$10$u/z4nkcu2zrY7deN9sXl3OYZxZso3hRmLwNQg.LnW2TafJu.EY4KC', 0),
+('julz', 'julie.munyui@strathmore.edu', 0, '0797345678', 0, 'female', 'citizen', 1, 7, 'userFemale.png', '$2y$10$yxqaTMt70A2Dfg33uUwNOOQ8kI6OdaRNqlcurV8n32jxwNPj5M6wG', 0),
+('mathenge', 'oboke69@yahoo.com', 1, '0765423433', 0, 'male', 'citizen', 1, 9, 'user.png', '$2y$10$4rYIid0Zh2HePW0zgjLWju2QXCOj61k07sQWiD9IxieiVtJ2irw6q', 0),
+('Mirry', 'mirrymukami@gmail.com', 0, '0712345678', 0, 'female', 'citizen', 1, 2, 'userFemale.png', '$2y$10$NHNRwm3JYNp1S7/feqfQiOBn9jW0H3MyM7BXdP2bMGxKfLSJSBzzq', 0),
+('olamide', 'wole.olamide@strathmore.edu', 0, '0789564321', 0, 'male', 'citizen', 1, 6, 'user.png', '$2y$10$vGfkZEPVZozDmG8mjartVuSh9nRtPB.VjbnTXWSIrwpLuQ/Kb1WKO', 0),
+('smurfet', 'njoroge.esther@strathmore.edu', 1, '0743215786', 0, 'female', 'citizen', 1, 10, 'userFemale.png', '$2y$10$.C/PtzLkHz9MIbaJ03LI2O/va787JAJlepru1DF5b32S2e.84UbN.', 0);
 
 -- --------------------------------------------------------
 
@@ -304,7 +308,9 @@ INSERT INTO `contact` (`contactID`, `name`, `email`, `question`, `replied`, `rep
 (2, 'ericko', 'ericgburugu@gmail.com', 'Where can i sign up?', 1, 'There is a sign up button at the login form. Please use that to sign up to the site.', 1, '2018-11-05 12:18:40'),
 (3, 'brayo', 'kevin.kathendu@strathmore.edu', 'What can i do to be a part of this amazing project?', 0, '', 0, '2018-11-05 13:16:37'),
 (4, 'shawn', 'amthatguy3@gmail.com', 'Where can i go to get a face to face with you guys?', 0, '', 0, '2018-11-05 13:17:51'),
-(5, 'rozey', 'rosekathendu@gmail.com', 'I think this is a very good idea that has been implemented here. Big up yourselves.', 0, '', 0, '2018-11-05 13:20:10');
+(5, 'rozey', 'rosekathendu@gmail.com', 'I think this is a very good idea that has been implemented here. Big up yourselves.', 0, '', 0, '2018-11-05 13:20:10'),
+(6, 'glory', 'glorynkatha15@gmail.com', 'What is it like being a coder at mwananchi?', 1, 'Its awesome', 1, '2018-11-19 23:29:44'),
+(7, 'rosey', 'kevin.kathendu@strathmore.edu', 'Where can I go to meet you guys?', 1, 'Check the map above.', 1, '2018-11-19 23:02:10');
 
 -- --------------------------------------------------------
 
@@ -315,6 +321,7 @@ INSERT INTO `contact` (`contactID`, `name`, `email`, `question`, `replied`, `rep
 CREATE TABLE `counties` (
   `CountyID` int(11) NOT NULL,
   `County` varchar(255) DEFAULT NULL,
+  `countryNo` int(11) NOT NULL,
   `Governor` varchar(255) NOT NULL DEFAULT 'Undefined'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -322,17 +329,36 @@ CREATE TABLE `counties` (
 -- Dumping data for table `counties`
 --
 
-INSERT INTO `counties` (`CountyID`, `County`, `Governor`) VALUES
-(1, 'Homa Bay', 'Undefined'),
-(2, 'Kiambu', 'Undefined'),
-(3, 'Nairobi', 'Undefined'),
-(4, 'Machakos', 'Undefined'),
-(5, 'Meru', 'Undefined'),
-(6, 'Mombasa', 'Undefined'),
-(7, 'Nyeri', 'Undefined'),
-(8, 'Kirinyaga', 'Undefined'),
-(9, 'Kisii', 'Undefined'),
-(10, 'Murang\'a', 'Undefined');
+INSERT INTO `counties` (`CountyID`, `County`, `countryNo`, `Governor`) VALUES
+(1, 'Homa Bay', 1, 'Undefined'),
+(2, 'Kiambu', 1, 'Undefined'),
+(3, 'Nairobi', 1, 'Undefined'),
+(4, 'Machakos', 1, 'Undefined'),
+(5, 'Meru', 1, 'Undefined'),
+(6, 'Mombasa', 1, 'Undefined'),
+(7, 'Nyeri', 1, 'Undefined'),
+(8, 'Kirinyaga', 1, 'Undefined'),
+(9, 'Kisii', 1, 'Undefined'),
+(10, 'Murang\'a', 1, 'Undefined');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE `countries` (
+  `countryID` int(11) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `president` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`countryID`, `country`, `president`) VALUES
+(1, 'Kenya', 'Uhuru Muigai Kenyatta');
 
 -- --------------------------------------------------------
 
@@ -362,64 +388,6 @@ INSERT INTO `critiques` (`commentID`, `comment`, `commentor`, `referring`, `time
 (2, 'This is the only thing waititu has done for his citizens', 'fahm_de', 'waititu', '2018-09-30 16:14:07', 0, 0, 0, 0, 'mwananchi/critiques/2/'),
 (3, 'Mutua was last seen fighting for water for kitui residents. Big up yourself', 'smurfet', 'mutua', '2018-09-30 16:18:21', 1, 0, 0, 0, 'mwananchi/critiques/3/'),
 (4, 'Sonko is being impeached from his office and he is busy saying yeye si mtu wa vitisho.', 'glokym', 'sonko', '2018-09-30 16:18:21', 1, 0, 0, 0, 'mwananchi/critiques/4/');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `deactivated_accounts`
---
-
-CREATE TABLE `deactivated_accounts` (
-  `userName` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `emailVerified` int(11) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `phoneVerified` int(11) NOT NULL,
-  `gender` varchar(255) NOT NULL,
-  `accountType` varchar(255) NOT NULL,
-  `countyNo` int(11) NOT NULL,
-  `photo` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `deactivated_education`
---
-
-CREATE TABLE `deactivated_education` (
-  `userName` varchar(255) NOT NULL,
-  `bachelors` varchar(255) DEFAULT NULL,
-  `primarySchool` varchar(255) DEFAULT NULL,
-  `secondarySchool` varchar(255) DEFAULT NULL,
-  `university` varchar(255) DEFAULT NULL,
-  `masters` varchar(255) DEFAULT NULL,
-  `phd` varchar(255) DEFAULT NULL,
-  `schoolCertificates` varchar(255) DEFAULT NULL,
-  `display` int(11) DEFAULT '0',
-  `mastersCourse` varchar(255) DEFAULT NULL,
-  `phdCourse` varchar(255) DEFAULT NULL,
-  `otherCourses` mediumtext
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `deactivated_politics`
---
-
-CREATE TABLE `deactivated_politics` (
-  `userName` varchar(255) NOT NULL,
-  `FullNames` varchar(255) NOT NULL,
-  `DateOfBirth` date NOT NULL,
-  `PoliticalSeat` varchar(255) NOT NULL,
-  `PoliticalYears` int(11) NOT NULL,
-  `CreationTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Vying` varchar(255) NOT NULL,
-  `ConstituencyNo` int(11) NOT NULL,
-  `WardNo` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -464,7 +432,25 @@ INSERT INTO `emailgetcredentials` (`eventID`, `userEmail`, `passCode`, `type`, `
 (20, 'ericko', '1NnupEiFYztDm7JYR', 'password', '2018-10-29 07:58:18', 1, 'Me'),
 (21, 'glokym', 'ueF0ZrbejciEPZRDOSLv', 'password', '2018-11-04 18:14:01', 1, 'Me'),
 (22, 'glokym', 'SQE1z60R49oPjtwMYU', 'password', '2018-11-04 18:14:41', 1, 'Me'),
-(23, 'julz', 'lEiTlC9xlxeGUUXg69X', 'password', '2018-11-04 18:21:11', 0, 'Me');
+(23, 'julz', 'lEiTlC9xlxeGUUXg69X', 'password', '2018-11-04 18:21:11', 0, 'Me'),
+(24, 'ericko', 'JbcxAgZw32Bms', 'password', '2018-11-06 16:06:31', 1, 'Me'),
+(25, 'ericko', 'LdlrWAdpcquNXKkYw', 'password', '2018-11-06 16:10:16', 0, 'Me'),
+(26, 'fahm_de', 'PO9uaGsjK9ArXB', 'password', '2018-11-15 21:38:26', 1, 'Me'),
+(27, 'fahm_de', 'YnDQZMgLt9P', 'password', '2018-11-15 23:55:34', 1, 'Me'),
+(28, 'fahm_de', 'Y7nnTkNHA0', 'password', '2018-11-15 23:56:10', 1, 'Me'),
+(29, 'fahm_de', 'DfNMY4dUicoWswJ', 'password', '2018-11-16 00:11:01', 1, 'Me'),
+(30, 'fahm_de', 'VEegcoEf7j8wy', 'password', '2018-11-16 00:11:17', 1, 'Me'),
+(31, 'fahm_de', 'VfhWxM14uwv', 'password', '2018-11-16 00:13:37', 1, 'Me'),
+(32, 'fahm_de', 'MZAtTHAAWiRhR7j7R', 'password', '2018-11-16 22:06:56', 1, 'Me'),
+(33, 'fahm_de', 'Xl5HkHf3oa', 'password', '2018-11-16 22:18:21', 1, 'Me'),
+(34, 'fahm_de', '5bYDqbUT5opdKh3', 'password', '2018-11-16 22:20:50', 1, 'Me'),
+(35, 'fahm_de', 'iuaCIiInqkro0BbjXeD', 'password', '2018-11-16 22:23:24', 1, 'Me'),
+(36, 'fahm_de', 'vlLDqCm6b4jX2', 'password', '2018-11-16 22:24:43', 1, 'Me'),
+(37, 'fahm_de', 'egQgInDf9Xf', 'password', '2018-11-16 22:51:19', 1, 'Me'),
+(38, 'fahm_de', 'vp3ttR8zrr', 'password', '2018-11-16 22:52:28', 1, 'Me'),
+(39, 'fahm_de', 'NIekNo9i37tT', 'password', '2018-11-16 23:19:31', 1, 'Me'),
+(40, 'fahm_de', 'RSYZ4CGgUlSNKRFH7jy', 'password', '2018-11-16 23:34:19', 1, 'Me'),
+(41, 'fahm_de', 'RSheYO0yZLkQr3rIR', 'password', '2018-11-19 06:37:48', 1, 'Me');
 
 -- --------------------------------------------------------
 
@@ -752,22 +738,24 @@ CREATE TABLE `politician_profile` (
   `phoneVerified` int(11) NOT NULL DEFAULT '0',
   `gender` varchar(255) NOT NULL,
   `accountType` varchar(255) NOT NULL DEFAULT 'politician',
+  `country` int(11) NOT NULL,
   `countyNo` int(11) NOT NULL,
   `photo` varchar(255) NOT NULL,
   `accountVerified` int(11) NOT NULL DEFAULT '0',
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `deactivated` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `politician_profile`
 --
 
-INSERT INTO `politician_profile` (`userName`, `email`, `emailVerified`, `phone`, `phoneVerified`, `gender`, `accountType`, `countyNo`, `photo`, `accountVerified`, `password`) VALUES
-('joho', 'kevin.kathendu@strathmore.edu', 1, '0701234123', 0, 'male', 'politician', 6, 'user.png', 1, '$2y$10$x6WlpzZ5s4EYBgZ9dvB6fu5HkoTS4qGFe.wgWk.fsU09TtXwVYQ8y'),
-('kiraitu', 'kiraitu.murungi@govt.ke', 0, '0755456756', 0, 'male', 'politician', 5, 'user.png', 1, '$2y$10$jsL0AnRqhZBC1.KEK6m.S.gr81ZjqeP.Gcy31ePK9GJXq6cdo8aoO'),
-('mutua', 'mutua.alfred@govt.ke', 0, '0712453785', 0, 'male', 'politician', 4, 'user.png', 0, '$2y$10$OTEVEZpswaMMdTkWZLXIf.iS24ffqI6l1DpoX.AZzpdJ9aPAGJU5.'),
-('sonko', 'mike.sonko@govt.ke', 0, '0755678432', 0, 'male', 'politician', 3, 'user.png', 0, '$2y$10$Yh/6sFQm4.z61kI3ay8F5Oih6UFZUhHR6avOSfeXoJCNE7Siye5pq'),
-('waititu', 'ferd.waititu@govt.ke', 0, '0700456789', 0, 'male', 'politician', 2, 'user.png', 0, '$2y$10$8DIWecGJUO4MZYlcJZsOBe1hR5p7TVid8ixctQGe6t9rXdJ2DshTy');
+INSERT INTO `politician_profile` (`userName`, `email`, `emailVerified`, `phone`, `phoneVerified`, `gender`, `accountType`, `country`, `countyNo`, `photo`, `accountVerified`, `password`, `deactivated`) VALUES
+('joho', 'kevin.kathendu@strathmore.edu', 1, '0701234123', 0, 'male', 'politician', 1, 6, 'user.png', 1, '$2y$10$x6WlpzZ5s4EYBgZ9dvB6fu5HkoTS4qGFe.wgWk.fsU09TtXwVYQ8y', 0),
+('kiraitu', 'kiraitu.murungi@govt.ke', 0, '0755456756', 0, 'male', 'politician', 1, 5, 'user.png', 1, '$2y$10$jsL0AnRqhZBC1.KEK6m.S.gr81ZjqeP.Gcy31ePK9GJXq6cdo8aoO', 0),
+('mutua', 'mutua.alfred@govt.ke', 0, '0712453785', 0, 'male', 'politician', 1, 4, 'user.png', 0, '$2y$10$OTEVEZpswaMMdTkWZLXIf.iS24ffqI6l1DpoX.AZzpdJ9aPAGJU5.', 0),
+('sonko', 'mike.sonko@govt.ke', 0, '0755678432', 0, 'male', 'politician', 1, 3, 'user.png', 0, '$2y$10$Yh/6sFQm4.z61kI3ay8F5Oih6UFZUhHR6avOSfeXoJCNE7Siye5pq', 0),
+('waititu', 'ferd.waititu@govt.ke', 0, '0700456789', 0, 'male', 'politician', 1, 2, 'user.png', 0, '$2y$10$8DIWecGJUO4MZYlcJZsOBe1hR5p7TVid8ixctQGe6t9rXdJ2DshTy', 0);
 
 -- --------------------------------------------------------
 
@@ -927,7 +915,8 @@ ALTER TABLE `citizen_profile`
   ADD PRIMARY KEY (`UserName`),
   ADD UNIQUE KEY `Email` (`Email`),
   ADD UNIQUE KEY `Phone Number` (`phone`),
-  ADD KEY `FK_County` (`County`);
+  ADD KEY `FK_County` (`County`),
+  ADD KEY `fkcountry` (`country`);
 
 --
 -- Indexes for table `comments`
@@ -952,31 +941,20 @@ ALTER TABLE `contact`
 -- Indexes for table `counties`
 --
 ALTER TABLE `counties`
-  ADD PRIMARY KEY (`CountyID`);
+  ADD PRIMARY KEY (`CountyID`),
+  ADD KEY `fk_country` (`countryNo`);
+
+--
+-- Indexes for table `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`countryID`);
 
 --
 -- Indexes for table `critiques`
 --
 ALTER TABLE `critiques`
   ADD PRIMARY KEY (`commentID`);
-
---
--- Indexes for table `deactivated_accounts`
---
-ALTER TABLE `deactivated_accounts`
-  ADD PRIMARY KEY (`userName`);
-
---
--- Indexes for table `deactivated_education`
---
-ALTER TABLE `deactivated_education`
-  ADD PRIMARY KEY (`userName`);
-
---
--- Indexes for table `deactivated_politics`
---
-ALTER TABLE `deactivated_politics`
-  ADD PRIMARY KEY (`userName`);
 
 --
 -- Indexes for table `emailgetcredentials`
@@ -1037,7 +1015,8 @@ ALTER TABLE `politician_profile`
   ADD PRIMARY KEY (`userName`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `phone` (`phone`),
-  ADD KEY `fk_politician` (`countyNo`);
+  ADD KEY `fk_politician` (`countyNo`),
+  ADD KEY `fk_ciuntry` (`country`);
 
 --
 -- Indexes for table `pollanswers`
@@ -1061,13 +1040,20 @@ ALTER TABLE `wards`
 -- Constraints for table `citizen_profile`
 --
 ALTER TABLE `citizen_profile`
-  ADD CONSTRAINT `FK_County` FOREIGN KEY (`County`) REFERENCES `counties` (`CountyID`);
+  ADD CONSTRAINT `FK_County` FOREIGN KEY (`County`) REFERENCES `counties` (`CountyID`),
+  ADD CONSTRAINT `fkcountry` FOREIGN KEY (`country`) REFERENCES `counties` (`CountyID`);
 
 --
 -- Constraints for table `constituencies`
 --
 ALTER TABLE `constituencies`
   ADD CONSTRAINT `FK` FOREIGN KEY (`countyNo`) REFERENCES `counties` (`CountyID`);
+
+--
+-- Constraints for table `counties`
+--
+ALTER TABLE `counties`
+  ADD CONSTRAINT `fk_country` FOREIGN KEY (`countryNo`) REFERENCES `countries` (`countryID`);
 
 --
 -- Constraints for table `notifications`
@@ -1093,6 +1079,7 @@ ALTER TABLE `politician_politics`
 -- Constraints for table `politician_profile`
 --
 ALTER TABLE `politician_profile`
+  ADD CONSTRAINT `fk_ciuntry` FOREIGN KEY (`country`) REFERENCES `countries` (`countryID`),
   ADD CONSTRAINT `fk_politician` FOREIGN KEY (`countyNo`) REFERENCES `counties` (`CountyID`);
 
 --
