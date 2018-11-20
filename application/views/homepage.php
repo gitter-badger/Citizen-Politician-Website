@@ -24,14 +24,25 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		  div.main,div#contacts{
 		    height: auto !important;
 		  }
+		  .docs{
+		  	font-size: 11px !important;
+		  }
 		}
 		@media screen and (max-width: 1200px) {
 		  a[data-target="#signUp"]{
 		  	text-align: left !important;
 		  }
 		}
-		.col-xl-2:hover{
+		@media screen and (max-width: 576px) {
+		  nav.navbar,#bottom{
+		  	display: none !important;
+		  }
+		}
+		.docs:hover{
 			background-color: whitesmoke;
+		}
+		.docs{
+			font-size: 13px;
 		}
 	</style>
 </head>
@@ -58,7 +69,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 				  	<div class="jumbotron" style="background-color: rgba(0,0,0,0.2);padding-top: 20px;padding-bottom: 10px;">
 				    	<span class="display-4 text-light" style="font-family: Cookie,cursive;line-height: 50px;"><i class="fas fa-user"></i> Mwananchi.<br><small class="display-4 text-light" style="line-height: 20px !important;font-family: book antiqua;font-size: 30px;">A Citizen-Politician Website.</small></span>
 				    	<br>
-				    	<span class="text-light" style="font-family: Comic Sans MS,cursive,sans-serif;font-size: 14px;">Welcome to mwananchi website. This is the official site landing page. You can login, sign up and enjoy our services. You could also use the links above to spy across the page and see our features and contact information. Enjoy!</span><br><br>
+				    	<span class="text-light" style="font-family: Comic Sans MS,cursive,sans-serif;font-size: 14px;">Welcome to Mwananchi. This is the official site landing page. You can login, sign up and enjoy our services. Scroll down to view the contact form, location of our offices and Frequently Asked Questions. If you have forgotten your password, use the <strong>forgot password link</strong> to reset it. For more links, scroll down to the <a href='' onclick="event.preventDefault();$('body,html').animate({scrollTop: document.body.scrollHeight},1000)" class='text-info'>end of the page.</a></span><br><br>
 				    	<span class="row container">
 				    		<span class="col-xs-6 mb-3" style="float: left;color: ghostwhite; font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;line-height: 23px;">Email us: <a href="mailto:<?php echo $mail_from;?>" style="color: #888888; font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;"><?php echo $mail_from;?></a>
 				    		</span>
@@ -267,13 +278,13 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 					<div class="form-group">
 						<input class="form-control" type="email" name="email" placeholder="Your Email" required="">
 					</div>
-					<textarea class="form-control mb-3" name="comment" placeholder="Question/Comment..." style="resize: none;" rows="3"></textarea>
+					<textarea required="" class="form-control mb-3" name="comment" placeholder="Question/Comment..." style="resize: none;" rows="3"></textarea>
 					<button type="submit" class="btn btn-info">Submit</button>
 				</fieldset>
 			</form>
 		</div>
 		<div class="d-flex justify-content-center row w-100 p-3">
-    		<span class="mb-2 col-xs-6 text-info text-center" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;">Email us: <a href="mailto:<?php echo $mail_from;?>" class="text-muted" style="font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;"><?php echo $mail_from;?></a>
+    		<span class="mb-2 col-xs-6 text-info text-center" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;">Email us: <a href="mailto:<?php echo $mail_from;?>" class="text-muted" style="font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;"><?php echo $mail_from;?></a>
     		</span>
     		<span class="mb-2 col-xs-6 text-center">
     			<a target='_blank' href='https://github.com/dopesky/citizen-politician-website' style='float:left;margin-right: 30px;margin-left: 20px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' class="rounded-circle" style='display: block;' src='<?php echo base_url();?>/resources/github_icon.png' alt=''></a>
@@ -282,8 +293,8 @@ $this->session->unset_userdata(array('username','photo','usertype'));
     			<a target='_blank' href='https://linkedin.com/in/kevin-kathendu-759062147' style='float:left;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_gray-24.png' alt=''></a>
     		</span>
 		</div>
-		<div class="d-flex justify-content-center p-1">
-			<span class="mb-3 text-muted" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;">
+		<div class="d-flex justify-content-center text-center p-1 w-100 row">
+			<span class="mb-3 text-muted col-12" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;">
 				Office Numbers:	<a href="tel:+254702192746" class="text-muted">+254702192746</a>, <a href="tel:+254792141986" class="text-muted">+254792141986</a>, <a href="tel:+25479037835" class="text-muted">+254729037835</a>.
 			</span>
 		</div>
@@ -302,17 +313,17 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 			<?php foreach ($faq as $value): ?>
 				<tr>
 					<td>
-						<div class="media border p-3 rounded">
+						<div class="media border p-2 rounded">
 							<img src="<?php echo base_url('resources/anonymous.svg')?>" class="mr-3 mt-3 rounded-circle align-self-start" alt="<?php echo $value->name?>" style="width: 60px">
 							<div class="media-body">
-								<h4><?php echo $value->name?> <small class="text-muted" style="font-size: 14px"><i>Posted on <?php echo date_format(date_create($value->time),'F d,Y h:i a');?></i></small></h4>
+								<h4><?php echo $value->name?> <small class="text-muted" style="font-size: 14px"><i style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;"><?php echo $this->formatter->formatDate($value->time);?></i></small></h4>
 								<p><b class="text-info" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;line-height: 23px;">Email: </b>
 									<a href="mailto:<?php echo $value->email;?>" style="color: #888888; font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;"><?php echo $value->email;?></a>
 								</p>
 								<p class="text-dark">
 									<?php echo $value->question?>
 								</p>
-								<p class="p-3 text-muted">
+								<p class="p-2 text-muted">
 									<?php echo $value->reply?>
 								</p>
 							</div>
@@ -322,22 +333,28 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 			<?php endforeach ?>
 		</table>
 	</div>
-	<script>$("table").DataTable({ordering:false,"info":false,"pageLength":5,"lengthChange":false,"fnDrawCallback": function( oSettings ) {
-      $('body,html').scrollTop($('#faq').offset().top)}});</script>
+	<script>
+		$("table").DataTable({ordering:false,"info":false,"pageLength":10,"lengthChange":false});
+		$("table").on("page.dt",event=>{
+			$('body,html').scrollTop($('#faq').offset().top)
+		})
+	</script>
 </div>
 
 <div class="p-0 w-100" style="background-color: white">
-	<div class="w-100 row" style="padding-left: 2em">
-		<a class="col-xl-2 p-3 text-muted" href="">Privacy Statement</a>
-		<a class="col-xl-2 p-3 text-muted" href="">Terms and Conditions</a>
-		<a class="col-xl-2 p-3 text-muted" href="">Cookie Policy</a>
-		<a class="col-xl-2 p-3 text-muted" href="">Account Security</a>
-		<a class="col-xl-2 p-3 text-muted" href="">Sponsors</a>
-		<a class="col-xl-2 p-3 text-muted" href="<?php echo site_url('about')?>">About</a>
+	<div class="w-100 row d-flex justify-content-center" style="padding-left: 1em;padding-right: 1em;">
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('privacy')?>">Privacy Statement</a>
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('terms')?>">Terms and Conditions</a>
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('help')?>">Help Center</a>
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('cookies')?>">Cookie Policy</a>
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('security')?>">Account Security</a>
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('features')?>">Features</a>
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('dev_zone')?>">Developers</a>
+		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('about')?>">About</a>
 	</div>
 </div>
 
-<div style="height: 40px"></div>
+<div id='bottom' style="height: 40px"></div>
 
 <script>
 	function fade(){
@@ -355,6 +372,16 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		}
 	}
 	setInterval(fade,0)
+	$("input,textarea").not("#userName,#passWord").focus(event=>{
+		if($(window).width()<=992){
+			$("body,html").scrollTop($(event.currentTarget).offset().top)
+		}
+	})
+	$('#userName,#passWord').focus(event=>{
+		if($(window).width()<=992){
+			$("body,html").scrollTop($("#loginForm").offset().top)
+		}
+	})
 </script>
 </body>
 </html>
