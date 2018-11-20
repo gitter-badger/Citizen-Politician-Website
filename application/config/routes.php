@@ -64,5 +64,14 @@ $route["submit_poll"]="polls/submit_poll";
 $route["submit_poll_answer"]="polls/submit_answer";
 $route["notifications"]="notification";
 $route["drop_accounts"]="register/drop_accounts";
+$route["privacy"]="business/privacy";
+$route["terms"]="business/terms";
+$route["help"]="business/help";
+$route["cookies"]="business/cookies";
+$route["security"]="business/security";
+$route["features"]="business/features";
+$route["dev_zone"]="business/dev_zone";
+$route["about"]="business/about";
+$route["coming_soon"]="other/coming_soon";
 
 
