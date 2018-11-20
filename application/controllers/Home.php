@@ -28,8 +28,9 @@ class Home extends CI_Controller {
 
 	public function contact_us(){
 		if(!isset($_POST['name'])) redirect(site_url("home"),"location");
-		if(!$this->checkEmail(trim($_POST['email']))){
+		if(!$this->formatter->checkEmail(trim($_POST['email']))){
 			$this->session->set_flashdata("error","<div class='alert alert-warning'>Email is not of correct format.</div>");
+			redirect(site_url("home")."#contacts","location");
 		}
 		if($this->contactinfo->add_contact(trim($_POST['name']),trim($_POST['email']),trim($_POST['comment']))){
 			$this->session->set_flashdata("error","<div class='alert alert-success'>Thankyou for reaching out to us ".trim($_POST['name']).". We will get back to you via your email as soon as possible.</div>");
@@ -37,12 +38,6 @@ class Home extends CI_Controller {
 			$this->session->set_flashdata("error","<div class='alert alert-danger'>An error occurred. Please contact the administrator.</div>");
 		}
 		redirect(site_url("home")."#contacts","location");
-	}
-
-	private function checkEmail($email) {
-	   $find1 = strpos($email, '@');
-	   $find2 = strrpos($email, '.');
-	   return ($find1 !== false && $find2 !== false && ($find1+2)<$find2 && ($find2+2)<strlen($email));
 	}
 
 	public function login(){
