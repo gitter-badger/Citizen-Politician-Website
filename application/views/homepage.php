@@ -107,7 +107,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 									<div class="input-group mb-3">
 										<input type="password" class="form-control" id="passWord" name="passWord" placeholder="Password" required="">
 									    <div class="input-group-append">
-									      	<span class="input-group-text" id="show" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+									      	<span class="input-group-text" onclick="showPassword(this,'#passWord')" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
 									    </div>
 									</div>
 								</div>
@@ -133,7 +133,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		  	</div>
 		  	<form method="post" enctype="multipart/form-data" action="<?php echo site_url('home/reset_password')?>">
 		      	<div class="modal-body">
-		      		For your password to be reset, you have to provide your working email or username and a reset url will be sent to your email.
+		      		For your password to be reset, you have to provide your working email or username and reset instructions will be sent to your email.
 			        <input class="form-control" type="text" name="email" placeholder="Username or Email" required="">
 			  	</div>
 			    <div class="modal-footer">
@@ -156,58 +156,53 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 					<div class="col-lg-6">
 						<div class="form-group">
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" name="user" id="user" placeholder="Username" required="">
+								<input type="text" class="form-control" name="user" onkeyup="checkUser(this,'#spanUser')" placeholder="Username" required="">
 							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="1"></span>
+							      	<span class="input-group-text fa" id="spanUser"></span>
 							    </div>
 							</div>
 						</div>
-						<div id="userError"></div>
 						<div class="form-group">
 							<div class="input-group mb-3">
-								<input type="email" class="form-control" name="email" id="email" placeholder="Email" required="">
+								<input type="email" class="form-control" name="email" onkeyup="checkEmail(this,'#spanEmail')" placeholder="Email" required="">
 							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="2"></span>
+							      	<span class="input-group-text fa" id="spanEmail"></span>
 							    </div>
 							</div>
 						</div>
-						<div id="emailError"></div>
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 							      	<span class="input-group-text">+254</span>
 							    </div>
-								<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required="">
+								<input type="text" class="form-control" name="phone" onkeyup="checkPhone(this,'#spanPhone')" placeholder="Phone" required="">
 							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="3"></span>
+							      	<span class="input-group-text fa" id="spanPhone"></span>
 							    </div>
 							</div>
 						</div>
-						<div id="phoneError"></div>
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-							      	<span class="input-group-text" id="showSecret" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+							      	<span class="input-group-text" onclick="showPassword(this,'#secret')" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
 							    </div>
-								<input type="password" class="form-control" name="secret" id="secret" placeholder="Password" required="">
+								<input type="password" class="form-control" onkeyup="checkPass(this,'#spanSecret','#secretRe','#spanRepeat')" name="secret" id="secret" placeholder="Password" required="">
 							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="4"></span>
+							      	<span class="input-group-text fa" id="spanSecret"></span>
 							    </div>
 							</div>
 						</div>
-						<div id="secretError"></div>
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-							      	<span class="input-group-text" id="showSecretRe" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+							      	<span class="input-group-text" onclick="showPassword(this,'#secretRe')" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
 							    </div>
-								<input type="password" class="form-control" name="secretRe" id="secretRe" placeholder="Repeat Password" required="">
+								<input type="password" class="form-control" name="secretRe" onkeyup="checkRepeat('#secret',this,'#spanRepeat')" id="secretRe" placeholder="Repeat Password" required="">
 							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="5"></span>
+							      	<span class="input-group-text fa" id="spanRepeat"></span>
 							    </div>
 							</div>
 						</div>
-						<div id="secretReError"></div>
 					</div>
 					<div class="col-lg-6">
 						<div class="form-group">

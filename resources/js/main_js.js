@@ -1,19 +1,14 @@
-$(document).ready(()=>{
-	function showPassword(event){
-		var type=$(event.data.input).attr("type")
+	function showPassword(button,input){
+		var type=$(input).attr("type")
 		if(type.localeCompare("password")===0){
-			$(event.data.input).attr("type","text")
-			$(event.data.button).addClass("bg-info")
+			$(input).attr("type","text")
+			$(button).addClass("bg-info")
 		}else{
-			$(event.data.input).attr("type","password")
-			$(event.data.button).removeClass("bg-info")
+			$(input).attr("type","password")
+			$(button).removeClass("bg-info")
 		}
-		$(event.data.input).focus()
+		$(input).focus()
 	}
-
-	$("#show").click({button: "#show", input: "#passWord"},showPassword)
-	$("#showSecret").click({button: "#showSecret", input: "#secret"},showPassword)
-	$("#showSecretRe").click({button: "#showSecretRe", input: "#secretRe"},showPassword)
 
 	$("div#signUp>form").submit(event=>{
 		var user=$("#user").val().trim()
@@ -89,72 +84,71 @@ $(document).ready(()=>{
 		$("div#phoneError").removeClass("alert").removeClass("alert-danger").html("")
 	})
 
-
-	$("#user").keyup(()=>{
-		var user=$("#user").val().trim()
+	function checkUser(input,span){
+		var user=$(input).val().trim()
 		if(user.length===0){
-			$("span#1").removeClass("fa-times").removeClass("fa-check")
+			$(span).removeClass("fa-times").removeClass("fa-check")
 			return;
 		}
-		if(user.length<3||!isNaN(user.charAt(0))){
-			$("span#1").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+		if(user.length<3||!isNaN(user.charAt(0))||user.toLowerCase().localeCompare('mwananchi')===0||(/[^a-z 0-9-_.]/i).test(user)){
+			$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
 			return;
 		}
-		$.post("checkUser.php",{user:user},data=>{
-			if(data.localeCompare("true")===0){
-				$("span#1").removeClass("fa-check").addClass("fa-times").css("color","indianred")
-			}else if(data.localeCompare("false")===0){
-				$("span#1").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
-			}else{
-				alert(data)
-			}
-		})
-		$("span#1").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
-	})
+		// $.post("checkUser.php",{user:user},data=>{
+		// 	if(data.localeCompare("true")===0){
+		// 		$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
+		// 	}else if(data.localeCompare("false")===0){
+		// 		$(span).removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+		// 	}else{
+		// 		alert(data)
+		// 	}
+		// })
+		$(span).removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+	}
 
-	$("#email").keyup(()=>{
-		var email=$("#email").val().trim()
+	function checkEmail(input,span){
+		var email=$(input).val().trim()
 		var posAt=email.indexOf("@")
 		var posDot=email.lastIndexOf(".")
 		if(email.length===0){
-			$("span#2").removeClass("fa-times").removeClass("fa-check")
+			$(span).removeClass("fa-times").removeClass("fa-check")
 			return;
 		}
 		if(posAt<1||(posAt+2)>posDot||(posDot+2)>=email.length){
-			$("span#2").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+			$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
 			return;
 		}
-		$("span#2").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
-	})
+		$(span).removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+	}
 
-	$("#phone").keyup(()=>{
-		var phone=$("#phone").val().trim()
+	function checkPhone(input,span){
+		var phone=$(input).val().trim()
 		if(phone.length===0){
-			$("span#3").removeClass("fa-times").removeClass("fa-check")
+			$(span).removeClass("fa-times").removeClass("fa-check")
 			return;
 		}
 		if(phone.charAt(0)!=7||phone.length!=9||isNaN(phone)){
-			$("span#3").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+			$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
 			return;
 		}
-		$("span#3").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
-	})
+		$(span).removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+	}
 
-	$("#secret").keyup(()=>{
-		$("#secretRe").trigger("keyup")
-		var secret=$("#secret").val()
+	function checkPass(input,span,input2,span2){
+		checkRepeat(input,input2,span2)
+		var secret=$(input).val()
 		if(secret.length===0){
-			$("span#4").removeClass("fa-times").removeClass("fa-check")
+			$(span).removeClass("fa-times").removeClass("fa-check")
 			return;
 		}
 		if(secret.length<8){
-			$("span#4").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+			$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
 			return;
 		}
 		for(var i=0;i<secret.length;i++){
 			if(isNaN(secret.charAt(i))){
 				if(i===secret.length-1){
-					$("span#4").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+					$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
 					return
 				}
 			}else
@@ -165,27 +159,27 @@ $(document).ready(()=>{
 				break
 			}else{
 				if(i===secret.length-1){
-					$("span#4").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+					$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
 					return
 				}
 			}
 		}
-		$("span#4").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
-	})
+		$(span).removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+	}
 
-	$("#secretRe").keyup(()=>{
-		var secretRe=$("#secretRe").val()
-		var secret=$("#secret").val()
+	function checkRepeat(input1,input2,span){
+		var secretRe=$(input2).val()
+		var secret=$(input1).val()
 		if(secretRe.length===0){
-			$("span#5").removeClass("fa-times").removeClass("fa-check")
+			$(span).removeClass("fa-times").removeClass("fa-check")
 			return;
 		}
 		if(secretRe.localeCompare(secret)!==0){
-			$("span#5").removeClass("fa-check").addClass("fa-times").css("color","indianred")
+			$(span).removeClass("fa-check").addClass("fa-times").css("color","indianred")
 			return
 		}
-		$("span#5").removeClass("fa-times").addClass("fa-check").css("color","limegreen")
-	})
+		$(span).removeClass("fa-times").addClass("fa-check").css("color","limegreen")
+	}
 
 	$("#photo").change(()=>{
 		var photo=$("#photo").val()
@@ -203,4 +197,3 @@ $(document).ready(()=>{
 		var value=(photo.indexOf("\\")>-1) ? photo.substr(photo.lastIndexOf("\\")+1) : photo.substr(photo.lastIndexOf("/")+1)
 		$("#labelPhoto").html(value)
 	})
-})
