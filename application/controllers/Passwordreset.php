@@ -21,9 +21,9 @@ class Passwordreset extends CI_Controller{
 					if(((strtotime($this->db->query("select now() as now")->row()->now)-strtotime($value->timestamp))/60)>15){
 						return "<div class='alert alert-warning'><strong>Warning!</strong> Your request has timed out. Please request for another password reset email.</div>";
 					}else{
-						$new_pass=$this->sendresetemail->generate_random_string(random_int(10,20));
+						$new_pass=$this->formatter->generate_random_string(random_int(10,20));
 						if($this->sendresetemail->user_reset($value->eventID,$new_pass,$value->userEmail)){
-							return "<div class='alert alert-success'><strong>Success!</strong> <span style='position: relative;margin-right: 5px'>Password reset for $value->userEmail successful. Your new password is </span> <a data-toggle='popover' data-placement='top' data-trigger='manual' data-content='Click to copy to Clipboard' style='position: absolute;cursor:pointer' id='new' class='text-muted'>$new_pass.</a><input type='text' style='opacity:0' id='field' value='$new_pass'></div>";
+							return "<div class='alert alert-success'><strong>Success!</strong> <span style='position: relative;margin-right: 5px'>Password reset for $value->userEmail successful. Your new password is </span> <a data-toggle='popover' data-placement='top' data-trigger='manual' data-content='Click to copy to Clipboard' style='position: absolute;cursor:pointer;z-index:100' id='new' class='text-muted'>$new_pass.</a><input type='text' style='opacity:0;' id='field' value='$new_pass'></div>";
 						}else{
 							return "<div class='alert alert-danger'><strong>Error occurred!</strong> Please try again later.</div>";
 						}
