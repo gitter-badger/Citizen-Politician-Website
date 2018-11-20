@@ -19,8 +19,7 @@ class Passwordreset extends CI_Controller{
 		}else{
 			foreach ($log as $value) {
 				if($value->userEmail===$email){
-					date_default_timezone_set("Africa/Nairobi");
-					if(((strtotime(date("Y-m-d H:i:s"))-strtotime($value->timestamp))/60)>15){
+					if(((strtotime($this->db->query("select now() as now")->row()->now)-strtotime($value->timestamp))/60)>15){
 						return "<div class='alert alert-warning'><strong>Warning!</strong> Your request has timed out. Please request for another password reset email.</div>";
 					}else{
 						$new_pass=$this->sendresetemail->generate_random_string(random_int(10,20));

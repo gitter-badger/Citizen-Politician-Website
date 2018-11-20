@@ -1,9 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once APPPATH."/third_party/Cloudinary/autoload.php";
+require_once APPPATH."/third_party/Cloudinary/src/Api.php";
+require_once APPPATH."/third_party/Cloudinary/src/Cloudinary.php";
+require_once APPPATH."/third_party/Cloudinary/src/Helpers.php";
+require_once APPPATH."/third_party/Cloudinary/src/Uploader.php";
 class Accounts extends CI_Model {
 	function __construct(){
 		parent::__construct();
+		\Cloudinary::config(array( 
+		  "cloud_name" => "dkgtd3pil", 
+		  "api_key" => "614412954515959", 
+		  "api_secret" => "azKeL5xxqg9BEeC7TGrHsP5fnJM" 
+		));
 	}
 
 	public function login_admin($user_name){
@@ -74,6 +83,35 @@ class Accounts extends CI_Model {
 			}
 		}
 		return $return;
+	}
+
+	public function uniqueUser($user){
+		$return=$this->db->query("select UserName from citizen_profile where UserName=? union all select username from politician_profile where userName=? union all select adminUserName from admin_profile where adminUserName=?",array($user,$user,$user))->row();
+		return isset($return);
+	}
+
+	public function uniqueEmail($user){
+		$return=$this->db->query("select UserName from citizen_profile where Email=? union all select username from politician_profile where email=?",array($user,$user))->row();
+		return isset($return);
+	}
+
+	public function uniquePhone($user){
+		$return=$this->db->query("select UserName from citizen_profile where phone=? union all select username from politician_profile where phone=?",array($user,$user))->row();
+		return isset($return);
+	}
+
+	public function add_user($db,$username,$email,$phone,$gender,$county,$pass){
+		if($_FILES['photo']['name']!==''){
+			$target_dir= "mwananchi/profiles/$username/";
+			$photo=\Cloudinary\Uploader::upload($_FILES['photo']['tmp_name'], array("folder" => $target_dir))['secure_url'];
+		}else{
+			$photo=($gender==='male') ? "user.png":"userFemale.png";
+		}
+		if($db==='citizen'){
+			return $this->db->query("insert into citizen_profile (UserName,Email,phone,gender,County,photo,Secret) values (?,?,?,?,?,?,?)",array($username,$email,$phone,$gender,$county,$photo,password_hash($pass,PASSWORD_DEFAULT)));
+		}elseif($db==='politician'){
+			return $this->db->query("insert into politician_profile (userName,email,phone,gender,countyNo,photo,password) values (?,?,?,?,?,?,?)",array($username,$email,$phone,$gender,$county,$photo,password_hash($pass,PASSWORD_DEFAULT)));
+		}
 	}
 }
 

@@ -114,7 +114,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 				<div class="modal-title" style="font-size: 18px;">Sign Up</div>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			<form style="width: 100%;" method="post" enctype="multipart/form-data">
+			<form style="width: 100%;" method="post" enctype="multipart/form-data" action="<?php echo site_url('home/signup')?>">
 				<div class="row modal-body" style="padding: 25px;box-sizing: border-box;width: 100%;">
 					<div class="col-lg-6">
 						<div class="form-group">
@@ -184,7 +184,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 							<select class="custom-select mb-3" name="counties" id="counties" style="cursor: pointer;" required="">
 								<?php
 									foreach ($counties as $county) {
-										echo "<option id=$county->CountyID>$county->County</option>";
+										echo "<option value=$county->CountyID>$county->County</option>";
 									}
 								?>
 							</select>
