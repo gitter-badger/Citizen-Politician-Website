@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body  style="min-width:1200px;overflow: hidden;">
 	<script>
 		var screenWidth=screen.width,screenHeight=screen.height
-		if(screenWidth<576||screenHeight<576){
+		if(screenWidth<1100||screenHeight<623){
 			location.assign("<?php echo base_url()?>home.html")
 		}
 	</script>
@@ -18,13 +18,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<table class="table table-borderless" style="height:100%;position: absolute;background-color: rgba(0,0,0,0.7);margin: 0px;top:0;left:0;bottom:0;min-width:1200px;">
 		<tr style="width: 100%;height: 100%">
 			<td style="width: 50%;padding-left: 20px;padding-top: 70px">
-				<div class="alert alert-info mb-1" id="about" style="position: relative;overflow: auto;display: inline-block;opacity: 0;">
+				<div class="alert alert-info mb-1" id="about" style="position: relative;overflow: auto;display: inline-block;opacity: 0;word-break: keep-all;">
 					<h1 class="jumbotron" style="padding-bottom:5px;padding-top: 10px;font-family: Cookie,cursive;font-size: 54px;"><i class="fas fa-user"></i> Mwananchi Website<br><pre style="font-size: 24px;font-family: Cookie,cursive;color: darkslategray;">            Leadership with service.</pre></h1>
-					Welcome to Mwananchi Website. The website is designed for Kenyan citizens to enable them to <strong>know their politicians</strong>. Kenyans do not usually know the type of leader they select. In most cases, citizens often vote for people in their party or their tribe. After elections, the elected leaders do not fulfil their duties as stipulated in the constitution or their manifesto. Citizens have no way of contacting their leaders to raise a complaint or observation. <br>This web application has come to the rescue. It <strong>displays information about a politician</strong> that is relevant to the public. With this application citizens can also <strong>contact their leaders</strong> and also <strong>post problems and comments related to their respective areas</strong>. Citizens will also be able to see <strong>a detailed analysis of their leaders to help them decide who to vote for.</strong><br>
-					The developer <i>Kevin Mwenda</i> believes that this web application is the key to help Kenyans move foward politically.
+					Welcome to Mwananchi Website. The website is originally designed for Kenyan citizens to enable them to <strong>know their politicians</strong>. It is meant to bridge the gap between the politician and the citizen in a fun way for everyone. Citizens can now <strong>communicate</strong> with their politicians and post anything with regards to their politicians <strong>on-site</strong>. They will also get a <strong>rating</strong> of the politician depending on the polician's <strong>popolarity</strong> and <strong>efficiency</strong>. Popularity will be gauged on user response to <strong>posts</strong> and <strong>number of followers</strong> while efficiency will be gauged on <strong>achievements</strong> and <strong>critiques</strong> and also the <strong>willingness to help the citizen</strong>. We hope it is fulfilling its intended duty. It was designed using a <strong>social media</strong> approach and thus works like any other social media site out there. Create an account as a <strong>politician</strong> or a <strong>citizen</strong> and enjoy. The site was developed by <strong>Kevin Mwenda</strong> from scratch using web development tools. It was taken live for a beta version on 1<sup>st</sup> November 2018 and has ever since been on maintenance and improvement. It is now in its <strong>version 1.1</strong>. This is the official site index page. Its purpose is to give a brief history of the site and the founder/initial developer. For more information contact us on our homepage. Click proceed when ready to go to the homepage.
 				</div>
 			</td>
-			<td style="width: 50%;padding-left: 25px;padding-top: 190px">
+			<td style="width: 50%;padding-left: 25px;padding-top: 170px">
 				<div>
 					<div class="holder">
 						<h1 class="header">
