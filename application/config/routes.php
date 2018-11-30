@@ -52,18 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-$route['news_feed']= 'stories';
-$route['news_feed/check']= 'stories/checkpolitician';
-$route["reset_user_password/(:any)/(:any)"]= "passwordreset/index/$1/$2";
-$route["start_poll"]="polls";
-$route["search/(:any)"]="search/index/$1";
-$route["profile/(:any)"]="profile/index/$1";
-$route["follow_user"]="follow/follow_user";
-$route["unfollow_user"]="follow/unfollow_user";
-$route["submit_poll"]="polls/submit_poll";
-$route["submit_poll_answer"]="polls/submit_answer";
-$route["notifications"]="notification";
-$route["drop_accounts"]="register/drop_accounts";
 $route["privacy"]="business/privacy";
 $route["terms"]="business/terms";
 $route["help"]="business/help";
@@ -73,5 +61,20 @@ $route["features"]="business/features";
 $route["dev_zone"]="business/dev_zone";
 $route["about"]="business/about";
 $route["coming_soon"]="other/coming_soon";
+$route["reset_user_password/(:any)/(:any)"]= "passwordreset/index/$1/$2";
+
+
+$route['news_feed']= 'stories';
+$route['news_feed/check']= 'stories/checkpolitician';
+$route["start_poll"]="polls";
+$route["search/(:any)"]="search/index/$1";
+$route["profile/(:any)"]="profile/index/$1";
+$route["follow_user"]="follow/follow_user";
+$route["unfollow_user"]="follow/unfollow_user";
+$route["submit_poll"]="polls/submit_poll";
+$route["submit_poll_answer"]="polls/submit_answer";
+$route["notifications"]="notification";
+$route["drop_accounts"]="register/drop_accounts";
+
 
 
