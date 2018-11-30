@@ -7,7 +7,11 @@ class Regions extends CI_Model {
 	}
 
 	public function get_counties(){
-		return $this->db->select("CountyID,County")->from("counties")->get()->result();
+		return $this->db->query("select CountyID,County,countryNo from counties")->result();
+	}
+
+	public function get_countries(){
+		return $this->db->query("select countryID,country from countries")->result();
 	}
 }
 
