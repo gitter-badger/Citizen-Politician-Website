@@ -7,11 +7,13 @@ class Passwordreset extends CI_Controller{
 		$this->load->model("sendresetemail");
 	}
 
+	//loads the password reset view to show success or failure.
 	public function index($email,$passcode){
 		$data['data']=$this->analyze_log($this->sendresetemail->get_log($passcode),$email,$passcode);
 		$this->load->view("password_reset_view",$data);
 	}
 
+	//analyses the log info gotten from get_log method to see if there exists one where the given passcode and userEmail match. If a match is found, it checks if the given time period of 15 minutes has passed after which a request is considered void. If all conditions are fulfilled, a user's password is reset and their new password is shown.
 	private function analyze_log($log,$email,$pass){
 		if(empty($log)){
 			return "<div class='alert alert-danger'><strong>Error!</strong> The ($pass) passcode is not recognised by our system thus password cannot be reset. Please request for another password reset email.</div>";

@@ -7,6 +7,7 @@ class Other extends CI_Controller {
 		parent::__construct();
 	}
 
+	//Loads the coming soon page to show that a functionality is still under development.
 	public function coming_soon(){
 		if($this->session->userdata('usertype')===null){
 			$data['navbar']="";
