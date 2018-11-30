@@ -7,18 +7,25 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 <head>
 	<?php echo $head;?>
 	<style>
-		.carousel-indicators li{
-		    background-color: #33C1FF;
+		ul#safeReset li a {
+			border-color: transparent; 
+			color: gray;
 		}
-		.carousel-indicators .active {
-		    background-color: gray;
+		ul#safeReset li a:hover {
+			color: #17a2b8;
 		}
-		.carousel-control-prev-icon {
-		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+		ul#safeReset li a.active {
+			color: #17a2b8;
+			border-color: transparent;
+			border-bottom-color: #17a2b8;
 		}
-
-		.carousel-control-next-icon {
-		    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23808080' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+		div.main{
+			background: url(<?php echo base_url('resources/background_image_home.JPG');?>) no-repeat top;
+			background-size: cover;
+			background-attachment: fixed;
+			padding: 0px;
+			margin: 0;
+			height: 100%;
 		}
 		@media screen and (max-width: 992px) {
 		  div.main,div#contacts{
@@ -29,7 +36,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		  }
 		}
 		@media screen and (max-width: 1200px) {
-		  a[data-target="#signUp"]{
+		  a[href="#signUp"]{
 		  	text-align: left !important;
 		  }
 		}
@@ -38,30 +45,11 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		  	display: none !important;
 		  }
 		}
-		.docs:hover{
-			background-color: whitesmoke;
-		}
-		.docs{
-			font-size: 13px;
-		}
 	</style>
 </head>
-<body data-spy="scroll" data-target=".navbar">
+<body data-spy="scroll" data-target=".navbar" ng-app="main">
 <?php echo $navbar;?>
-<script>
-	$(".navbar li a").on('click', function(event) {
-		if (this.hash !== "") {
-  			event.preventDefault();
-  			var hash = this.hash;
-  			$('html, body').animate({
-    			scrollTop: $(hash).offset().top
-  			}, function(){
-    			window.location.hash = hash;
-  			});
-		}
-	});
-</script>
-<div class="row container-fluid main" style="background: url(<?php echo base_url('resources/background_image_home.JPG');?>) no-repeat top;background-size: cover;background-attachment: fixed;padding: 0px;margin: 0;height: 100%">
+<div class="row container-fluid main">
 	<div class="row" id="main" style="background-color: rgba(0,0,0,0.6);margin: 0;">
 		<div class="col-lg-12 text-center" style="height: 50px"></div>
 			<div class="col-lg-7 container">
@@ -74,7 +62,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 				    		<span class="col-xs-6 mb-3" style="float: left;color: ghostwhite; font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;line-height: 23px;">Email us: <a href="mailto:<?php echo $mail_from;?>" style="color: #888888; font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;"><?php echo $mail_from;?></a>
 				    		</span>
 				    		<span class="col-xs-6 mb-3">
-				    			<a target='_blank' href='https://github.com/dopesky/citizen-politician-website' style='float:left;margin-right: 30px;margin-left: 20px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' class="rounded-circle" style='display: block;' src='<?php echo base_url();?>/resources/github_icon.png' alt=''></a>
+				    			<a target='_blank' href='https://github.com/dopesky/citizen-politician-website' style='float:left;margin-right: 30px;margin-left: 20px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' class="rounded-circle" style='display: block;' src='<?php echo base_url();?>resources/github_icon.png' alt=''></a>
 				    			<a target='_blank' href='https://twitter.com/dopesky001' style='float:left;margin-right: 30px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/Qc3zTxn.png' alt=''></a>
 				    			<a target='_blank' href='https://www.facebook.com/voxy.v.mcmwenda' style='float:left;margin-right: 30px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/RBRORq1.png' alt=''></a>
 				    			<a target='_blank' href='https://linkedin.com/in/kevin-kathendu-759062147' style='float:left;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_gray-24.png' alt=''></a>
@@ -112,8 +100,8 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 									</div>
 								</div>
 								  	<div class="row">
-								    	<a class="text-info col-xl-7 mb-2" href="" id="safeReset" data-toggle="modal" data-target="#forgotPassword">Forgot Password</a>
-								    	<a class="text-info col-xl-5 mb-3 text-right" href="" data-toggle="modal" data-target="#signUp">Create an Account</a>
+								    	<a class="text-info col-xl-7 mb-2" href="#forgotPassword" data-toggle="modal">Forgot Password</a>
+								    	<a class="text-info col-xl-5 mb-3 text-right" href="#signUp" data-toggle="modal">Create an Account</a>
 								  	</div>
 								  <button type="submit" class="btn btn-info">Submit</button>
 							</form>
@@ -131,15 +119,34 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 			  	<h4 class="modal-title">Change Password</h4>
 			  	<button type="button" class="close" data-dismiss="modal">&times;</button>
 		  	</div>
-		  	<form method="post" enctype="multipart/form-data" action="<?php echo site_url('home/reset_password')?>">
-		      	<div class="modal-body">
-		      		For your password to be reset, you have to provide your working email or username and reset instructions will be sent to your email.
-			        <input class="form-control" type="text" name="email" placeholder="Username or Email" required="">
-			  	</div>
-			    <div class="modal-footer">
-			    	<button type="submit" class="btn btn-info">Send Email</button>
+	      	<div class="modal-body">
+	      		<div class="container-fluid">
+					<ul class="nav nav-tabs nav-justified" id="safeReset">
+						<li class="nav-item">
+					    	<a class="nav-link active" style="border-radius: 0px;" data-toggle="tab" href="#resetEmail">via Email</a>
+					  	</li>
+					  	<!-- <li class="nav-item">
+					    	<a class="nav-link" style="border-radius: 0px;" data-toggle="tab" href="#resetPhone">via Phone</a>
+					  	</li> -->
+					</ul>
+					<div class="tab-content" style="padding: 10px;">
+						<div class="tab-pane active" id="resetEmail">
+							<form method="post" enctype="multipart/form-data" action="<?php echo site_url('home/reset_password')?>">
+								To reset your password, provide your working email, username or phone number and reset instructions will be sent to your EMAIL.
+				        		<input class="form-control mt-2" type="text" name="email" placeholder="Username, Email or Phone Number" required="">
+				        		<hr><button type="submit" class="btn btn-info float-right">Send Email</button>
+				        	</form>
+						</div>
+						<div class="tab-pane" id="resetPhone">
+							<form method="post" enctype="multipart/form-data" action="<?php echo site_url('home/reset_password')?>">
+								To reset your password, provide your working email, username or phone number and reset instructions will be sent to your PHONE via text.
+				        		<input class="form-control mt-2" type="text" name="phone" placeholder="Username, Email or Phone Number" required="">
+				        		<hr><button type="submit" class="btn btn-info float-right">Send Text</button>
+				        	</form>
+						</div>
+					</div>
 			    </div>
-		    </form>
+		  	</div>
 	    </div>
 	</div>
 </div>
@@ -156,7 +163,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 					<div class="col-lg-6">
 						<div class="form-group">
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" name="user" onkeyup="checkUser(this,'#spanUser')" placeholder="Username" required="">
+								<input type="text" class="form-control" name="user" onblur="checkAvailable(this,'#spanUser','<?php echo site_url('home/check_available')?>')" onkeyup="checkUser(this,'#spanUser')" placeholder="Username" required="">
 							    <div class="input-group-append">
 							      	<span class="input-group-text fa" id="spanUser"></span>
 							    </div>
@@ -164,7 +171,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 						</div>
 						<div class="form-group">
 							<div class="input-group mb-3">
-								<input type="email" class="form-control" name="email" onkeyup="checkEmail(this,'#spanEmail')" placeholder="Email" required="">
+								<input type="email" class="form-control" name="email" onblur="checkAvailable(this,'#spanEmail','<?php echo site_url('home/check_available')?>')" onkeyup="checkEmail(this,'#spanEmail')" placeholder="Email" required="">
 							    <div class="input-group-append">
 							      	<span class="input-group-text fa" id="spanEmail"></span>
 							    </div>
@@ -173,9 +180,9 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-							      	<span class="input-group-text">+254</span>
+							      	<span class="input-group-text">+</span>
 							    </div>
-								<input type="text" class="form-control" name="phone" onkeyup="checkPhone(this,'#spanPhone')" placeholder="Phone" required="">
+								<input type="text" class="form-control" name="phone" onblur="checkAvailable(this,'#spanPhone','<?php echo site_url('home/check_available')?>')" onkeyup="checkPhone(this,'#spanPhone')" placeholder="Phone" required="">
 							    <div class="input-group-append">
 							      	<span class="input-group-text fa" id="spanPhone"></span>
 							    </div>
@@ -184,7 +191,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-							      	<span class="input-group-text" onclick="showPassword(this,'#secret')" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+							      	<span class="input-group-text" onclick="showPassword(this,'#secret')" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
 							    </div>
 								<input type="password" class="form-control" onkeyup="checkPass(this,'#spanSecret','#secretRe','#spanRepeat')" name="secret" id="secret" placeholder="Password" required="">
 							    <div class="input-group-append">
@@ -195,7 +202,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-							      	<span class="input-group-text" onclick="showPassword(this,'#secretRe')" style="cursor: pointer;"><img src="<?php echo base_url();?>/resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+							      	<span class="input-group-text" onclick="showPassword(this,'#secretRe')" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
 							    </div>
 								<input type="password" class="form-control" name="secretRe" onkeyup="checkRepeat('#secret',this,'#spanRepeat')" id="secretRe" placeholder="Repeat Password" required="">
 							    <div class="input-group-append">
@@ -207,19 +214,21 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 					<div class="col-lg-6">
 						<div class="form-group">
 							<div class="custom-file">
-								<input type="file" accept="image/png,image/jpeg" class="custom-file-input border" name="photo" id="photo" style="cursor: pointer;">
-								<label for="photo" class="custom-file-label" id="labelPhoto">Profile Photo <span class="text-secondary">(Optional): </span></label>
+								<input type="file" accept="image/*" class="custom-file-input border" name="photo" id="photo" style="cursor: pointer;" onchange="check_photo(event,'#labelPhoto')">
+								<label for="photo" class="custom-file-label" id="labelPhoto">Profile Photo <span class="text-secondary">(Optional) </span></label>
 							</div>
 						</div>
-						<div class="form-group mb-2">
+						<div class="form-group mb-2" ng-controller="select_controller" id="select_module">
+							<label for="countries"> Country:</label>
+							<select class="custom-select mb-3" ng-model="select_value" ng-change="change_select()" name="countries" id="countries" style="cursor: pointer;" required="">
+								<option value="{{x[0]}}" ng-repeat="x in countries">{{x[1]}}</option>
+							</select>
 							<label for="counties"> County:</label>
 							<select class="custom-select mb-3" name="counties" id="counties" style="cursor: pointer;" required="">
-								<?php
-									foreach ($counties as $county) {
-										echo "<option id=$county->CountyID>$county->County</option>";
-									}
-								?>
+								<option value="{{x[0]}}" ng-repeat="x in select_counties">{{x[1]}}</option>
 							</select>
+						</div>
+						<div class="form-group mb-2">
 							<div class="row">
 								<div class="col">
 									<label>Gender: </label>
@@ -282,7 +291,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
     		<span class="mb-2 col-xs-6 text-info text-center" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;">Email us: <a href="mailto:<?php echo $mail_from;?>" class="text-muted" style="font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;"><?php echo $mail_from;?></a>
     		</span>
     		<span class="mb-2 col-xs-6 text-center">
-    			<a target='_blank' href='https://github.com/dopesky/citizen-politician-website' style='float:left;margin-right: 30px;margin-left: 20px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' class="rounded-circle" style='display: block;' src='<?php echo base_url();?>/resources/github_icon.png' alt=''></a>
+    			<a target='_blank' href='https://github.com/dopesky/citizen-politician-website' style='float:left;margin-right: 30px;margin-left: 20px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' class="rounded-circle" style='display: block;' src='<?php echo base_url();?>resources/github_icon.png' alt=''></a>
     			<a target='_blank' href='https://twitter.com/dopesky001' style='float:left;margin-right: 30px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/Qc3zTxn.png' alt=''></a>
     			<a target='_blank' href='https://www.facebook.com/voxy.v.mcmwenda' style='float:left;margin-right: 30px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/RBRORq1.png' alt=''></a>
     			<a target='_blank' href='https://linkedin.com/in/kevin-kathendu-759062147' style='float:left;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_gray-24.png' alt=''></a>
@@ -297,43 +306,66 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 </div>
 
 <div class="container-fluid mr-4 p-0" style="background-image: linear-gradient(-200deg,whitesmoke 0%,ghostwhite 100%)" id="faq">
-	<div class="bg-info d-flex p-2 text-light" style="font-size: 20px">Frequently Asked Questions (FAQs)</div>
-	<div class="p-3">
+	<div class="bg-info d-flex p-2 text-light" style="font-size: 20px;">Frequently Asked Questions (FAQs)</div>
+	<div class="p-3" ng-controller="faq_controller">
+		<form onsubmit="event.preventDefault()">
+			<div class="input-group" style="width: 350px;float: right;">
+				<input type="text" style="box-shadow: none;" class="form-control" placeholder="Search" ng-model="search_field">
+				<div class="input-group-append">
+					<button style="box-shadow: none;" ng-click="searchFunction()" class="btn btn-info">Search</button>
+				</div>
+			</div>
+		</form>
 		<table class="table table-borderless w-100">
-			<thead>
-				<tr hidden="">
-					<td>Frequently Asked Questions (FAQs)</td>
-				</tr>
-			</thead>
-			<?php foreach ($faq as $value): ?>
-				<tr>
-					<td>
-						<div class="media border p-2 rounded">
-							<img src="<?php echo base_url('resources/anonymous.svg')?>" class="mr-3 mt-3 rounded-circle align-self-start" alt="<?php echo $value->name?>" style="width: 60px">
-							<div class="media-body">
-								<h4><?php echo $value->name?> <small class="text-muted" style="font-size: 14px"><i style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;"><?php echo $this->formatter->formatDate($value->time);?></i></small></h4>
-								<p><b class="text-info" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;line-height: 23px;">Email: </b>
-									<a href="mailto:<?php echo $value->email;?>" style="color: #888888; font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;"><?php echo $value->email;?></a>
-								</p>
-								<p class="text-dark">
-									<?php echo $value->question?>
-								</p>
-								<p class="p-2 text-muted">
-									<?php echo $value->reply?>
-								</p>
-							</div>
+			<tr style="display: none;" id="no_faq">
+				<td>
+					<div class="d-flex justify-content-center">No Questions to Show.</div>
+				</td>
+			</tr>
+			<tr style="display: none;" id="faq_loader">
+				<td>
+					<div class="d-flex justify-content-center"><div class="loader"></div></div>
+				</td>
+			</tr>
+			<tr ng-repeat="x in data">
+				<td>
+					<div class="media border p-2 rounded">
+						<img src="https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838690/mwananchi/site/anonymous.svg" class="mr-3 mt-3 rounded-circle align-self-start" alt="{{x[1]}}" style="width: 60px">
+						<div class="media-body">
+							<h4>{{x[1]}} <small title="{{x[6]}}" class="text-muted" style="font-size: 14px;cursor: default;"><i style="font-family: Helvetica, Arial, sans-serif;font-size: 11px;">{{x[5]}}</i></small></h4>
+							<p>
+								<b class="text-info" style="font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;line-height: 23px;">Email: </b>
+								<a href="mailto:{{x[2]}}" style="color: #888888; font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;">{{x[2]}}</a>
+							</p>
+							<div class="text-dark" ng-bind-html="x[3]"></div>
+							<div class="p-3 text-muted" ng-bind-html="x[4]"></div>
 						</div>
-					</td>
-				</tr>
-			<?php endforeach ?>
+					</div>
+				</td>
+			</tr>
+			<tr id="faq_pagination">
+				<td>
+					<nav aria-label="Navigation Bar" class="d-flex justify-content-center align-items-center">
+						<ul class="pagination">
+					    	<li class="page-item">
+					      		<a class="page-link" style="box-shadow: none;" title="Previous" href="#" ng-click='prevNext($event)' onclick="event.preventDefault()" aria-label="Previous">
+					        		<span aria-hidden="true">&laquo;</span>
+					        		<span class="sr-only">Previous</span>
+					      		</a>
+					    	</li>
+					    	<li ng-repeat="y in pages_array" ng-class="{'active':y[0]==current_page,'disabled':y[0]=='...'}" class="page-item"><a style="box-shadow: none;" href="#" title="{{y[2]}}" ng-click="change_page($event)" data-offset="{{y[1]}}" class="page-link" onclick="event.preventDefault()">{{y[0]}}</a></li>
+					    	<li class="page-item">
+					      		<a title="Next" style="box-shadow: none;" class="page-link" href="#" ng-click='prevNext($event)' onclick="event.preventDefault()" aria-label="Next">
+					        		<span aria-hidden="true">&raquo;</span>
+					        		<span class="sr-only">Next</span>
+					      		</a>
+					    	</li>
+					  	</ul>
+					</nav>
+				</td>
+			</tr>
 		</table>
 	</div>
-	<script>
-		$("table").DataTable({ordering:false,"info":false,"pageLength":10,"lengthChange":false});
-		$("table").on("page.dt",event=>{
-			$('body,html').scrollTop($('#faq').offset().top)
-		})
-	</script>
 </div>
 
 <div class="p-0 w-100" style="background-color: white">
@@ -352,31 +384,51 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 <div id='bottom' style="height: 40px"></div>
 
 <script>
-	function fade(){
-		if(screen.width>992){
-			if($(window).width()>992){
-				var div=$("#main").height()
-				var top=$("body,html").scrollTop()
-				var percentage=1-(parseFloat(top)/parseFloat(div))
-				if(percentage>0.1){
-					$("#intro,#loginForm").fadeTo(0,percentage)
+	var app=angular.module('main',[])
+	app.controller('select_controller',function($scope){
+		$scope.countries=[]
+		$scope.counties=[]
+		$scope.select_counties=[]
+		<?php foreach ($countries as $value) {?>
+			$scope.countries.push(["<?php echo $value->countryID;?>","<?php echo $value->country;?>"])
+		<?php }?>
+		<?php foreach ($counties as $value) {?>
+			$scope.counties.push(["<?php echo $value->CountyID;?>","<?php echo $value->County;?>","<?php echo $value->countryNo;?>"])
+		<?php }?>
+		$scope.change_select=function(){
+			$scope.select_counties=[]
+			for(var i=0;i<$scope.counties.length;i++){
+				if($scope.counties[i][2].localeCompare($scope.select_value)===0){
+					$scope.select_counties.push([$scope.counties[i][0],$scope.counties[i][1],$scope.counties[i][2]])
 				}
-			}else{
-				$("#intro,#loginForm").fadeTo(0,1)
 			}
 		}
-	}
+		$scope.select_value=$scope.countries[0][0]
+		$scope.change_select()
+	})
+	app.controller('faq_controller',['$scope','$sce',function($scope,$sce){
+		$scope.data=[]
+		$scope.data_count=0
+		$scope.page_count=0
+		$scope.pages_array=[]
+		$scope.current_page=1
+		$scope.searchFunction=function(){
+			search_angular($scope,$sce,'#faq_loader',"<?php echo site_url('home/get_faq')?>")
+		}
+		$scope.check_page=function(){
+			check_page($scope,"#faq_pagination","#no_faq","a[title='Previous']","a[title='Next']")
+		}
+		$scope.change_page=function($event){
+			change_page($event,$scope,$sce,'#faq_loader',"<?php echo site_url('home/get_faq')?>","#faq")
+		}
+		$scope.prevNext=function($event){
+			prev_next($event,$scope,$sce,'#faq_loader',"<?php echo site_url('home/get_faq')?>","#faq")
+		}
+		$scope.search_field=''
+		$scope.searchFunction()
+	}])
 	setInterval(fade,0)
-	$("input,textarea").not("#userName,#passWord").focus(event=>{
-		if($(window).width()<=992){
-			$("body,html").scrollTop($(event.currentTarget).offset().top)
-		}
-	})
-	$('#userName,#passWord').focus(event=>{
-		if($(window).width()<=992){
-			$("body,html").scrollTop($("#loginForm").offset().top)
-		}
-	})
+	$(".navbar li a").on('click', function(event) {scrollAnimate(event)});
 </script>
 </body>
 </html>
