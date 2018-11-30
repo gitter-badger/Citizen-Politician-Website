@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2018 at 05:06 PM
+-- Generation Time: Nov 30, 2018 at 06:42 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -64,19 +64,21 @@ CREATE TABLE `admin_profile` (
   `adminUserName` varchar(255) NOT NULL,
   `adminPassword` varchar(255) NOT NULL,
   `adminEmail` varchar(255) NOT NULL,
-  `userGender` varchar(255) NOT NULL,
+  `verified` int(11) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL,
   `photo` varchar(255) NOT NULL,
-  `userType` varchar(255) DEFAULT 'admin'
+  `userType` varchar(255) DEFAULT 'admin',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deactivated` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin_profile`
 --
 
-INSERT INTO `admin_profile` (`adminUserName`, `adminPassword`, `adminEmail`, `userGender`, `photo`, `userType`) VALUES
-('dopesky', '$2y$10$QLJ.ITobnhfNE.8HbOKDZOYi6IrE5aWbjz3VknTwPNlgN6KwNVEIm', 'oboke69@gmail.com', 'male', 'user.png', 'admin'),
-('essnj', '$2y$10$vBCaC5SVDwAqDxUoKa8/Vu1dF/QixjczlS4at.4/gF0HUDVZbOCTi', 'njoroge.esther@strathmore.edu', 'female', 'userFemale.png', 'admin'),
-('kevosky', '$2y$10$QLJ.ITobnhfNE.8HbOKDZOYi6IrE5aWbjz3VknTwPNlgN6KwNVEIm', 'mwananchi.herokuapp@gmail.com', 'male', 'user.png', 'superadmin');
+INSERT INTO `admin_profile` (`adminUserName`, `adminPassword`, `adminEmail`, `verified`, `type`, `photo`, `userType`, `time`, `deactivated`) VALUES
+('dopesky', '$2y$10$QLJ.ITobnhfNE.8HbOKDZOYi6IrE5aWbjz3VknTwPNlgN6KwNVEIm', 'oboke69@gmail.com', 0, 1, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838690/mwananchi/site/anonymous.svg', 'admin', '2018-11-22 12:45:54', 0),
+('essnj', '$2y$10$vBCaC5SVDwAqDxUoKa8/Vu1dF/QixjczlS4at.4/gF0HUDVZbOCTi', 'njoroge.esther@strathmore.edu', 0, 1, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838690/mwananchi/site/anonymous.svg', 'admin', '2018-11-22 12:45:54', 0);
 
 -- --------------------------------------------------------
 
@@ -191,6 +193,7 @@ CREATE TABLE `citizen_profile` (
   `County` int(11) DEFAULT NULL,
   `photo` varchar(255) NOT NULL,
   `Secret` varchar(255) DEFAULT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deactivated` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -198,15 +201,15 @@ CREATE TABLE `citizen_profile` (
 -- Dumping data for table `citizen_profile`
 --
 
-INSERT INTO `citizen_profile` (`UserName`, `Email`, `verifyEmail`, `phone`, `verifyPhone`, `gender`, `type`, `country`, `County`, `photo`, `Secret`, `deactivated`) VALUES
-('ericko', 'kevin.kathendu@strathmore.edu', 1, '0734124567', 0, 'male', 'citizen', 1, 3, 'user.png', '$2y$10$QZ9HYc2dB5Hg5zZJIbM5JuN7EfPZLMyo6gyiwGaaEs3ZTWm7Zs6J.', 0),
-('fahm_de', 'oboke69@gmail.com', 1, '0792261344', 0, 'male', 'citizen', 1, 5, 'user.png', '$2y$10$BHPA1Qsoc4h4ALOdnpbwduvf4z4RLXW1TpVIOzRple1/vfDW1r5j2', 0),
-('glokym', 'glorynkatha15@gmail.com', 1, '0792141986', 1, 'female', 'citizen', 1, 5, 'userFemale.png', '$2y$10$u/z4nkcu2zrY7deN9sXl3OYZxZso3hRmLwNQg.LnW2TafJu.EY4KC', 0),
-('julz', 'julie.munyui@strathmore.edu', 0, '0797345678', 0, 'female', 'citizen', 1, 7, 'userFemale.png', '$2y$10$yxqaTMt70A2Dfg33uUwNOOQ8kI6OdaRNqlcurV8n32jxwNPj5M6wG', 0),
-('mathenge', 'oboke69@yahoo.com', 1, '0765423433', 0, 'male', 'citizen', 1, 9, 'user.png', '$2y$10$4rYIid0Zh2HePW0zgjLWju2QXCOj61k07sQWiD9IxieiVtJ2irw6q', 0),
-('Mirry', 'mirrymukami@gmail.com', 0, '0712345678', 0, 'female', 'citizen', 1, 2, 'userFemale.png', '$2y$10$NHNRwm3JYNp1S7/feqfQiOBn9jW0H3MyM7BXdP2bMGxKfLSJSBzzq', 0),
-('olamide', 'wole.olamide@strathmore.edu', 0, '0789564321', 0, 'male', 'citizen', 1, 6, 'user.png', '$2y$10$vGfkZEPVZozDmG8mjartVuSh9nRtPB.VjbnTXWSIrwpLuQ/Kb1WKO', 0),
-('smurfet', 'njoroge.esther@strathmore.edu', 1, '0743215786', 0, 'female', 'citizen', 1, 10, 'userFemale.png', '$2y$10$.C/PtzLkHz9MIbaJ03LI2O/va787JAJlepru1DF5b32S2e.84UbN.', 0);
+INSERT INTO `citizen_profile` (`UserName`, `Email`, `verifyEmail`, `phone`, `verifyPhone`, `gender`, `type`, `country`, `County`, `photo`, `Secret`, `time`, `deactivated`) VALUES
+('ericko', 'kevin.kathendu@strathmore.edu', 1, '+254702192746', 1, 'male', 'citizen', 1, 3, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', '$2y$10$QZ9HYc2dB5Hg5zZJIbM5JuN7EfPZLMyo6gyiwGaaEs3ZTWm7Zs6J.', '2018-11-22 11:44:12', 0),
+('fahm_de', 'oboke69@gmail.com', 1, '+254792261344', 0, 'male', 'citizen', 1, 5, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', '$2y$10$Lqx4EN3jTe1qTBSqs9ZxM.QsYzF/7VzwESSutXsZlxNdPfXNsd9s6', '2018-11-22 11:44:12', 0),
+('glokym', 'glorynkatha15@gmail.com', 1, '+254792141986', 1, 'female', 'citizen', 1, 5, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838679/mwananchi/site/userFemale.png', '$2y$10$u/z4nkcu2zrY7deN9sXl3OYZxZso3hRmLwNQg.LnW2TafJu.EY4KC', '2018-11-22 11:44:12', 0),
+('julz', 'julie.munyui@strathmore.edu', 0, '+254797345678', 0, 'female', 'citizen', 1, 7, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838679/mwananchi/site/userFemale.png', '$2y$10$yxqaTMt70A2Dfg33uUwNOOQ8kI6OdaRNqlcurV8n32jxwNPj5M6wG', '2018-11-22 11:44:12', 0),
+('mathenge', 'oboke69@yahoo.com', 1, '+254765423433', 0, 'male', 'citizen', 1, 9, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', '$2y$10$4rYIid0Zh2HePW0zgjLWju2QXCOj61k07sQWiD9IxieiVtJ2irw6q', '2018-11-22 11:44:12', 0),
+('Mirry', 'mirrymukami@gmail.com', 0, '+254712345678', 0, 'female', 'citizen', 1, 2, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838679/mwananchi/site/userFemale.png', '$2y$10$NHNRwm3JYNp1S7/feqfQiOBn9jW0H3MyM7BXdP2bMGxKfLSJSBzzq', '2018-11-22 11:44:12', 0),
+('olamide', 'wole.olamide@strathmore.edu', 0, '+254789564321', 0, 'male', 'citizen', 1, 6, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', '$2y$10$vGfkZEPVZozDmG8mjartVuSh9nRtPB.VjbnTXWSIrwpLuQ/Kb1WKO', '2018-11-22 11:44:12', 0),
+('smurfet', 'njoroge.esther@strathmore.edu', 1, '+254743215786', 0, 'female', 'citizen', 1, 10, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838679/mwananchi/site/userFemale.png', '$2y$10$.C/PtzLkHz9MIbaJ03LI2O/va787JAJlepru1DF5b32S2e.84UbN.', '2018-11-22 11:44:12', 0);
 
 -- --------------------------------------------------------
 
@@ -263,7 +266,7 @@ CREATE TABLE `constituencies` (
   `constituencyID` int(11) NOT NULL,
   `constituency` varchar(255) DEFAULT NULL,
   `countyNo` int(11) NOT NULL,
-  `MP` varchar(255) NOT NULL DEFAULT 'Undefined'
+  `MP` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -271,16 +274,16 @@ CREATE TABLE `constituencies` (
 --
 
 INSERT INTO `constituencies` (`constituencyID`, `constituency`, `countyNo`, `MP`) VALUES
-(1, 'Gatundu South', 2, 'Undefined'),
-(2, 'Buuri', 5, 'Undefined'),
-(3, 'Masinga', 4, 'Undefined'),
-(4, 'Kasarani', 3, 'Undefined'),
-(5, 'Changamawe', 6, 'Undefined'),
-(6, 'Mukurweini', 7, 'Undefined'),
-(7, 'Mbati', 1, 'Undefined'),
-(8, 'Mwea', 8, 'Undefined'),
-(9, 'Bobasi', 9, 'Undefined'),
-(10, 'Kandara', 10, 'Undefined');
+(1, 'Gatundu South', 2, NULL),
+(2, 'Buuri', 5, NULL),
+(3, 'Masinga', 4, NULL),
+(4, 'Kasarani', 3, NULL),
+(5, 'Changamawe', 6, NULL),
+(6, 'Mukurweini', 7, NULL),
+(7, 'Mbati', 1, NULL),
+(8, 'Mwea', 8, NULL),
+(9, 'Bobasi', 9, NULL),
+(10, 'Kandara', 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -293,8 +296,7 @@ CREATE TABLE `contact` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `question` text NOT NULL,
-  `replied` int(11) NOT NULL DEFAULT '0',
-  `reply` text NOT NULL,
+  `reply` text,
   `faq` int(11) NOT NULL DEFAULT '0',
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -303,14 +305,82 @@ CREATE TABLE `contact` (
 -- Dumping data for table `contact`
 --
 
-INSERT INTO `contact` (`contactID`, `name`, `email`, `question`, `replied`, `reply`, `faq`, `time`) VALUES
-(1, 'dopesky', 'oboke69@gmail.com', 'What is this site all about?', 1, 'This site is a social media site.', 1, '2018-11-05 12:13:17'),
-(2, 'ericko', 'ericgburugu@gmail.com', 'Where can i sign up?', 1, 'There is a sign up button at the login form. Please use that to sign up to the site.', 1, '2018-11-05 12:18:40'),
-(3, 'brayo', 'kevin.kathendu@strathmore.edu', 'What can i do to be a part of this amazing project?', 0, '', 0, '2018-11-05 13:16:37'),
-(4, 'shawn', 'amthatguy3@gmail.com', 'Where can i go to get a face to face with you guys?', 0, '', 0, '2018-11-05 13:17:51'),
-(5, 'rozey', 'rosekathendu@gmail.com', 'I think this is a very good idea that has been implemented here. Big up yourselves.', 0, '', 0, '2018-11-05 13:20:10'),
-(6, 'glory', 'glorynkatha15@gmail.com', 'What is it like being a coder at mwananchi?', 1, 'Its awesome', 1, '2018-11-19 23:29:44'),
-(7, 'rosey', 'kevin.kathendu@strathmore.edu', 'Where can I go to meet you guys?', 1, 'Check the map above.', 1, '2018-11-19 23:02:10');
+INSERT INTO `contact` (`contactID`, `name`, `email`, `question`, `reply`, `faq`, `time`) VALUES
+(1, 'dopesky', 'oboke69@gmail.com', 'What is this site all about?', 'This site is a social media site.', 1, '2017-11-04 21:13:17'),
+(2, 'ericko', 'ericgburugu@gmail.com', 'Where can i sign up?', 'There is a sign up button at the login form. Please use that to sign up to the site.', 1, '2018-11-05 09:18:40'),
+(3, 'brayo', 'kevin.kathendu@strathmore.edu', 'What can i do to be a part of this amazing project?', NULL, 0, '2018-11-20 10:16:37'),
+(4, 'shawn', 'amthatguy3@gmail.com', 'Where can i go to get a face to face with you guys?', NULL, 0, '2018-11-22 14:50:00'),
+(5, 'rozey', 'rosekathendu@gmail.com', 'I think this is a very good idea that has been implemented here. Big up yourselves.', NULL, 0, '2018-11-05 10:20:10'),
+(6, 'glory', 'glorynkatha15@gmail.com', 'What is it like being a coder at mwananchi?', 'Its awesome', 1, '2018-11-22 15:33:44'),
+(7, 'rosey', 'kevin.kathendu@strathmore.edu', 'Where can I go to meet you guys?', 'Check the map above.', 1, '2018-11-22 16:03:10'),
+(8, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:48:00'),
+(9, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(10, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(11, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(12, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(13, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(14, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(15, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(16, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(17, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(18, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(19, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(20, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(21, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(22, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(23, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(24, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(25, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(26, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(27, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(28, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(29, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(30, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(31, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(32, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(33, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(34, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(35, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(36, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(37, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(38, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(39, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-26 20:50:06'),
+(40, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:52:39'),
+(41, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(42, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(43, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(44, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(45, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(46, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(47, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(48, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(49, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(50, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(51, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(52, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(53, 'dopesky', 'oboke69@gmail.com', 'what are we', 'we are one', 1, '2018-11-30 05:53:23'),
+(54, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:16'),
+(55, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(56, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(57, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(58, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(59, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(60, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(61, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(62, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(63, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(64, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(65, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(66, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(67, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(68, 'glory', 'glorynkatha15@gmail.com', 'who am i to you?', 'you are the love of my life.', 1, '2018-11-30 08:01:56'),
+(83, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-30 08:51:08'),
+(84, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-30 08:51:08'),
+(85, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-30 08:51:08'),
+(86, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-30 08:51:08'),
+(87, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-30 08:51:08'),
+(88, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-30 08:51:08'),
+(89, 'mum', 'mum@gmail.com', 'What is your name?', 'My name is admin.', 1, '2018-11-30 08:51:08');
 
 -- --------------------------------------------------------
 
@@ -322,7 +392,7 @@ CREATE TABLE `counties` (
   `CountyID` int(11) NOT NULL,
   `County` varchar(255) DEFAULT NULL,
   `countryNo` int(11) NOT NULL,
-  `Governor` varchar(255) NOT NULL DEFAULT 'Undefined'
+  `Governor` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -330,16 +400,16 @@ CREATE TABLE `counties` (
 --
 
 INSERT INTO `counties` (`CountyID`, `County`, `countryNo`, `Governor`) VALUES
-(1, 'Homa Bay', 1, 'Undefined'),
-(2, 'Kiambu', 1, 'Undefined'),
-(3, 'Nairobi', 1, 'Undefined'),
-(4, 'Machakos', 1, 'Undefined'),
-(5, 'Meru', 1, 'Undefined'),
-(6, 'Mombasa', 1, 'Undefined'),
-(7, 'Nyeri', 1, 'Undefined'),
-(8, 'Kirinyaga', 1, 'Undefined'),
-(9, 'Kisii', 1, 'Undefined'),
-(10, 'Murang\'a', 1, 'Undefined');
+(1, 'Homa Bay', 1, NULL),
+(2, 'Kiambu', 1, NULL),
+(3, 'Nairobi', 1, NULL),
+(4, 'Machakos', 1, NULL),
+(5, 'Meru', 1, NULL),
+(6, 'Mombasa', 1, NULL),
+(7, 'Nyeri', 1, NULL),
+(8, 'Kirinyaga', 1, NULL),
+(9, 'Kisii', 1, NULL),
+(10, 'Murang\'a', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -350,7 +420,7 @@ INSERT INTO `counties` (`CountyID`, `County`, `countryNo`, `Governor`) VALUES
 CREATE TABLE `countries` (
   `countryID` int(11) NOT NULL,
   `country` varchar(255) NOT NULL,
-  `president` varchar(255) NOT NULL
+  `president` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -412,7 +482,7 @@ CREATE TABLE `emailgetcredentials` (
 INSERT INTO `emailgetcredentials` (`eventID`, `userEmail`, `passCode`, `type`, `timestamp`, `used`, `requestor`) VALUES
 (1, 'essnj', 'e47W0nXR9SizegLVPTqXMazkTWs', 'password', '2018-09-28 12:44:01', 1, 'dopesky'),
 (2, 'essnj', 'bbyJ4MzBrOBkt8bfD', 'password', '2018-09-28 18:35:25', 1, 'dopesky'),
-(3, 'essnj', 'HqCM04qG2Clvx6EsAP', 'password', '2018-09-28 18:35:43', 0, 'dopesky'),
+(3, 'essnj', 'HqCM04qG2Clvx6EsAP', 'password', '2018-09-28 18:35:43', 1, 'dopesky'),
 (4, 'dopesky', 'SbEx2LKRuGgH4', 'password', '2018-09-28 18:40:22', 1, 'essnj'),
 (5, 'dopesky', 'ukbLeRSnPWK4d', 'password', '2018-09-28 18:40:38', 0, 'essnj'),
 (6, 'kevin.kathendu@strathmore.edu', 'wiD0TJPhQJlJx', 'password', '2018-10-02 02:51:50', 1, 'Me'),
@@ -434,7 +504,7 @@ INSERT INTO `emailgetcredentials` (`eventID`, `userEmail`, `passCode`, `type`, `
 (22, 'glokym', 'SQE1z60R49oPjtwMYU', 'password', '2018-11-04 18:14:41', 1, 'Me'),
 (23, 'julz', 'lEiTlC9xlxeGUUXg69X', 'password', '2018-11-04 18:21:11', 0, 'Me'),
 (24, 'ericko', 'JbcxAgZw32Bms', 'password', '2018-11-06 16:06:31', 1, 'Me'),
-(25, 'ericko', 'LdlrWAdpcquNXKkYw', 'password', '2018-11-06 16:10:16', 0, 'Me'),
+(25, 'ericko', 'LdlrWAdpcquNXKkYw', 'password', '2018-11-06 16:10:16', 1, 'Me'),
 (26, 'fahm_de', 'PO9uaGsjK9ArXB', 'password', '2018-11-15 21:38:26', 1, 'Me'),
 (27, 'fahm_de', 'YnDQZMgLt9P', 'password', '2018-11-15 23:55:34', 1, 'Me'),
 (28, 'fahm_de', 'Y7nnTkNHA0', 'password', '2018-11-15 23:56:10', 1, 'Me'),
@@ -450,7 +520,11 @@ INSERT INTO `emailgetcredentials` (`eventID`, `userEmail`, `passCode`, `type`, `
 (38, 'fahm_de', 'vp3ttR8zrr', 'password', '2018-11-16 22:52:28', 1, 'Me'),
 (39, 'fahm_de', 'NIekNo9i37tT', 'password', '2018-11-16 23:19:31', 1, 'Me'),
 (40, 'fahm_de', 'RSYZ4CGgUlSNKRFH7jy', 'password', '2018-11-16 23:34:19', 1, 'Me'),
-(41, 'fahm_de', 'RSheYO0yZLkQr3rIR', 'password', '2018-11-19 06:37:48', 1, 'Me');
+(41, 'fahm_de', 'RSheYO0yZLkQr3rIR', 'password', '2018-11-19 06:37:48', 1, 'Me'),
+(42, 'fahm_de', 'xBtmplv6CmQnxhO', 'password', '2018-11-25 01:12:18', 1, 'Me'),
+(43, 'essnj', '0j7ARxBoWuOKMGwN3', 'password', '2018-11-25 01:17:28', 0, 'Me'),
+(44, 'fahm_de', 'XddDiVLlEqlBA', 'password', '2018-11-25 15:31:24', 0, 'Me'),
+(45, 'ericko', '8qd9TbJHFHJBfM2yvTzz', 'password', '2018-11-25 15:39:47', 0, 'Me');
 
 -- --------------------------------------------------------
 
@@ -664,6 +738,19 @@ INSERT INTO `political seats` (`COUNTY`, `GOVERNOR`, `SENATOR`, `MP`, `WOMEN REP
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `political_history`
+--
+
+CREATE TABLE `political_history` (
+  `userName` varchar(255) NOT NULL,
+  `politicalSeat` varchar(255) NOT NULL,
+  `fromDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `toDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `politician_education`
 --
 
@@ -707,8 +794,7 @@ CREATE TABLE `politician_politics` (
   `DateOfBirth` date NOT NULL,
   `PoliticalSeat` varchar(255) NOT NULL,
   `PoliticalYears` int(11) NOT NULL,
-  `CreationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Vying` int(11) NOT NULL DEFAULT '0',
+  `vyingFor` varchar(255) DEFAULT NULL,
   `ConstituencyNo` int(11) NOT NULL,
   `WardNo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -717,12 +803,12 @@ CREATE TABLE `politician_politics` (
 -- Dumping data for table `politician_politics`
 --
 
-INSERT INTO `politician_politics` (`userName`, `FullNames`, `DateOfBirth`, `PoliticalSeat`, `PoliticalYears`, `CreationDate`, `Vying`, `ConstituencyNo`, `WardNo`) VALUES
-('joho', 'Hassan Ali Joho', '1980-09-04', 'Governor', 10, '2018-09-09 23:58:11', 0, 5, 14),
-('kiraitu', 'Kiraitu Murungi', '1978-01-02', 'Governor', 20, '2018-09-09 23:58:11', 0, 2, 9),
-('mutua', 'Alfred Mutua', '1990-08-09', 'Governor', 13, '2018-09-09 23:58:11', 0, 3, 7),
-('sonko', 'Mike Mbuvi Sonko', '1988-04-20', 'Governor', 10, '2018-09-09 23:58:11', 0, 4, 4),
-('waititu', 'Ferdinand Waititu', '1978-05-07', 'Governor', 20, '2018-09-09 23:58:11', 0, 1, 1);
+INSERT INTO `politician_politics` (`userName`, `FullNames`, `DateOfBirth`, `PoliticalSeat`, `PoliticalYears`, `vyingFor`, `ConstituencyNo`, `WardNo`) VALUES
+('joho', 'Hassan Ali Joho', '1980-09-04', 'Governor', 10, 'Governor', 5, 14),
+('kiraitu', 'Kiraitu Murungi', '1978-01-02', 'Governor', 20, 'Governor', 2, 9),
+('mutua', 'Alfred Mutua', '1990-08-09', 'Governor', 13, 'Governor', 3, 7),
+('sonko', 'Mike Mbuvi Sonko', '1988-04-20', 'Governor', 10, 'Governor', 4, 4),
+('waititu', 'Ferdinand Waititu', '1978-05-07', 'Governor', 20, 'Governor', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -743,6 +829,7 @@ CREATE TABLE `politician_profile` (
   `photo` varchar(255) NOT NULL,
   `accountVerified` int(11) NOT NULL DEFAULT '0',
   `password` varchar(255) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deactivated` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -750,12 +837,12 @@ CREATE TABLE `politician_profile` (
 -- Dumping data for table `politician_profile`
 --
 
-INSERT INTO `politician_profile` (`userName`, `email`, `emailVerified`, `phone`, `phoneVerified`, `gender`, `accountType`, `country`, `countyNo`, `photo`, `accountVerified`, `password`, `deactivated`) VALUES
-('joho', 'kevin.kathendu@strathmore.edu', 1, '0701234123', 0, 'male', 'politician', 1, 6, 'user.png', 1, '$2y$10$x6WlpzZ5s4EYBgZ9dvB6fu5HkoTS4qGFe.wgWk.fsU09TtXwVYQ8y', 0),
-('kiraitu', 'kiraitu.murungi@govt.ke', 0, '0755456756', 0, 'male', 'politician', 1, 5, 'user.png', 1, '$2y$10$jsL0AnRqhZBC1.KEK6m.S.gr81ZjqeP.Gcy31ePK9GJXq6cdo8aoO', 0),
-('mutua', 'mutua.alfred@govt.ke', 0, '0712453785', 0, 'male', 'politician', 1, 4, 'user.png', 0, '$2y$10$OTEVEZpswaMMdTkWZLXIf.iS24ffqI6l1DpoX.AZzpdJ9aPAGJU5.', 0),
-('sonko', 'mike.sonko@govt.ke', 0, '0755678432', 0, 'male', 'politician', 1, 3, 'user.png', 0, '$2y$10$Yh/6sFQm4.z61kI3ay8F5Oih6UFZUhHR6avOSfeXoJCNE7Siye5pq', 0),
-('waititu', 'ferd.waititu@govt.ke', 0, '0700456789', 0, 'male', 'politician', 1, 2, 'user.png', 0, '$2y$10$8DIWecGJUO4MZYlcJZsOBe1hR5p7TVid8ixctQGe6t9rXdJ2DshTy', 0);
+INSERT INTO `politician_profile` (`userName`, `email`, `emailVerified`, `phone`, `phoneVerified`, `gender`, `accountType`, `country`, `countyNo`, `photo`, `accountVerified`, `password`, `time`, `deactivated`) VALUES
+('joho', 'kevin.kathendu@strathmore.edu', 1, '+254701234123', 0, 'male', 'politician', 1, 6, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', 1, '$2y$10$x6WlpzZ5s4EYBgZ9dvB6fu5HkoTS4qGFe.wgWk.fsU09TtXwVYQ8y', '2018-11-22 11:41:32', 0),
+('kiraitu', 'kiraitu.murungi@govt.ke', 0, '+254755456756', 0, 'male', 'politician', 1, 5, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', 1, '$2y$10$jsL0AnRqhZBC1.KEK6m.S.gr81ZjqeP.Gcy31ePK9GJXq6cdo8aoO', '2018-11-22 11:41:32', 0),
+('mutua', 'mutua.alfred@govt.ke', 0, '+254712453785', 0, 'male', 'politician', 1, 4, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', 0, '$2y$10$OTEVEZpswaMMdTkWZLXIf.iS24ffqI6l1DpoX.AZzpdJ9aPAGJU5.', '2018-11-22 11:41:32', 0),
+('sonko', 'mike.sonko@govt.ke', 0, '+254755678432', 0, 'male', 'politician', 1, 3, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', 0, '$2y$10$Yh/6sFQm4.z61kI3ay8F5Oih6UFZUhHR6avOSfeXoJCNE7Siye5pq', '2018-11-22 11:41:32', 0),
+('waititu', 'ferd.waititu@govt.ke', 0, '+254700456789', 0, 'male', 'politician', 1, 2, 'https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png', 0, '$2y$10$8DIWecGJUO4MZYlcJZsOBe1hR5p7TVid8ixctQGe6t9rXdJ2DshTy', '2018-11-22 11:41:32', 0);
 
 -- --------------------------------------------------------
 
@@ -848,7 +935,7 @@ CREATE TABLE `wards` (
   `wardID` int(11) NOT NULL,
   `Ward` varchar(255) NOT NULL,
   `constituencyID` int(11) NOT NULL,
-  `MCA` varchar(255) NOT NULL DEFAULT 'Undefined'
+  `MCA` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -856,35 +943,35 @@ CREATE TABLE `wards` (
 --
 
 INSERT INTO `wards` (`wardID`, `Ward`, `constituencyID`, `MCA`) VALUES
-(1, 'Kiganjo', 1, 'Undefined'),
-(2, 'Ndarangu', 1, 'Undefined'),
-(3, 'Clay City', 4, 'Undefined'),
-(4, 'Mwiki', 4, 'Undefined'),
-(5, 'Ruai', 4, 'Undefined'),
-(6, 'Ikaatani', 3, 'Undefined'),
-(7, 'Kivaa', 3, 'Undefined'),
-(8, 'Ndithini', 3, 'Undefined'),
-(9, 'Timau', 2, 'Undefined'),
-(10, 'Kisima', 2, 'Undefined'),
-(11, 'Kiirua', 2, 'Undefined'),
-(12, 'Kipevu', 5, 'Undefined'),
-(13, 'Mikindani', 5, 'Undefined'),
-(14, 'Miritini', 5, 'Undefined'),
-(15, 'Gakindu', 6, 'Undefined'),
-(16, 'Giathugu', 6, 'Undefined'),
-(17, 'Gikondi', 6, 'Undefined'),
-(18, 'Kasunga Central', 7, 'Undefined'),
-(19, 'Kasunga West', 7, 'Undefined'),
-(20, 'Wanyama', 7, 'Undefined'),
-(21, 'Kianyaga', 8, 'Undefined'),
-(22, 'Kutus South', 8, 'Undefined'),
-(23, 'Kangai', 8, 'Undefined'),
-(24, 'Nyantira', 9, 'Undefined'),
-(25, 'Mosora', 9, 'Undefined'),
-(26, 'Sameta', 9, 'Undefined'),
-(27, 'Gakui', 10, 'Undefined'),
-(28, 'Gathugu', 10, 'Undefined'),
-(29, 'Gatundu', 10, 'Undefined');
+(1, 'Kiganjo', 1, ''),
+(2, 'Ndarangu', 1, ''),
+(3, 'Clay City', 4, ''),
+(4, 'Mwiki', 4, ''),
+(5, 'Ruai', 4, ''),
+(6, 'Ikaatani', 3, ''),
+(7, 'Kivaa', 3, ''),
+(8, 'Ndithini', 3, ''),
+(9, 'Timau', 2, ''),
+(10, 'Kisima', 2, ''),
+(11, 'Kiirua', 2, ''),
+(12, 'Kipevu', 5, ''),
+(13, 'Mikindani', 5, ''),
+(14, 'Miritini', 5, ''),
+(15, 'Gakindu', 6, ''),
+(16, 'Giathugu', 6, ''),
+(17, 'Gikondi', 6, ''),
+(18, 'Kasunga Central', 7, ''),
+(19, 'Kasunga West', 7, ''),
+(20, 'Wanyama', 7, ''),
+(21, 'Kianyaga', 8, ''),
+(22, 'Kutus South', 8, ''),
+(23, 'Kangai', 8, ''),
+(24, 'Nyantira', 9, ''),
+(25, 'Mosora', 9, ''),
+(26, 'Sameta', 9, ''),
+(27, 'Gakui', 10, ''),
+(28, 'Gathugu', 10, ''),
+(29, 'Gatundu', 10, '');
 
 --
 -- Indexes for dumped tables
@@ -995,6 +1082,12 @@ ALTER TABLE `opinionpolls`
   ADD PRIMARY KEY (`pollID`);
 
 --
+-- Indexes for table `political_history`
+--
+ALTER TABLE `political_history`
+  ADD PRIMARY KEY (`userName`);
+
+--
 -- Indexes for table `politician_education`
 --
 ALTER TABLE `politician_education`
@@ -1023,7 +1116,8 @@ ALTER TABLE `politician_profile`
 --
 ALTER TABLE `pollanswers`
   ADD PRIMARY KEY (`answerID`),
-  ADD KEY `fk_polls` (`postID`);
+  ADD KEY `fk_polls` (`postID`),
+  ADD KEY `fk_answerer` (`answerer`);
 
 --
 -- Indexes for table `wards`
@@ -1031,6 +1125,22 @@ ALTER TABLE `pollanswers`
 ALTER TABLE `wards`
   ADD PRIMARY KEY (`wardID`),
   ADD KEY `FK_Ward` (`constituencyID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `contactID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+
+--
+-- AUTO_INCREMENT for table `emailgetcredentials`
+--
+ALTER TABLE `emailgetcredentials`
+  MODIFY `eventID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables
@@ -1056,23 +1166,29 @@ ALTER TABLE `counties`
   ADD CONSTRAINT `fk_country` FOREIGN KEY (`countryNo`) REFERENCES `countries` (`countryID`);
 
 --
--- Constraints for table `notifications`
+-- Constraints for table `manifestos`
 --
-ALTER TABLE `notifications`
-  ADD CONSTRAINT `fk_noti` FOREIGN KEY (`sender`) REFERENCES `admin_profile` (`adminUserName`);
+ALTER TABLE `manifestos`
+  ADD CONSTRAINT `fk_manifesto` FOREIGN KEY (`owner`) REFERENCES `politician_profile` (`userName`);
+
+--
+-- Constraints for table `political_history`
+--
+ALTER TABLE `political_history`
+  ADD CONSTRAINT `fk_history` FOREIGN KEY (`userName`) REFERENCES `politician_profile` (`userName`);
 
 --
 -- Constraints for table `politician_education`
 --
 ALTER TABLE `politician_education`
-  ADD CONSTRAINT `fk_education` FOREIGN KEY (`userName`) REFERENCES `politician_profile` (`userName`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_education` FOREIGN KEY (`userName`) REFERENCES `politician_profile` (`userName`);
 
 --
 -- Constraints for table `politician_politics`
 --
 ALTER TABLE `politician_politics`
   ADD CONSTRAINT `fk_cons` FOREIGN KEY (`ConstituencyNo`) REFERENCES `constituencies` (`constituencyID`),
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`userName`) REFERENCES `politician_profile` (`userName`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`userName`) REFERENCES `politician_profile` (`userName`),
   ADD CONSTRAINT `fk_wardss` FOREIGN KEY (`WardNo`) REFERENCES `wards` (`wardID`);
 
 --
@@ -1086,6 +1202,7 @@ ALTER TABLE `politician_profile`
 -- Constraints for table `pollanswers`
 --
 ALTER TABLE `pollanswers`
+  ADD CONSTRAINT `fk_answerer` FOREIGN KEY (`answerer`) REFERENCES `citizen_profile` (`UserName`),
   ADD CONSTRAINT `fk_polls` FOREIGN KEY (`postID`) REFERENCES `opinionpolls` (`pollID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
