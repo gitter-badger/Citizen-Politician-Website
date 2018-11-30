@@ -23,26 +23,11 @@ class Formatter extends CI_Model {
 	  return $text;
 	}
 
-	public function formatDate($date){
-		$now=$this->db->query("select now() as now")->row()->now;
-		if(date_format(date_create($date),"Y")!==date_format(date_create($now),"Y")){
-			return date_format(date_create($date),'M d, Y');
-		}else{
-			if(strtotime($now)-strtotime($date)<120){
-				return "Just now"; 
-			}elseif(strtotime($now)-strtotime($date)<3600){
-				return floor((strtotime($now)-strtotime($date))/60)." mins";
-			}elseif(strtotime($now)-strtotime($date)<86400){
-				return floor((strtotime($now)-strtotime($date))/3600).(strtotime($now)-strtotime($date)>=3600?" hrs":" hr");
-			}elseif(strtotime($now)-strtotime($date)<604800){
-				return floor((strtotime($now)-strtotime($date))/86400).(strtotime($now)-strtotime($date)>=86400?" dys":" dy");
-			}else{
-				return date_format(date_create($date),'M d');
-			}							
-		}
+	public function time_diff($date){
+		return $this->db->query("select timestampdiff(second,?,now()) as now",$date)->row()->now;
 	}
 
-	public function countElements($object){
+	public function count_elements($object){
 		$counter=0;
 		foreach ($object as $value) {
 			$counter++;
