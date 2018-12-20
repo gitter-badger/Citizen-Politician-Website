@@ -3,11 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class LoadScripts {
 	public function index(){
-		return "<title>Mwananchi</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><link rel='shortcut icon' type='image/png' href='".base_url()."resources/favicon.png'><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'><link rel='stylesheet' href='".base_url('resources/css/main_css.css')."'><link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css' integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU' crossorigin='anonymous'><link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'><script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script><script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>";
+		return "<title>Mwananchi</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><link rel='shortcut icon' type='image/png' href='".base_url()."resources/favicon.png'><link rel='stylesheet' href='".base_url('resources/css/main_css.css')."'><link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css' integrity='sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU' crossorigin='anonymous'><link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'><script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script><script src='".base_url()."resources/js/main_js.js'></script>";
 	}
 
-	public function load_main_js(){
-		return "<script src='".base_url()."resources/js/main_js.js'></script>";
+	public function load_bootstrap(){
+		return "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'><script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script><script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>";
+	}
+
+	public function load_materialize(){
+		return "<link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'><script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js'></script>";
 	}
 
 	public function load_index_page_scripts(){
