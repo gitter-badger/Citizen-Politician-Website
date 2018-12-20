@@ -5,7 +5,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo $head;?>
+	<?php echo $head?>      
 	<style>
 		ul#safeReset li a {
 			border-color: transparent; 
@@ -26,89 +26,78 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 			padding: 0px;
 			margin: 0;
 			height: 100%;
+			margin-top: -35px;
 		}
-		@media screen and (max-width: 992px) {
-		  div.main,div#contacts{
-		    height: auto !important;
-		  }
-		  .docs{
-		  	font-size: 11px !important;
-		  }
-		}
-		@media screen and (max-width: 1200px) {
-		  a[href="#signUp"]{
-		  	text-align: left !important;
-		  }
-		}
-		@media screen and (max-width: 576px) {
-		  nav.navbar,#bottom{
-		  	display: none !important;
-		  }
+		@media screen and (max-width: 991px) {
+			div.main{
+				height: auto;
+				margin-top: 0px;
+			}
 		}
 	</style>
 </head>
-<body data-spy="scroll" data-target=".navbar" ng-app="main">
-<?php echo $navbar;?>
+<body ng-app="main">
 <div class="row container-fluid main">
 	<div class="row" id="main" style="background-color: rgba(0,0,0,0.6);margin: 0;">
 		<div class="col-lg-12 text-center" style="height: 50px"></div>
-			<div class="col-lg-7 container">
-				<div id="intro" class="container-fluid" style="margin: 0;word-wrap: break-word;">
-				  	<div class="jumbotron" style="background-color: rgba(0,0,0,0.2);padding-top: 20px;padding-bottom: 10px;">
-				    	<span class="display-4 text-light" style="font-family: Cookie,cursive;line-height: 50px;"><i class="fas fa-user"></i> Mwananchi.<br><small class="display-4 text-light" style="line-height: 20px !important;font-family: book antiqua;font-size: 30px;">A Citizen-Politician Website.</small></span>
-				    	<br>
-				    	<span class="text-light" style="font-family: Comic Sans MS,cursive,sans-serif;font-size: 14px;">Welcome to Mwananchi. This is the official site landing page. You can login, sign up and enjoy our services. Scroll down to view the contact form, location of our offices and Frequently Asked Questions. If you have forgotten your password, use the <strong>forgot password link</strong> to reset it. For more links, scroll down to the <a href='' onclick="event.preventDefault();$('body,html').animate({scrollTop: document.body.scrollHeight},1000)" class='text-info'>end of the page.</a></span><br><br>
-				    	<span class="row container">
-				    		<span class="col-xs-6 mb-3" style="float: left;color: ghostwhite; font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;line-height: 23px;">Email us: <a href="mailto:<?php echo $mail_from;?>" style="color: #888888; font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;"><?php echo $mail_from;?></a>
+		<div class="col-lg-7 container">
+			<div id="intro" class="container-fluid" style="margin: 0;word-wrap: break-word;">
+			  	<div class="jumbotron" style="background-color: rgba(0,0,0,0.2);padding-top: 20px;padding-bottom: 10px;">
+			    	<span class="display-4 text-light" style="font-family: Cookie,cursive;line-height: 50px;"><i class="fas fa-user"></i> Mwananchi.<br><small class="display-4 text-light" style="line-height: 20px !important;font-family: book antiqua;font-size: 30px;">A Citizen-Politician Website.</small></span>
+			    	<br>
+			    	<span class="text-light" style="font-family: Comic Sans MS,cursive,sans-serif;font-size: 14px;">Welcome to Mwananchi Website. Link up with your politician right here on this site. Get his info and be a part of the team of users that get to decide how popular or efficient a politician is in their area. This is the official site landing page. You can login or sign up and enjoy our services. <br><br>
+			    	<span class="row ml-0 text-center">
+			    		<span class="col-xs-6 mb-3" style="color: ghostwhite; font-size: 14px; font-family: Work Sans, Calibri, sans-serif; font-weight: 600;line-height: 23px;">Email us: <a href="mailto:<?php echo $mail_from;?>" style="color: #888888; font-size: 14px; font-family: Hind Siliguri, Calibri, Sans-serif; font-weight: 400;margin-right: 60px;"><?php echo $mail_from;?></a>
+			    		</span>
+			    		<span class="col-xs-6 mb-3">
+			    			<span class="d-flex justify-content-center">
+				    			<a target='_blank' class="mr-5" href='https://github.com/dopesky/citizen-politician-website' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' class="rounded-circle" style='display: block;' src='<?php echo base_url();?>resources/github_icon.png' alt=''></a>
+				    			<a target='_blank' class="mr-5" href='https://twitter.com/dopesky001' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/Qc3zTxn.png' alt=''></a>
+				    			<a target='_blank' class="mr-5" href='https://www.facebook.com/voxy.v.mcmwenda' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/RBRORq1.png' alt=''></a>
+				    			<a target='_blank' href='https://linkedin.com/in/kevin-kathendu-759062147' style='display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_gray-24.png' alt=''></a>
 				    		</span>
-				    		<span class="col-xs-6 mb-3">
-				    			<a target='_blank' href='https://github.com/dopesky/citizen-politician-website' style='float:left;margin-right: 30px;margin-left: 20px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' class="rounded-circle" style='display: block;' src='<?php echo base_url();?>resources/github_icon.png' alt=''></a>
-				    			<a target='_blank' href='https://twitter.com/dopesky001' style='float:left;margin-right: 30px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/Qc3zTxn.png' alt=''></a>
-				    			<a target='_blank' href='https://www.facebook.com/voxy.v.mcmwenda' style='float:left;margin-right: 30px;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='http://i.imgur.com/RBRORq1.png' alt=''></a>
-				    			<a target='_blank' href='https://linkedin.com/in/kevin-kathendu-759062147' style='float:left;display: block; border-style: none !important; border: 0 !important;'><img width='24' border='0' style='display: block;' src='https://cdn3.iconfinder.com/data/icons/free-social-icons/67/linkedin_circle_gray-24.png' alt=''></a>
-				    		</span>
-				    	</span>
-				  	</div>
-				</div>
+			    		</span>
+			    	</span>
+			  	</div>
 			</div>
-			<div class="col-lg-5 container" style="padding: 25px;padding-top: 0px;">
-				<div class="container-fluid" id="loginForm">
-					<ul class="nav nav-tabs">
-						<li class="nav-item" style="width: 100%;">
-					    	<a class="nav-link active bg-info text-light" style="border-radius: 0px;" data-toggle="tab" href="#signIn">Login</a>
-					  	</li>
-					</ul>
+		</div>
+		<div class="col-lg-5 container" style="padding: 25px;padding-top: 0px;">
+			<div class="container-fluid" id="loginForm">
+				<ul class="nav nav-tabs">
+					<li class="nav-item" style="width: 100%;">
+				    	<a class="nav-link active bg-info text-light" style="border-radius: 0px;" data-toggle="tab" href="#signIn">Login</a>
+				  	</li>
+				</ul>
 
-					<div class="tab-content" style="border: 1px ridge rgba(255,255,255,0.5);border-radius: 10px;border-top-left-radius: 0px;border-top-right-radius: 0px;background-color: whitesmoke;">
-						<div class="tab-pane container active" id="signIn">
-							<form style="padding: 15px;padding-top: 35px;" method="post" action="<?php echo base_url();?>home/login.html" enctype="multipart/form-data">
-								<?php echo $this->session->flashdata('log');?>
-								<div class="form-group">
-									<div class="input-group mb-3">
-									    <div class="input-group-prepend">
-									      	<span class="input-group-text">@</span>
-									    </div>
-									    <input type="text" class="form-control" name="userName" id="userName" placeholder="Username or Email" required="">
-									</div>
+				<div class="tab-content" style="border: 1px ridge rgba(255,255,255,0.5);border-radius: 10px;border-top-left-radius: 0px;border-top-right-radius: 0px;background-color: whitesmoke;">
+					<div class="tab-pane container active" id="signIn">
+						<form style="padding: 15px;padding-top: 35px;" method="post" action="<?php echo base_url();?>home/login.html" enctype="multipart/form-data">
+							<?php echo $this->session->flashdata('log');?>
+							<div class="form-group">
+								<div class="input-group mb-3">
+								    <div class="input-group-prepend">
+								      	<span class="input-group-text">@</span>
+								    </div>
+								    <input type="text" class="form-control" name="userName" id="userName" placeholder="Username or Email" required="">
 								</div>
-								<div class="form-group">
-									<div class="input-group mb-3">
-										<input type="password" class="form-control" id="passWord" name="passWord" placeholder="Password" required="">
-									    <div class="input-group-append">
-									      	<span class="input-group-text" onclick="showPassword(this,'#passWord')" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
-									    </div>
-									</div>
+							</div>
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<input type="password" class="form-control" id="passWord" name="passWord" placeholder="Password" required="">
+								    <div class="input-group-append">
+								      	<span class="input-group-text" onclick="showPassword(this,'#passWord')" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
+								    </div>
 								</div>
-								  	<div class="row">
-								    	<a class="text-info col-xl-7 mb-2" href="#forgotPassword" data-toggle="modal">Forgot Password</a>
-								    	<a class="text-info col-xl-5 mb-3 text-right" href="#signUp" data-toggle="modal">Create an Account</a>
-								  	</div>
-								  <button type="submit" class="btn btn-info">Submit</button>
-							</form>
-						</div>
+							</div>
+							  	<div class="row">
+							    	<a class="text-info col-12 mb-2 text-right" href="#forgotPassword" data-toggle="modal">Forgot Password</a>
+							  	</div>
+							  <button type="submit" class="btn btn-info">Submit</button>
+						</form>
 					</div>
 				</div>
 			</div>
+		</div>
 	</div>
 </div>
 
@@ -125,23 +114,33 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 						<li class="nav-item">
 					    	<a class="nav-link active" style="border-radius: 0px;" data-toggle="tab" href="#resetEmail">via Email</a>
 					  	</li>
-					  	<!-- <li class="nav-item">
-					    	<a class="nav-link" style="border-radius: 0px;" data-toggle="tab" href="#resetPhone">via Phone</a>
-					  	</li> -->
+					  	<li class="nav-item">
+					    	<a class="nav-link" style="border-radius: 0px;" data-toggle="tab" href="#resetText">via Text</a>
+					  	</li>
+					  	<li class="nav-item">
+					    	<a class="nav-link" style="border-radius: 0px;" data-toggle="tab" href="#resetCall">via Call</a>
+					  	</li>
 					</ul>
 					<div class="tab-content" style="padding: 10px;">
 						<div class="tab-pane active" id="resetEmail">
 							<form method="post" enctype="multipart/form-data" action="<?php echo site_url('home/reset_password')?>">
 								To reset your password, provide your working email, username or phone number and reset instructions will be sent to your EMAIL.
 				        		<input class="form-control mt-2" type="text" name="email" placeholder="Username, Email or Phone Number" required="">
-				        		<hr><button type="submit" class="btn btn-info float-right">Send Email</button>
+				        		<hr><button type="submit" class="btn btn-info float-right">Email Me</button>
 				        	</form>
 						</div>
-						<div class="tab-pane" id="resetPhone">
+						<div class="tab-pane" id="resetText">
 							<form method="post" enctype="multipart/form-data" action="<?php echo site_url('home/reset_password')?>">
 								To reset your password, provide your working email, username or phone number and reset instructions will be sent to your PHONE via text.
 				        		<input class="form-control mt-2" type="text" name="phone" placeholder="Username, Email or Phone Number" required="">
-				        		<hr><button type="submit" class="btn btn-info float-right">Send Text</button>
+				        		<hr><button type="submit" name="submit" value="text" class="btn btn-info float-right">Text Me</button>
+				        	</form>
+						</div>
+						<div class="tab-pane" id="resetCall">
+							<form method="post" enctype="multipart/form-data" action="<?php echo site_url('home/reset_password')?>">
+								To reset your password, provide your working email, username or phone number and reset instructions will be sent to your PHONE via call.
+				        		<input class="form-control mt-2" type="text" name="phone" placeholder="Username, Email or Phone Number" required="">
+				        		<hr><button type="submit" name="submit" value="call" class="btn btn-info float-right">Call Me</button>
 				        	</form>
 						</div>
 					</div>
@@ -151,120 +150,7 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 	</div>
 </div>
 
-<div class="modal fade" id="signUp">
-	<div class="modal-dialog" style="min-width: 70%;">
-		<div class="modal-content" style="background-image: linear-gradient(-270deg,whitesmoke 10%,ghostwhite 90%);">
-			<div class="text-light bg-info modal-header">
-				<div class="modal-title" style="font-size: 18px;">Sign Up</div>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-			<form style="width: 100%;" method="post" enctype="multipart/form-data">
-				<div class="row modal-body" style="padding: 25px;box-sizing: border-box;width: 100%;">
-					<div class="col-lg-6">
-						<div class="form-group">
-							<div class="input-group mb-3">
-								<input type="text" class="form-control" name="user" onblur="checkAvailable(this,'#spanUser','<?php echo site_url('home/check_available')?>')" onkeyup="checkUser(this,'#spanUser')" placeholder="Username" required="">
-							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="spanUser"></span>
-							    </div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="input-group mb-3">
-								<input type="email" class="form-control" name="email" onblur="checkAvailable(this,'#spanEmail','<?php echo site_url('home/check_available')?>')" onkeyup="checkEmail(this,'#spanEmail')" placeholder="Email" required="">
-							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="spanEmail"></span>
-							    </div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-							      	<span class="input-group-text">+</span>
-							    </div>
-								<input type="text" class="form-control" name="phone" onblur="checkAvailable(this,'#spanPhone','<?php echo site_url('home/check_available')?>')" onkeyup="checkPhone(this,'#spanPhone')" placeholder="Phone" required="">
-							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="spanPhone"></span>
-							    </div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-							      	<span class="input-group-text" onclick="showPassword(this,'#secret')" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
-							    </div>
-								<input type="password" class="form-control" onkeyup="checkPass(this,'#spanSecret','#secretRe','#spanRepeat')" name="secret" id="secret" placeholder="Password" required="">
-							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="spanSecret"></span>
-							    </div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-							      	<span class="input-group-text" onclick="showPassword(this,'#secretRe')" style="cursor: pointer;"><img src="<?php echo base_url();?>resources/show_password_icon.png" style="width: 23px;height: 23px;"></span>
-							    </div>
-								<input type="password" class="form-control" name="secretRe" onkeyup="checkRepeat('#secret',this,'#spanRepeat')" id="secretRe" placeholder="Repeat Password" required="">
-							    <div class="input-group-append">
-							      	<span class="input-group-text fa" id="spanRepeat"></span>
-							    </div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<div class="form-group">
-							<div class="custom-file">
-								<input type="file" accept="image/*" class="custom-file-input border" name="photo" id="photo" style="cursor: pointer;" onchange="check_photo(event,'#labelPhoto')">
-								<label for="photo" class="custom-file-label" id="labelPhoto">Profile Photo <span class="text-secondary">(Optional) </span></label>
-							</div>
-						</div>
-						<div class="form-group mb-2" ng-controller="select_controller" id="select_module">
-							<label for="countries"> Country:</label>
-							<select class="custom-select mb-3" ng-model="select_value" ng-change="change_select()" name="countries" id="countries" style="cursor: pointer;" required="">
-								<option value="{{x[0]}}" ng-repeat="x in countries">{{x[1]}}</option>
-							</select>
-							<label for="counties"> County:</label>
-							<select class="custom-select mb-3" name="counties" id="counties" style="cursor: pointer;" required="">
-								<option value="{{x[0]}}" ng-repeat="x in select_counties">{{x[1]}}</option>
-							</select>
-						</div>
-						<div class="form-group mb-2">
-							<div class="row">
-								<div class="col">
-									<label>Gender: </label>
-									<div class="custom-control custom-radio">
-									    <input type="radio" class="custom-control-input" id="male" name="gender" value="male" required="">
-									    <label class="custom-control-label" for="male">Male</label>
-									</div>
-									<div class="custom-control custom-radio">
-										<input type="radio" class="custom-control-input" id="female" name="gender" value="female" required="">
-									    <label class="custom-control-label" for="female">Female</label>
-									</div>
-								</div>
-								<div class="col">
-									<label>Account type: </label>
-									<div class="custom-control custom-radio">
-									    <input type="radio" class="custom-control-input" id="citizen" name="type" value="citizen" required="">
-									    <label class="custom-control-label" for="citizen">Citizen</label>
-									</div>
-									<div class="custom-control custom-radio">
-										<input type="radio" class="custom-control-input" id="politician" name="type" value="politician" required="">
-									    <label class="custom-control-label" for="politician">Politician</label>
-									</div>
-								</div>
-							</div>
-						</div><br>
-					</div>
-				</div>
-				<div class="form-group mb-3 modal-footer">
-					<button type="submit" class="close">Submit</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-<div class="container-fluid p-0" id="contacts"  style="height: 100%;background-image: linear-gradient(-200deg,whitesmoke 0%,ghostwhite 100%)">
+<!-- <div class="container-fluid p-0" id="contacts"  style="height: 100%;background-image: linear-gradient(-200deg,whitesmoke 0%,ghostwhite 100%)">
 	<div class="bg-info d-flex p-2 text-light" style="font-size: 20px">Contact Us</div>
 	<div style="padding-top: 20px !important;">
 		<div class="row p-3 w-100">
@@ -367,68 +253,49 @@ $this->session->unset_userdata(array('username','photo','usertype'));
 		</table>
 	</div>
 </div>
-
-<div class="p-0 w-100" style="background-color: white">
+ -->
+<div class="p-0 w-100">
 	<div class="w-100 row d-flex justify-content-center" style="padding-left: 1em;padding-right: 1em;">
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('privacy')?>">Privacy Statement</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('terms')?>">Terms and Conditions</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('help')?>">Help Center</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('cookies')?>">Cookie Policy</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('security')?>">Account Security</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('features')?>">Features</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('dev_zone')?>">Developers</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('about')?>">About</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('sign_up/basic')?>">Sign Up</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('privacy')?>">Privacy Policy</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('terms')?>">Terms</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('help')?>">Help Center</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('cookies')?>">Cookies</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('security')?>">Account</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('features')?>">Features</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('dev_zone')?>">Developers</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('about')?>">About</a>
+		<a class="col-xs p-2 docs text-muted" style="font-family: Cookie,cursive;cursor: text;font-size: 13px !important;"><span ><i class="fas fa-user"></i> Mwananchi</span></a>
 	</div>
 </div>
 
-<div id='bottom' style="height: 40px"></div>
-
 <script>
 	var app=angular.module('main',[])
-	app.controller('select_controller',function($scope){
-		$scope.countries=[]
-		$scope.counties=[]
-		$scope.select_counties=[]
-		<?php foreach ($countries as $value) {?>
-			$scope.countries.push(["<?php echo $value->countryID;?>","<?php echo $value->country;?>"])
-		<?php }?>
-		<?php foreach ($counties as $value) {?>
-			$scope.counties.push(["<?php echo $value->CountyID;?>","<?php echo $value->County;?>","<?php echo $value->countryNo;?>"])
-		<?php }?>
-		$scope.change_select=function(){
-			$scope.select_counties=[]
-			for(var i=0;i<$scope.counties.length;i++){
-				if($scope.counties[i][2].localeCompare($scope.select_value)===0){
-					$scope.select_counties.push([$scope.counties[i][0],$scope.counties[i][1],$scope.counties[i][2]])
-				}
-			}
-		}
-		$scope.select_value=$scope.countries[0][0]
-		$scope.change_select()
-	})
-	app.controller('faq_controller',['$scope','$sce',function($scope,$sce){
+	app.controller('faq_controller',['$scope','$window','$sce',function($scope,$window,$sce){
 		$scope.data=[]
 		$scope.data_count=0
 		$scope.page_count=0
 		$scope.pages_array=[]
-		$scope.current_page=1
+		$scope.current_page=-1
 		$scope.searchFunction=function(){
-			search_angular($scope,$sce,'#faq_loader',"<?php echo site_url('home/get_faq')?>")
+			var assets={loader:'#faq_loader',no_data:"#no_faq",pagination:"#faq_pagination",search_element:"input[ng-model='search_field']"}
+			search_angular($scope,$sce,assets,"<?php echo site_url('home/get_faq')?>")
 		}
 		$scope.check_page=function(){
-			check_page($scope,"#faq_pagination","#no_faq","a[title='Previous']","a[title='Next']")
+			var assets={pagination:"#faq_pagination",no_data:"#no_faq",previous:"a[title='Previous']",next:"a[title='Next']"}
+			check_page($scope,assets)
 		}
 		$scope.change_page=function($event){
-			change_page($event,$scope,$sce,'#faq_loader',"<?php echo site_url('home/get_faq')?>","#faq")
+			var assets={loader:'#faq_loader',pagination:"#faq_pagination",top:"#faq",search_element:"input[ng-model='search_field']"}
+			change_page($event,$scope,$sce,assets,"<?php echo site_url('home/get_faq')?>")
 		}
 		$scope.prevNext=function($event){
-			prev_next($event,$scope,$sce,'#faq_loader',"<?php echo site_url('home/get_faq')?>","#faq")
+			var assets={loader:'#faq_loader',pagination:"#faq_pagination",top:"#faq",search_element:"input[ng-model='search_field']"}
+			prev_next($event,$scope,$sce,assets,"<?php echo site_url('home/get_faq')?>")
 		}
 		$scope.search_field=''
 		$scope.searchFunction()
 	}])
-	setInterval(fade,0)
-	$(".navbar li a").on('click', function(event) {scrollAnimate(event)});
 </script>
 </body>
 </html>
