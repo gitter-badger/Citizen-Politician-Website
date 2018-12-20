@@ -23,6 +23,16 @@ class Formatter extends CI_Model {
 	  return $text;
 	}
 
+	public function generate_random_code($integer){
+		$code = "";
+	    $possible_chars = "0123456789";
+
+	    for ($i = 0; $i < $integer; $i++)
+	    	$code .= $possible_chars[random_int(0, strlen($possible_chars) - 1)];
+
+	    return $code;
+	}
+
 	public function time_diff($date){
 		return $this->db->query("select timestampdiff(second,?,now()) as now",$date)->row()->now;
 	}
@@ -33,6 +43,10 @@ class Formatter extends CI_Model {
 			$counter++;
 		}
 		return $counter;
+	}
+
+	public function check_length($variable){
+		return empty(trim($variable));
 	}
 }
 ?>
