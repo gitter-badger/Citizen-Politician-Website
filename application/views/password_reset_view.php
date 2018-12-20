@@ -33,27 +33,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			color: #4F5155;
 			height: 85%;
 		}
-
-		h1 {
-			color: #444;
-			background-color: transparent;
-			border-bottom: 1px solid #D0D0D0;
-			font-size: 19px;
-			font-weight: normal;
-			margin: 0 0 14px 0;
-			padding: 14px 15px 10px 15px;
-		}
-
-		#container {
-			margin: 10px;
-			border: 1px solid #D0D0D0;
-			border-radius: 5px;
-			box-shadow: 0 0 8px #D0D0D0;
-			margin-bottom: 0px;
-		}
-		.docs:hover{
-			background-color: lightgray;
-		}
 		.docs{
 			text-align: center;
 			font-size: 13px;
@@ -65,9 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			.docs{
 				font-size: 12px !important;
 			}
-			#container{
-				margin: 2px;
-			}
 			body,html {
 				margin: 5px;
 				margin-top: 40px;
@@ -76,34 +52,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</style>
 </head>
 <body>
-	<nav class='navbar bg-info navbar-expand-sm navbar-dark fixed-top' style='padding-top:2px;padding-bottom:2px;'>
-		<a class='navbar-brand text-dark' href="<?php echo site_url('home')?>" style='font-family: Cookie,cursive;'><i class='fas fa-user'></i> Mwananchi</a>
-		<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#smallScreen' style='outline: none;'>
-			<span class='navbar-toggler-icon'></span>
-		</button>
-		<div class='collapse navbar-collapse' id='smallScreen'>
-			<ul class='navbar-nav'>
-				<li class='nav-item'><a class='nav-link' href="<?php echo site_url('home')?>">Go to Site</a></li>
-			</ul>
-		</div>
-	</nav>
-	<div id="container" style="position: relative;top: 20px;">
-		<h1 style="font-family: Consolas, Monaco, Courier New, Courier, monospace;">Password Reset.</h1>
+	<div class="container">
+		<div style="font-family: Cookie,cursive;" class="display-4 text-info"><i class="fas fa-user"></i> Mwananchi: Password Reset.</div>
 		<div class="container" style="padding-top: 5px;"><?php echo $data; ?></div>
 	</div>
-	<div class="p-0 w-100 row d-flex justify-content-center" style="position: relative; top: 70px;">
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('privacy')?>">Privacy Statement</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('terms')?>">Terms and Conditions</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('help')?>">Help Center</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('cookies')?>">Cookie Policy</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('security')?>">Account Security</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('features')?>">Features</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('dev_zone')?>">Developers</a>
-		<a class="col-xs-2 p-3 docs text-muted" href="<?php echo site_url('about')?>">About</a>
+	<div class="w-100 row d-flex justify-content-center" style="position: relative; top: 10px;padding-left: 1em;padding-right: 1em;">
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('sign_up/basic')?>">Sign Up</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('privacy')?>">Privacy Policy</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('terms')?>">Terms</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('help')?>">Help Center</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('cookies')?>">Cookies</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('security')?>">Account</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('features')?>">Features</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('dev_zone')?>">Developers</a>
+		<a class="col-xs p-2 docs text-muted" href="<?php echo site_url('about')?>">About</a>
 	</div>
-	<div class="text-dark text-center w-100 row d-flex justify-content-center" style="position: relative;top: 80px;">
+	<div class="text-dark text-center w-100 row d-flex justify-content-center" style="position: relative;top: 20px;">
 		<span class="col-12">
-			<a class='text-info' href="<?php echo site_url('home')?>" style='font-family: Cookie,cursive;font-size: 18px'><i class='fas fa-user'></i> Mwananchi</a><sup class='text-info'>TM</sup> &copy; Leadership with Service.
+			<a class='text-info' href="<?php echo base_url()?>" style='font-family: Cookie,cursive;font-size: 18px'><i class='fas fa-user'></i> Mwananchi</a><sup class='text-info'>TM</sup> &copy; Leadership with Service.
 		</span>
 	</div>
 	<script>
