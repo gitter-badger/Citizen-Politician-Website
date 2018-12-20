@@ -16,12 +16,12 @@ class Passwordreset extends CI_Controller{
 	//analyses the log info gotten from get_log method to see if there exists one where the given passcode and userEmail match. If a match is found, it checks if the given time period of 15 minutes has passed after which a request is considered void. If all conditions are fulfilled, a user's password is reset and their new password is shown.
 	private function analyze_log($log,$email,$pass){
 		if(empty($log)){
-			return "<div class='alert alert-danger'><strong>Error!</strong> The ($pass) passcode is not recognised by our system thus password cannot be reset. Please request for another password reset email.</div>";
+			return "<div class='alert alert-danger'><strong>Error!</strong> The ($pass) passcode is not recognised by our system thus password cannot be reset. Please request for another password reset.</div>";
 		}else{
 			foreach ($log as $value) {
 				if($value->userEmail===$email){
 					if(((strtotime($this->db->query("select now() as now")->row()->now)-strtotime($value->timestamp))/60)>15){
-						return "<div class='alert alert-warning'><strong>Warning!</strong> Your request has timed out. Please request for another password reset email.</div>";
+						return "<div class='alert alert-warning'><strong>Warning!</strong> Your request has timed out. Please request for another password reset.</div>";
 					}else{
 						$new_pass=$this->formatter->generate_random_string(random_int(10,20));
 						if($this->sendresetemail->user_reset($value->eventID,$new_pass,$value->userEmail)){
@@ -32,7 +32,7 @@ class Passwordreset extends CI_Controller{
 					}
 				}
 			}
-			return "<div class='alert alert-danger'><strong>Error!</strong> Email/Username ($email) not found in database. Please request for another password reset email to the correct email.</div>";
+			return "<div class='alert alert-danger'><strong>Error!</strong> Username ($email) not found in database. Please request for another password reset with registered credentials.</div>";
 		}
 	}
 }
