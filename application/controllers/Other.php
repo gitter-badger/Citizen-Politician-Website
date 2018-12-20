@@ -9,12 +9,7 @@ class Other extends CI_Controller {
 
 	//Loads the coming soon page to show that a functionality is still under development.
 	public function coming_soon(){
-		if($this->session->userdata('usertype')===null){
-			$data['navbar']="";
-		}else{
-			$data['navbar']=$this->navbar->load_nav_bar();
-		}
-		$data['head']=$this->loadscripts->index().$this->loadscripts->load_animeJS();
+		$data['head']=$this->loadscripts->index().$this->loadscripts->load_animeJS().$this->loadscripts->load_bootstrap();
 		$this->load->view('coming_soon',$data);
 	}
 }
