@@ -313,9 +313,9 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-require_once APPPATH."third_party/PHPdotenv/src/loader.php";
-require_once APPPATH."third_party/PHPdotenv/src/dotenv.php";
-require_once APPPATH."third_party/PHPdotenv/src/validator.php";
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
+// require_once APPPATH."third_party/PHPdotenv/src/loader.php";
+// require_once APPPATH."third_party/PHPdotenv/src/dotenv.php";
+// require_once APPPATH."third_party/PHPdotenv/src/validator.php";
+// $dotenv = new Dotenv\Dotenv(__DIR__);
+// $dotenv->load();
 require_once BASEPATH.'core/CodeIgniter.php';
