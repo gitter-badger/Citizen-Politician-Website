@@ -23,7 +23,7 @@ class Sendresetemail extends CI_Model {
 		}
 		if($this->log_event($email->user)){
 			if($this->email->send_email($email->email,"Password Reset Instructions.","We hope that you are well. Below is a link that will enable you to reset your password. <br><br> <a style='text-align:center;border-radius:5px;background-color: #03869b;color: white;padding:10px;text-decoration:none;' href='".site_url("reset_user_password/$email->user/$this->passcode")."'>Reset My Password</a><br><br>If you never requested for a password reset then please ignore this email.<br>",$email->user)){//sends email and if successful, displays a success message.
-				return "<div class='alert alert-success'><strong>Success!</strong> Password Reset Email Successfully Sent to your Email.</div>";
+				return "<div class='alert alert-success'><strong>Success!</strong> Password Reset Instructions Successfully Sent to your Email.</div>";
 			}else{//if email sending fails, shows an error message.
 				return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Email. ".$this->email->mailer->ErrorInfo."</div>";
 			}
@@ -33,7 +33,7 @@ class Sendresetemail extends CI_Model {
 	}
 
 	//logs the event in the database for future reference i.e during actual password reset.
-	protected function log_event($email){
+	private function log_event($email){
 		if($this->db->query("update emailgetcredentials set used=1 where userEmail=? and type='password'",$email)){
 			return $this->db->query("insert into emailgetcredentials(userEmail,passCode,type) values (?,?,'password')",array($email,$this->passcode=$this->formatter->generate_random_string(random_int(10,20))));
 		}
