@@ -14,30 +14,51 @@ class Home extends CI_Controller {
 	}
 
 	public function index(){
-		$data['navbar']=$this->navbar->index();
-		$data['head']=$this->loadscripts->index().$this->loadscripts->load_main_js().$this->loadscripts->load_angularJS();
-		$data['countries']=$this->regions->get_countries();
-		$data['counties']=$this->regions->get_counties();
+		$data['head']=$this->loadscripts->index().$this->loadscripts->load_bootstrap().$this->loadscripts->load_angularJS();
 		$data['mail_from']=$this->email->get_from();
 		$this->load->view("homepage",$data);
 	}
 
 	public function reset_password(){
 		if(isset($_POST['email'])){
-			if(empty(trim($_POST['email']))){
+			if($this->formatter->check_length($_POST['email'])){
 				$this->session->set_flashdata('log',"<div class='alert alert-warning'>Email/Username/Phone Number is required.</div>");
 			}else{
 				$this->session->set_flashdata('log',$this->sendresetemail->index(trim($_POST['email'])));
 			}
 		}else if(isset($_POST['phone'])){
-			if(empty(trim($_POST['phone']))){
-				$this->session->set_flashdata('log',"<div class='alert alert-warning'>Email/Username/Phone Number is required.</div>");
-			}else{
-				$this->session->set_flashdata('log',$this->sendresetphone->index(trim($_POST['phone'])));
+			if($_POST['submit']==="text"){
+				if($this->formatter->check_length($_POST['phone'])){
+					$this->session->set_flashdata('log',"<div class='alert alert-warning'>Email/Username/Phone Number is required.</div>");
+				}else{
+					$send_text=$this->sendresetphone->index(trim($_POST['phone']));
+					if($send_text===true){
+						$data['head']=$this->loadscripts->index().$this->loadscripts->load_bootstrap();
+						$data['user']=$_POST['phone'];
+						$this->load->view("verify_reset_code",$data);
+						return;
+					}
+					$this->session->set_flashdata('log',$send_text);
+				}
 			}
 		}
-		redirect(site_url("home"),"location");
+		redirect(base_url(),"location");
 	}
+
+	public function phone_reset(){
+		if(!isset($_POST)) redirect(base_url(),'location');
+		$user=$this->accounts->get_email(trim($_POST['user']))->user;
+		$code=trim($_POST['code']);
+		redirect(site_url("reset_user_password/$user/$code"),'location');
+	}
+
+
+
+
+
+
+
+
 
 	public function contact_us(){
 		if(!isset($_POST['name'])) redirect(site_url("home"),"location");
@@ -55,17 +76,6 @@ class Home extends CI_Controller {
 			$this->session->set_flashdata("Error","<div class='alert alert-danger'>An error occurred. Please contact the administrator.</div>");
 		}
 		redirect(site_url("home")."#contacts","location");
-	}
-
-	public function check_available($here=0){
-		if(!isset($_POST['user'])) redirect(site_url("home"),"location");
-		$answer=$this->accounts->get_email(trim($_POST['user']));
-		if(isset($answer)){
-			echo ($here!==0) ? "":1;
-			return 1;
-		}
-		echo ($here!==0) ? "":0;
-		return 0;
 	}
 
 	public function get_faq(){
