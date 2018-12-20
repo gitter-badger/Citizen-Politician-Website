@@ -97,10 +97,10 @@ $db['test'] = array(
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'den1.mysql1.gear.host',
-	'username' => 'mwananchi',
-	'password' => '[biggie5941]',
-	'database' => 'mwananchi',
+	'hostname' => getenv("DATABASE_HOST"),
+	'username' => getenv("DATABASE_USERNAME"),
+	'password' => getenv("DATABASE_PASSWORD"),
+	'database' => getenv("DATABASE"),
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
