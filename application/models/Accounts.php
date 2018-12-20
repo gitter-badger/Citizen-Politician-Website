@@ -66,14 +66,14 @@ class Accounts extends CI_Model {
 		return "email";
 	}
 
-	public function check_name($username){
-		return $this->db->query("select adminUserName from admin_profile where adminUserName=? union all select UserName from citizen_profile where UserName=? union all select userName from politician_profile where userName=?",array($username,$username,$username))->row();
+	//This function adds a citizen to the system.
+	public function add_citizen($username,$email,$email_verified,$phone,$phone_verified,$gender,$dob,$country,$county,$secret){
+		$photo=(strtolower($gender)==="male") ? "https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838678/mwananchi/site/user.png":"https://res.cloudinary.com/dkgtd3pil/image/upload/v1542838679/mwananchi/site/userFemale.png";
+		return $this->db->query("insert into citizen_profile (UserName,Email,verifyEmail,phone,verifyPhone,gender,DOB,country,County,photo,Secret) values (?,?,?,?,?,?,?,?,?,?,?)",array(strtolower($username),strtolower($email),$email_verified,$phone,$phone_verified,strtolower($gender),$dob,$country,$county,$photo,password_hash($secret,PASSWORD_DEFAULT)));
 	}
 
-	public function add_admin($username,$password,$gender){
-		$photo=(strtolower($gender)==='male') ? "user.png":"userFemale.png";
-		return $this->db->query("insert into admin_profile(adminUserName,adminPassword,userGender,photo) values (?,?,?,?)",array($username,password_hash($password,PASSWORD_DEFAULT),$gender,$photo));
-	}
+
+
 
 	public function get_accounts(){
 		$return=$this->db->query("select UserName,gender,type,photo from citizen_profile union all select username,gender,accountType,photo from politician_profile where accountVerified=1")->result();
