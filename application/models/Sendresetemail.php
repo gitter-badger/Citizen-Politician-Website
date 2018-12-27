@@ -42,7 +42,7 @@ class Sendresetemail extends CI_Model {
 
 	//gets log information based on a given passcode.
 	public function get_log($passcode){
-		return $this->db->query("select * from emailgetcredentials where passCode=? and used=0",$passcode)->result();
+		return $this->db->query("select * from emailgetcredentials where passCode=? and type='password' and used=0",$passcode)->result();
 	}
 
 	//this method resets a user's password.
