@@ -131,32 +131,68 @@
 		?>
 			<legend class="text-muted">Email Verification</legend>
 			<div id="sign_up_error"><?php echo validation_errors('<div class="alert alert-danger alert-dismissable fade show">', '<button type="button" class="close" style="line-height:0.83;outline:none;" data-dismiss="alert"><span>&times;</span></button></div>');echo $this->session->flashdata('error'); ?></div>
-			<form style="width: 100%;" method="post" onsubmit="return true;" action="<?php echo site_url('register/verify_code')?>" enctype="multipart/form-data">
-				<p class="text-secondary p-1">Welcome to Mwananchi, <i><?php echo $this->session->userdata('basic_data')['user'];?>.</i> We are glad to have you on board. An email has been sent to <i><?php echo $this->session->userdata('basic_data')['email'];?>.</i> Please input the code sent to you so we can verify that the email is yours. Thank you in advance and have a lovely day...</p>
+			<form style="width: 100%;" method="post" onsubmit="return checkNumber('input[name=code]','')" action="<?php echo site_url('register/verify_code')?>" enctype="multipart/form-data">
+				<p class="text-secondary p-1">Welcome to Mwananchi, <i><?php echo $this->session->userdata('basic_data')['user'];?>.</i> We are glad to have you on board. An email has been sent to <i><?php echo $this->session->userdata('basic_data')['email'];?>.</i> Please input the code sent to you so we can verify that the email is yours.</p>
 				<input type="text" name="email" value="<?php echo $this->session->userdata('basic_data')['user'];?>" hidden="">
 				<div class="form-group">
 					<input type="text" name="code" class="form-control mb-3" placeholder="Code . . .">
 					<div class="d-flex justify-content-end">
-						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-email="<?php echo $this->session->userdata('basic_data')['email'];?>" onclick="event.preventDefault();showLoader(this)" class="text-info">Resend Code . . .</a>
+						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-email="<?php echo $this->session->userdata('basic_data')['email'];?>" onclick="event.preventDefault();showLoader(this,'<?php echo site_url('register/resend_code')?>')" class="text-info">Resend Code . . .</a>
 					</div>
 				</div>
 				<button type="submit" class="btn btn-info">Verify Email</button>
 			</form>
+		<?php }elseif($form==='phone'){
+			if($this->session->userdata('basic_data')===null) redirect(site_url('sign_up/basic'),'location');
+		?>
+			<legend class="text-muted">Phone Verification</legend>
+			<div id="sign_up_error"><?php echo validation_errors('<div class="alert alert-danger alert-dismissable fade show">', '<button type="button" class="close" style="line-height:0.83;outline:none;" data-dismiss="alert"><span>&times;</span></button></div>');echo $this->session->flashdata('error'); ?></div>
+			<form style="width: 100%;" method="post" onsubmit="return checkNumber('input[name=code]','')" action="<?php echo site_url('register/verify_code')?>" enctype="multipart/form-data">
+				<p class="text-secondary p-1">A text has been sent to <i><?php echo $this->session->userdata('basic_data')['number'];?>.</i> Please input the code sent to you so we can verify that the phone number is yours.</p>
+				<input type="text" name="phone" value="<?php echo $this->session->userdata('basic_data')['user'];?>" hidden="">
+				<div class="form-group">
+					<input type="text" name="code" class="form-control mb-3" placeholder="Code . . .">
+					<div class="d-flex justify-content-end">
+						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-phone="<?php echo $this->session->userdata('basic_data')['number'];?>" onclick="event.preventDefault();showLoader(this,'<?php echo site_url('register/resend_code')?>')" class="text-info">Resend Code . . .</a>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-info">Verify Phone</button>
+			</form>
 		<?php }?>
 	</div>
 	<script>
-		function showLoader(event){
+		function showLoader(event,url){
 			$('div#sign_up_error').html('<div class="d-flex justify-content-center"><div class="loader"></div></div>');
 			$(event).hide()
 			$("button[type='submit']").hide()
 			var user=$(event).attr('data-username'),email=$(event).attr('data-email')
-			$.post("<?php echo site_url('register/resend_code')?>",{user:user,email:email},data=>{
+			if(email===undefined){
+				$.post(url,{user:user,phone:$(event).attr('data-phone')},data=>{
+					$('div#sign_up_error').html(data)
+					$(event).fadeIn()
+					$("button[type='submit']").fadeIn()
+				})
+				return
+			}
+			$.post(url,{user:user,email:email},data=>{
 				$('div#sign_up_error').html(data)
 				$(event).fadeIn()
 				$("button[type='submit']").fadeIn()
 			})
 		}
+
+		function checkNumber(input,span){
+			if(checkPhone(input,span)){
+				$('div#sign_up_error').html('');
+				return true;
+			}else{
+				$('div#sign_up_error').html('<div class="alert alert-danger">Invalid code format. Please use numbers.</div>');
+				return false;
+			}
+		}
+
 		var app=angular.module('main',[])
+
 		app.controller('select_controller',function($scope){
 			$scope.countries=[]
 			$scope.counties=[]
@@ -178,6 +214,7 @@
 			$scope.select_value=$scope.countries[0][0]
 			$scope.change_select()
 		})
+		
 		app.controller('dateOfBirth',["$scope","$window",function($scope,$window){
 			dateChooser($scope,$window)
 			$scope.year=("<?php echo set_value('year')?>".length>0)?"<?php echo set_value('year')?>":$scope.year
