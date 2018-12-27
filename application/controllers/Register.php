@@ -2,11 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once APPPATH.'controllers/Home.php';
 class Register extends Home {
-	//constructor. Loads codeigniter form validator library and send validation email model.
+	//constructor. Loads codeigniter form validator library and send validation email & phone model.
 	public function __construct(){
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->model('sendvalidationemail');
+		$this->load->model('sendvalidationphone');
 	}
 
 	//This function counteracts the index function of the superclass. 
@@ -31,7 +32,7 @@ class Register extends Home {
 	//function to add a user to the system via a session variable awaiting email and phone validation.
 	public function add_user(){
 		if(!isset($_POST)) redirect(site_url('sign_up/basic'),'location');
-		$_POST['number']='+'.$_POST['phone'];
+		$_POST['number']='+'.trim($_POST['phone']);
 		$this->form_validation->set_rules('user','username',"trim|required|min_length[3]|callback_check_username|is_unique[citizen_profile.UserName]|is_unique[politician_profile.userName]|is_unique[admin_profile.adminUserName]",array('min_length'=>"Username must be atleast 3 characters long.",'is_unique'=>"Username is already registered on site."));
 		$this->form_validation->set_rules('email','email',"trim|required|callback_check_email|is_unique[citizen_profile.Email]|is_unique[politician_profile.email]|is_unique[admin_profile.adminEmail]",array('check_email'=>"Email is of invalid format",'is_unique'=>"Email is already registered on site."));
 		$this->form_validation->set_rules('phone','phone',"trim|required|is_natural");
@@ -107,6 +108,12 @@ class Register extends Home {
     		}
     		return;
 		}else if(isset($_POST['phone'])){
+			$errors=$this->sendvalidationphone->index($_POST['user'],$_POST['phone']);
+    		if($errors===false){
+    			echo "<div class='alert alert-danger alert-dismissable fade show'>An error occurred. Please try again or contact administrator.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
+    		}else if ($errors===true){
+    			echo "<div class='alert alert-success alert-dismissable fade show'>Validation text has been resent to ".$_POST['phone'].".<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
+    		}
 			return;
 		}
 		redirect(site_url("sign_up/basic"),"location");
@@ -117,7 +124,11 @@ class Register extends Home {
 		if(isset($_POST['email'])){
 			$valid=$this->sendvalidationemail->verifyCode($_POST['code'],$_POST['email']);
 			if($valid==="valid"){
-				$this->register_user();
+        		$errors=$this->sendvalidationphone->index($this->session->userdata('basic_data')['user'],$this->session->userdata('basic_data')['number']);
+        		if($errors===false){
+        			$this->session->set_flashdata('error',"<div class='alert alert-danger alert-dismissable fade show'>An error occurred. Please try again or contact administrator.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>");
+        		}
+        		redirect(site_url('sign_up/phone'),'location');
 			}else if($valid==="invalid"){
 				$this->session->set_flashdata("error","<div class='alert alert-danger alert-dismissable fade show'>Invalid code supplied. Please use code sent via email.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>");
 			}else{
@@ -125,7 +136,15 @@ class Register extends Home {
 			}
 			redirect(site_url("sign_up/email"),"location");
 		}else if(isset($_POST['phone'])){
-			return;
+			$valid=$this->sendvalidationphone->verifyCode($_POST['code'],$_POST['phone']);
+			if($valid==="valid"){
+				$this->register_user();
+			}else if($valid==="invalid"){
+				$this->session->set_flashdata("error","<div class='alert alert-danger alert-dismissable fade show'>Invalid code supplied. Please use code sent via email.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>");
+			}else{
+				$this->session->set_flashdata("error","<div class='alert alert-danger alert-dismissable fade show'>A database error occurred. Please try again.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>");
+			}
+			redirect(site_url("sign_up/phone"),"location");
 		}
 		redirect(site_url("sign_up/basic"),"location");
 	}
@@ -134,7 +153,7 @@ class Register extends Home {
 	private function register_user(){
 		if($this->session->userdata('basic_data')!==null){
 			if($this->session->userdata('basic_data')['email_verified']===1){
-				if($this->session->userdata('basic_data')['phone_verified']===0){
+				if($this->session->userdata('basic_data')['phone_verified']===1){
 					if($this->session->userdata('basic_data')['type']==="citizen"){
 						if($this->accounts->add_citizen($this->session->userdata('basic_data')['user'],$this->session->userdata('basic_data')['email'],$this->session->userdata('basic_data')['email_verified'],$this->session->userdata('basic_data')['number'],$this->session->userdata('basic_data')['phone_verified'],$this->session->userdata('basic_data')['gender'],$this->session->userdata('basic_data')['dob'],$this->session->userdata('basic_data')['countries'],$this->session->userdata('basic_data')['counties'],$this->session->userdata('basic_data')['secret'])){
 							$this->session->set_flashdata("log","<div class='alert alert-success'>Successful sign up. Now log in.</div>");
@@ -152,6 +171,7 @@ class Register extends Home {
 				}
 			}else{
 				$this->session->set_flashdata("error","<div class='alert alert-danger alert-dismissable fade show'>Please verify your email.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>");
+				redirect(site_url("sign_up/email"),"location");
 			}
 		}else{
 			redirect(site_url("sign_up/basic"),"location");
