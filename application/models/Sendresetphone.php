@@ -31,6 +31,28 @@ class Sendresetphone extends CI_Model {
 		}
 	}
 
+	public function reset_call($email){
+		$email=$this->accounts->get_email($email);
+		if(!is_object($email)){
+			return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Phone because you are NOT Registered in the System.</div>";
+		}
+		if($email->phone===null){
+			return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Phone because your phone number is not on the system.</div>";
+		}
+		if($this->accounts->check_phone_verified($email->phone)==0){
+			return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Phone because your phone number is not verified.</div>";
+		}
+		if($this->log_event($email->user)){
+			if($this->phone->call("$this->passcode",$email->phone)===true){
+				return true;
+			}else{
+				return "<div class='alert alert-danger'><strong>Fail!</strong> An error occurred and a call could not be made. Try using email to reset password.</div>";
+			}
+		}else{
+			return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Phone because a Database Error Occurred. Please Contact Administrator.</div>";
+		}
+	}
+
 	//logs the event in the database for future reference i.e during actual password reset.
 	private function log_event($email){
 		if($this->db->query("update emailgetcredentials set used=1 where userEmail=? and type='password'",$email)){

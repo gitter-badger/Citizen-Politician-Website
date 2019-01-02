@@ -17,5 +17,11 @@ class Phone {
 		$message = $client->messages->create($recipient, array('from' => '+15407014295','body' => $message));
 		return $message->sid;
     }
+
+    public function call($message,$recipient){
+    	$client = new Twilio\Rest\Client($this->sid, $this->token);
+		$client->account->calls->create($recipient, '+15407014295', array('url' => site_url("twiml/index/$message")));
+		return true;
+    }
 }
 ?>

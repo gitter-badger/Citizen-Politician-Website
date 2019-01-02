@@ -156,7 +156,7 @@ class Register extends Home {
 				if($this->session->userdata('basic_data')['phone_verified']===1){
 					if($this->session->userdata('basic_data')['type']==="citizen"){
 						if($this->accounts->add_citizen($this->session->userdata('basic_data')['user'],$this->session->userdata('basic_data')['email'],$this->session->userdata('basic_data')['email_verified'],$this->session->userdata('basic_data')['number'],$this->session->userdata('basic_data')['phone_verified'],$this->session->userdata('basic_data')['gender'],$this->session->userdata('basic_data')['dob'],$this->session->userdata('basic_data')['countries'],$this->session->userdata('basic_data')['counties'],$this->session->userdata('basic_data')['secret'])){
-							$this->session->set_flashdata("log","<div class='alert alert-success'>Successful sign up. Now log in.</div>");
+							$this->session->set_flashdata("log","<div class='alert alert-success'><strong>Success! </strong>Successful sign up. Now log in.</div>");
 							redirect(base_url(),"location");
 						}else{
 							$this->session->set_flashdata("error","<div class='alert alert-danger alert-dismissable fade show'>A database error occurred. Please try again.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>");

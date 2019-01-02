@@ -26,13 +26,26 @@ class Home extends CI_Controller {
 			}else{
 				$this->session->set_flashdata('log',$this->sendresetemail->index(trim($_POST['email'])));
 			}
-		}else if(isset($_POST['phone'])){
+		}elseif(isset($_POST['phone'])){
 			if($_POST['submit']==="text"){
 				if($this->formatter->check_length($_POST['phone'])){
 					$this->session->set_flashdata('log',"<div class='alert alert-warning'>Email/Username/Phone Number is required.</div>");
 				}else{
 					$send_text=$this->sendresetphone->index(trim($_POST['phone']));
 					if($send_text===true){
+						$data['head']=$this->loadscripts->index().$this->loadscripts->load_bootstrap();
+						$data['user']=$_POST['phone'];
+						$this->load->view("verify_reset_code",$data);
+						return;
+					}
+					$this->session->set_flashdata('log',$send_text);
+				}
+			}elseif($_POST['submit']==="call"){
+				if($this->formatter->check_length($_POST['phone'])){
+					$this->session->set_flashdata('log',"<div class='alert alert-warning'>Email/Username/Phone Number is required.</div>");
+				}else{
+					$call=$this->sendresetphone->reset_call(trim($_POST['phone']));
+					if($call===true){
 						$data['head']=$this->loadscripts->index().$this->loadscripts->load_bootstrap();
 						$data['user']=$_POST['phone'];
 						$this->load->view("verify_reset_code",$data);

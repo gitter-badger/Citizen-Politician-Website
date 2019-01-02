@@ -21,6 +21,18 @@ class Sendvalidationphone extends CI_Model {
 		return false;
 	}
 
+	public function call($username,$phone){
+		if(is_numeric($phone)){
+			$this->code=$this->formatter->generate_random_code(random_int(4,6));
+			if($this->log_event($username)){
+				if($this->phone->call("$this->code",$phone)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	private function log_event($email){
 		if($this->db->query("update emailgetcredentials set used=1 where userEmail=? and type='phone'",$email)){
 			return $this->db->query("insert into emailgetcredentials(userEmail,passCode,type) values (?,?,'phone')",array($email,$this->code));
