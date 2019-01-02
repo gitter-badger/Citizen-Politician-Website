@@ -8,7 +8,8 @@ class TwiML extends CI_Controller {
 	}
 
 	public function index($code){
-		$data['code']="Your password reset code is ".$code;
+		$data['message']="Please input this code on the Mwananchi site or app.";
+		$data['code']=implode(", ",explode("", $code));
 		$this->load->view("say_validation_code",$data);
 	}
 }
