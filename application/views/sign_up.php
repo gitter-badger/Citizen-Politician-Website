@@ -186,7 +186,7 @@
 				$('div#sign_up_error').html('');
 				return true;
 			}else{
-				$('div#sign_up_error').html('<div class="alert alert-danger">Invalid code format. Please use numbers.</div>');
+				$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>Invalid code format. Please use numbers.</div>');
 				return false;
 			}
 		}
@@ -214,7 +214,7 @@
 			$scope.select_value=$scope.countries[0][0]
 			$scope.change_select()
 		})
-		
+
 		app.controller('dateOfBirth',["$scope","$window",function($scope,$window){
 			dateChooser($scope,$window)
 			$scope.year=("<?php echo set_value('year')?>".length>0)?"<?php echo set_value('year')?>":$scope.year
