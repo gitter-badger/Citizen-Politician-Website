@@ -150,10 +150,11 @@
 			<form style="width: 100%;" method="post" onsubmit="return checkNumber('input[name=code]','')" action="<?php echo site_url('register/verify_code')?>" enctype="multipart/form-data">
 				<p class="text-secondary p-1">A text has been sent to <i><?php echo $this->session->userdata('basic_data')['number'];?>.</i> Please input the code sent to you so we can verify that the phone number is yours.</p>
 				<input type="text" name="phone" value="<?php echo $this->session->userdata('basic_data')['user'];?>" hidden="">
-				<div class="form-group">
-					<input type="text" name="code" class="form-control mb-3" placeholder="Code . . .">
-					<div class="d-flex justify-content-end">
-						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-phone="<?php echo $this->session->userdata('basic_data')['number'];?>" onclick="event.preventDefault();showLoader(this,'<?php echo site_url('register/resend_code')?>')" class="text-info">Resend Code . . .</a>
+				<div class="form-group mb-0">
+					<input type="text" name="code" class="form-control" placeholder="Code . . .">
+					<div class="d-flex justify-content-end p-2">
+						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-phone="<?php echo $this->session->userdata('basic_data')['number'];?>" data-type="text" onclick="event.preventDefault();showLoader(this,'<?php echo site_url('register/resend_code')?>')" class="text-info mr-5">Resend Text . . .</a>
+						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-phone="<?php echo $this->session->userdata('basic_data')['number'];?>" data-type="call" onclick="event.preventDefault();showLoader(this,'<?php echo site_url('register/resend_code')?>')" class="text-info">Call Me . . .</a>
 					</div>
 				</div>
 				<button type="submit" class="btn btn-info">Verify Phone</button>
@@ -167,7 +168,7 @@
 			$("button[type='submit']").hide()
 			var user=$(event).attr('data-username'),email=$(event).attr('data-email')
 			if(email===undefined){
-				$.post(url,{user:user,phone:$(event).attr('data-phone')},data=>{
+				$.post(url,{user:user,phone:$(event).attr('data-phone'),type:$(event).attr('data-type')},data=>{
 					$('div#sign_up_error').html(data)
 					$(event).fadeIn()
 					$("button[type='submit']").fadeIn()

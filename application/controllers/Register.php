@@ -108,13 +108,23 @@ class Register extends Home {
     		}
     		return;
 		}else if(isset($_POST['phone'])){
-			$errors=$this->sendvalidationphone->index($_POST['user'],$_POST['phone']);
-    		if($errors===false){
-    			echo "<div class='alert alert-danger alert-dismissable fade show'>An error occurred. Please try again or contact administrator.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
-    		}else if ($errors===true){
-    			echo "<div class='alert alert-success alert-dismissable fade show'>Validation text has been resent to ".$_POST['phone'].".<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
-    		}
-			return;
+			if($_POST['type']==='text'){
+				$errors=$this->sendvalidationphone->index($_POST['user'],$_POST['phone']);
+	    		if($errors===false){
+	    			echo "<div class='alert alert-danger alert-dismissable fade show'>An error occurred. Please try again or contact administrator.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
+	    		}else if ($errors===true){
+	    			echo "<div class='alert alert-success alert-dismissable fade show'>Validation text has been resent to ".$_POST['phone'].".<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
+	    		}
+				return;
+			}elseif($_POST['type']==='call'){
+				$errors=$this->sendvalidationphone->call($_POST['user'],$_POST['phone']);
+	    		if($errors===false){
+	    			echo "<div class='alert alert-danger alert-dismissable fade show'>An error occurred. Please try again or contact administrator.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
+	    		}else if ($errors===true){
+	    			echo "<div class='alert alert-success alert-dismissable fade show'>Validation call has been requested to ".$_POST['phone'].". Please wait.<button type='button' class='close' style='line-height:0.83;outline:none;' data-dismiss='alert'><span>&times;</span></button></div>";
+	    		}
+				return;
+			}
 		}
 		redirect(site_url("sign_up/basic"),"location");
 	}
