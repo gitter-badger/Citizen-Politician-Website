@@ -6,13 +6,13 @@ use Twilio\TwiML\VoiceResponse;
 
 $response=new VoiceResponse();
 $response->say("$message");
-$response->pause(['length'=>1.5]);
+$response->pause(['length'=>2]);
 $response->say("$code.");
 $response->pause(['length'=>2]);
 $response->say("$message");
-$response->pause(['length'=>1.5]);
+$response->pause(['length'=>2]);
 $response->say("$code.");
-$response->pause(['length'=>1.5]);
+$response->pause(['length'=>2]);
 
 echo $response;
 ?>

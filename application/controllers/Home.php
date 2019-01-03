@@ -51,7 +51,7 @@ class Home extends CI_Controller {
 						$this->load->view("verify_reset_code",$data);
 						return;
 					}
-					$this->session->set_flashdata('log',$send_text);
+					$this->session->set_flashdata('log',$call);
 				}
 			}
 		}
