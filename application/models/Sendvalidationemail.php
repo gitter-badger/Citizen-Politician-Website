@@ -13,10 +13,11 @@ class Sendvalidationemail extends CI_Model {
 		if($this->formatter->checkEmail($email)){
 			$this->code=$this->formatter->generate_random_code(random_int(4,6));
 			if($this->log_event($username)){
-				if($this->email->send_email($email,"Welcome to Mwananchi","Glad to have you on board. To kick off, please use this code to validate your email.<br><br>$this->code<br><br>",$username)){
+				$response=$this->email->send_email($email,"Welcome to Mwananchi","Glad to have you on board. To kick off, please use this code to validate your email.<br><br>$this->code<br>",$username,'validation');
+				if($response==202){
 					return true;
 				}
-				return $this->email->mailer->ErrorInfo;
+				return $response;
 			}
 			return false;
 		}
