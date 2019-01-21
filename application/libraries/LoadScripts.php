@@ -29,4 +29,8 @@ class LoadScripts {
 	public function load_angularJS(){
 		return "<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js'></script>";
 	}
+
+	public function load_luxon(){
+		return "<script type='module' src='".base_url('resources/js/luxon/luxon.js')."'></script><script src='https://cdn.polyfill.io/v2/polyfill.js?features=default,String.prototype.repeat,Array.prototype.find,Array.prototype.findIndex,Math.trunc'></script>";
+	}
 }
