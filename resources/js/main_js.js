@@ -184,7 +184,7 @@
 			return;
 		}
 		var value=(photo.indexOf("\\")>-1) ? photo.substr(photo.lastIndexOf("\\")+1) : photo.substr(photo.lastIndexOf("/")+1)
-		$("#labelPhoto").html(value)
+		$(label).html(value)
 	}
 
 	function diff_date(diff){
@@ -434,7 +434,7 @@
 		$scope.days=[]
 		$scope.months=[]
 		$scope.years=[]
-		for(var i=1990;i<=new Date().getFullYear();i++){
+		for(var i=1900;i<=new Date().getFullYear();i++){
 			$scope.years.push(i)
 		}
 		$scope.get_months=function(){
