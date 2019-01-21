@@ -1,4 +1,4 @@
-Status : [![Build Status]](https://travis-ci.org/dopesky/Citizen-Politician-Website)
+Status : [![Build Status](https://secure.travis-ci.org/dopesky/Citizen-Politician-Website.png?branch=master)](https://travis-ci.org/dopesky/Citizen-Politician-Website)
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdopesky%2FCitizen-Politician-Website.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdopesky%2FCitizen-Politician-Website?ref=badge_shield)
 
