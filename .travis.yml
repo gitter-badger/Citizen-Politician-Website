@@ -1,2 +1,2 @@
 language: php
-script: tests/phpunit.xml
+script: tests/Bootstrap.php
