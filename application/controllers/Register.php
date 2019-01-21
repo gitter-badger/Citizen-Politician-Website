@@ -17,9 +17,12 @@ class Register extends Home {
 
 	//this function loads the sign up form or email validation form required. $form specifies the form to be loaded.
 	public function sign_up($form){
-		$data['head']=$this->loadscripts->index().$this->loadscripts->load_bootstrap().$this->loadscripts->load_angularJS();
+		$data['head']=$this->loadscripts->index().$this->loadscripts->load_bootstrap().$this->loadscripts->load_angularJS().$this->loadscripts->load_luxon();
 		$data['countries']=$this->regions->get_countries();
 		$data['counties']=$this->regions->get_counties();
+		$data['constituencies']=json_encode($this->regions->get_constituencies());
+		$data['wards']=json_encode($this->regions->get_wards());
+		$data['seats']=json_encode($this->regions->get_supported_seats('%'));
 		$data['mail_from']=$this->email->get_from();
 		$data['form']=$form;
 		$data['navbar']='';
@@ -29,7 +32,7 @@ class Register extends Home {
 		$this->load->view("sign_up",$data);
 	}
 
-	//function to add a user to the system via a session variable awaiting email and phone validation.
+	//function to add a user to the system via a session variable awaiting email and phone validation. Adds citizens and politicians.
 	public function add_user(){
 		if(!isset($_POST)) redirect(site_url('sign_up/basic'),'location');
 		$_POST['number']='+'.trim($_POST['phone']);
@@ -57,7 +60,8 @@ class Register extends Home {
         		}
         		redirect(site_url('sign_up/email'),'location');
         	}elseif($_POST['type']==='politician'){
-        		redirect(site_url('coming_soon'),'location');
+        		$this->session->set_userdata('basic_data',$_POST);
+        		redirect(site_url('sign_up/politics'),'location');
         	}
             redirect(site_url('sign_up/basic'),'location');
         }
@@ -157,6 +161,23 @@ class Register extends Home {
 			redirect(site_url("sign_up/phone"),"location");
 		}
 		redirect(site_url("sign_up/basic"),"location");
+	}
+
+	//validates political info and creates a session variable to store it.
+	public function political_info(){
+		if(!isset($_POST)||$this->session->userdata('basic_data')===null) redirect(site_url('sign_up/basic'),'location');
+		if($this->session->userdata('basic_data')['type']!=='politician') redirect(site_url('sign_up/basic'),'location');
+		$this->form_validation->set_rules('full_names','Full Name',"trim|required");
+		$this->form_validation->set_rules('political_years','Political Years',"trim|required|is_natural");
+		$this->form_validation->set_rules('political_seat','Current Political Seat',"trim|required|is_natural");
+		$this->form_validation->set_rules('constituency','Constituency',"trim|required|is_natural");
+		$this->form_validation->set_rules('ward','Ward',"trim|required|is_natural");
+		if ($this->form_validation->run() == FALSE){
+            $this->sign_up('politics');
+        }else{
+        	$this->session->set_userdata('political_data',$_POST);
+        	redirect(site_url('sign_up/history'),'location');
+        }
 	}
 
 	//This registers a user officially to the system.

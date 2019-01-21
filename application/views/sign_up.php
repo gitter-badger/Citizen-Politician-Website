@@ -16,7 +16,9 @@
 		<div class="display-4 text-info" style="font-family: Cookie,cursive;">
 			<span><i class="fas fa-user"></i> Mwananchi: </span><span>Sign Up</span>
 		</div>
-		<?php if($form==='basic'){?>
+		<?php if($form==='basic'){
+			$this->session->unset_userdata('basic_data');
+		?>
 			<legend class="text-muted">Basic Information</legend>
 			<div id="sign_up_error"><?php echo validation_errors('<div class="alert alert-danger alert-dismissable fade show">', '<button type="button" class="close" style="line-height:0.83;outline:none;" data-dismiss="alert"><span>&times;</span></button></div>'); ?></div>
 			<form ng-controller="dateOfBirth" ng-submit="submit($event)" style="width: 100%;" method="post" action="<?php echo site_url('register/add_user')?>" enctype="multipart/form-data">
@@ -159,9 +161,95 @@
 				</div>
 				<button type="submit" class="btn btn-info">Verify Phone</button>
 			</form>
+		<?php }elseif($form==='politics'){
+			if($this->session->userdata('basic_data')===null) redirect(site_url('sign_up/basic'),'location');
+			if(strtolower($this->session->userdata('basic_data')['type'])!=='politician') redirect(site_url('sign_up/basic'),'location');
+		?>
+			<legend class="text-muted">Political Information</legend>
+			<div id="sign_up_error"><?php echo validation_errors('<div class="alert alert-danger alert-dismissable fade show">', '<button type="button" class="close" style="line-height:0.83;outline:none;" data-dismiss="alert"><span>&times;</span></button></div>'); ?></div>
+			<form style="width: 100%;" onsubmit="return checkYears('input[name=political_years]','#spanPolitical_years')" method="post" action="<?php echo site_url('register/political_info')?>" enctype="multipart/form-data">
+				<div>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="form-group">
+								<input type="text" value="<?php echo set_value('full_names')?>" class="form-control" name="full_names"placeholder="Full Names" required="">
+							</div>
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<input type="text" value="<?php echo set_value('political_years')?>" class="form-control" name="political_years" onkeyup="checkPhone(this,'#spanPolitical_years')" placeholder="Political Years" required="">
+								    <div class="input-group-append">
+								      	<span class="input-group-text"><span class="fas" id="spanPolitical_years"></span></span>
+								    </div>
+								</div>
+							</div>
+							<div class="form-group" ng-controller="political_seats">
+								<label for="political_seat"> Current Political Seat:</label>
+								<select class="custom-select" name="political_seat" id="political_seat"><option ng-repeat="x in seats" value="{{x.seatID}}">{{x.seat}}</option></select>
+							</div>
+							<div class="form-group" ng-controller="areas">
+								<label> Constituency and Ward:</label>
+								<div class="d-flex justify-content-between">
+									<select class="form-control mr-5" ng-model="const" name="constituency" ng-change="change_wards()"><option ng-repeat="x in constituencies" value="{{x.constituencyID}}">{{x.constituency}}</option></select>
+									<select class="form-control ml-5" name="ward"><option ng-repeat="x in wards_to_show" value="{{x.wardID}}">{{x.Ward}}</option></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex justify-content-end">
+						<button type="submit" class="btn btn-info">Sign Up</button>
+					</div>
+				</div>
+			</form>
+		<?php }elseif($form==='history'){
+			if($this->session->userdata('basic_data')===null||$this->session->userdata('political_data')===null) redirect(site_url('sign_up/basic'),'location');
+			if(strtolower($this->session->userdata('basic_data')['type'])!=='politician') redirect(site_url('sign_up/basic'),'location');
+		?>
+			<style>
+				button{
+					outline: none !important;
+				}
+			</style>
+			<legend class="text-muted">Political History</legend>
+			<div id="sign_up_error"></div>
+			<p>What posts did you hold in the <?php echo $this->session->userdata('political_data')['political_years'];?> years you were in politics? <br><strong>Note: </strong>The 'From' and 'To' columns require valid dates in the format DD-MM-YYYY.</p>
+			<div class="table-responsive-sm">
+				<table class="table table-light mt-3" ng-controller="history">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Username</th>
+							<th scope="col">Seat</th>
+							<th scope="col">From</th>
+							<th scope="col">To</th>
+							<th class="text-center" scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="x in data">
+							<th scope="row">{{x[1]}}</th>
+							<td data-value="{{x[1].seatID}}">{{x[2].seat}}</td>
+							<td>{{x[3]}}</td>
+							<td>{{x[4]}}</td>
+							<td class="text-center"><button class="close fas fa-times text-danger float-none" ng-click="remove_data($event)" data-id="{{x[0]}}" title="Remove"></button></td>
+						</tr>
+						<tr class="table-info">
+							<th scope="row" id="user"><?php echo $this->session->userdata('basic_data')['user'];?></th>
+							<td><select class="form-control" ng-model="seat" name="political_seat"><option ng-repeat="x in seats" value="{{x.seatID}}">{{x.seat}}</option></select></td>
+							<td><input class="form-control" id="fromDate" placeholder="Date from"></td>
+							<td><input class="form-control" id="toDate" placeholder="Date to"></td>
+							<td class="d-flex justify-content-around">
+								<button class="close fas fa-plus text-muted float-none" ng-click="add_data()" title="Add"></button>
+								<button class="close fas fa-share text-success float-none" title="Next"></button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		<?php }?>
 	</div>
 	<script>
+		import DateTime from './resources/js/luxon/luxon';
+		//alert(DateTime.fromISO('2016-05-25'))
+		alert(DateTime.local())
 		function showLoader(event,url){
 			$('div#sign_up_error').html('<div class="d-flex justify-content-center"><div class="loader"></div></div>');
 			$(event).hide()
@@ -188,6 +276,16 @@
 				return true;
 			}else{
 				$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>Invalid code format. Please use numbers.</div>');
+				return false;
+			}
+		}
+
+		function checkYears(input,span){
+			if(checkPhone(input,span)){
+				$('div#sign_up_error').html('');
+				return true;
+			}else{
+				$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>Invalid political years. Please use numbers.</div>');
 				return false;
 			}
 		}
@@ -224,6 +322,73 @@
 			$scope.get_days()
 			$scope.day=("<?php echo set_value('day')?>".length>0)?"<?php echo set_value('day')?>":$scope.day
 		}])
+
+		app.controller('political_seats',function($scope){
+			$scope.seats=JSON.parse('<?php echo $seats?>');
+		})
+
+		app.controller('areas',function($scope){
+			$scope.constituencies=[]
+			$scope.wards=[]
+			$scope.wards_to_show=[]
+
+			var temp=JSON.parse('<?php echo $constituencies?>')
+			for (var i = 0; i < temp.length; i++) {
+				if(temp[i].countyNo=="<?php echo $this->session->userdata('basic_data')['counties']?>")
+					$scope.constituencies.push(temp[i])
+			}
+
+			temp=JSON.parse('<?php echo $wards?>')
+			for (var i = 0; i < temp.length; i++) {
+				$scope.wards.push(temp[i])
+			}
+
+			$scope.change_wards=function(){
+				$scope.wards_to_show=[]
+				for (var i = 0; i < $scope.wards.length; i++) {
+					if($scope.wards[i].constituencyID==$scope.const)
+						$scope.wards_to_show.push($scope.wards[i])
+				}
+			}
+
+			$scope.const=$scope.constituencies[0].constituencyID
+			$scope.change_wards()
+		})
+
+		app.controller('history',function($scope){
+			$scope.seats=JSON.parse('<?php echo $seats?>');
+			$scope.data=[]
+			$scope.seat='0'
+			$scope.add_data=function(){
+				$('div#sign_up_error').html('')
+				var from=$('#fromDate').val().trim(),to=$('#toDate').val().trim(),user=$('#user').text().trim()
+				if(from.length<1||to.length<1){
+					$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>Input valid dates in "From" and "To" columns.</div>')
+					return
+				}
+				var temp=-1
+				for (var i = 0; i < $scope.seats.length; i++) {
+					if($scope.seat==$scope.seats[i].seatID)
+						temp=$scope.seats[i]
+				}
+				if(temp!==-1){
+					$scope.data.push([$scope.data.length,user,temp,from,to])
+				}else{
+					$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>An unknown error occurred.</div>')
+					return
+				}
+			}
+			$scope.remove_data=function($event){
+				var index=parseInt($($event.currentTarget).attr('data-id'))
+				for (var i = 0; i < $scope.data.length; i++) {
+					if(parseInt($scope.data[i][0])==index)
+						$scope.data.splice(i,1)
+				}
+			}
+			$scope.sort_data=function($event){
+
+			}
+		})
 	</script>
 </body>
 </html>
