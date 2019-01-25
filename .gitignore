@@ -3,4 +3,4 @@ test.php
 desktop.ini
 bugs.txt
 .env
-application/third_party/PHPdotenv/
+application/third_party/
