@@ -1,0 +1,10 @@
+{
+	"config": {
+        "vendor-dir": "application/third_party"
+    },
+	"require" :{
+		"sendgrid/sendgrid": "~7",
+		"twilio/sdk": "~5",
+		"cloudinary/cloudinary_php": "~1"
+	}
+}
