@@ -31,6 +31,6 @@ class LoadScripts {
 	}
 
 	public function load_luxon(){
-		return "<script type='module' src='".base_url('resources/js/luxon/luxon.js')."'></script><script src='https://cdn.polyfill.io/v2/polyfill.js?features=default,String.prototype.repeat,Array.prototype.find,Array.prototype.findIndex,Math.trunc'></script>";
+		return "<script src='".base_url('resources/js/luxon.js')."'></script><script src='https://cdn.polyfill.io/v2/polyfill.js?features=default,String.prototype.repeat,Array.prototype.find,Array.prototype.findIndex,Math.trunc'></script>";
 	}
 }
