@@ -518,3 +518,72 @@
 		$scope.year=new Date().getFullYear().toString()
 		$scope.month=(new Date().getMonth()+1).toString()
 	}
+
+	function history($scope,url1,url2,years){
+		$scope.data=[]
+		$scope.seat='0'
+		$scope.add_data=function(){
+				$('div#sign_up_error').html('')
+				var from=$scope.check_date($('#fromDate').val().trim()),to=$scope.check_date($('#toDate').val().trim()),user=$('#user').text().trim()
+				if(from.length<1||to.length<1||from===false||(to===false&&$('#toDate').val().trim().toLowerCase().localeCompare('today')!==0)){
+					$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>Input valid dates in "From" and "To" columns.</div>')
+					return
+				}
+				if(from<min_year||from>to||(to>max_year&&$('#toDate').val().trim().toLowerCase().localeCompare('today')!==0)){
+					$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>Wrong input in "From" or "To" columns.</div>')
+					return
+				}
+				var temp=-1
+				for (var i = 0; i < $scope.seats.length; i++) {
+					if($scope.seat==$scope.seats[i].seatID)
+						temp=$scope.seats[i]
+				}
+				if(temp!==-1){
+					$scope.data.push([$scope.data.length,user,temp,from,(to&&to!=max_year)?to:"Today"])
+					$scope.sort_data()
+					$('#fromDate').val((to&&to!=max_year)?to:"")
+					$('#toDate').val("")
+					$scope.seat='0'
+					$('button#finish').removeClass('fade')
+				}else{
+					$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>An unknown error occurred.</div>')
+				}
+		}
+		$scope.key_up=function($event){
+			var code = ($event.keyCode ? $event.keyCode : $event.which);
+			if(code == 13) {
+				$scope.add_data();
+			}
+		}
+		$scope.remove_data=function($event){
+			var index=parseInt($($event.currentTarget).attr('data-id'))
+			for (var i = 0; i < $scope.data.length; i++) {
+				if(parseInt($scope.data[i][0])==index)
+					$scope.data.splice(i,1)
+			}
+			$('#fromDate').val("")
+			if($scope.data.length===0){ $('button#finish').addClass('fade');$('#fromDate').val(min_year);}
+		}
+		$scope.sort_data=function(){
+			$scope.data.sort(function(a,b){
+				if(a[3]==b[3]) return 0
+				return (a[3]>b[3]) ? 1:-1;
+			})
+		}
+		$scope.check_date=function(value){
+			var temp=luxon.DateTime.fromISO(value)
+			return (temp.isValid) ? temp.toISODate():false
+		}
+		$scope.finish=function(){
+			var temp=[]
+			for (var i = 0; i < $scope.data.length; i++) {
+				temp.push([$scope.data[i][1],$scope.data[i][2].seatID,$scope.data[i][3],($scope.check_date($scope.data[i][4])===false)?null:$scope.data[i][4]]);
+			}
+			$.post(url1,{history:JSON.stringify(temp)},data=>{
+				if(data.localeCompare('success')===0) location.assign(url2);return;
+				$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>'+data+'</div>')
+			})
+		}
+		var min_year=$scope.check_date(new Date().getFullYear()-parseInt(years)),max_year=$scope.check_date(new Date().toISOString())
+			$('#fromDate').val(min_year)
+	}
