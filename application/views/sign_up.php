@@ -1,8 +1,35 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<?php echo $head?>
 	<style>
+		button{
+			width: 75px;
+		}
+		button span {
+		  	cursor: pointer;
+		  	display: inline-block;
+		  	position: relative;
+		  	transition: 0.5s;
+		}
+		button span:after {
+		  	content: '\00bb';
+		  	position: absolute;
+		  	opacity: 0;
+		  	top: 0;
+		  	right: -20px;
+		  	transition: 0.5s;
+		}
+		button:hover span {
+		  	padding-right: 20px;
+		}
+		button:hover span:after {
+		  	opacity: 1;
+		  	right: 0px;
+		}
 		@media screen and (max-width: 576px){
 			.display-4{
 				font-size: 40px;
@@ -17,7 +44,7 @@
 			<span><i class="fas fa-user"></i> Mwananchi: </span><span>Sign Up</span>
 		</div>
 		<?php if($form==='basic'){
-			$this->session->unset_userdata('basic_data');
+			$this->session->unset_userdata(array('basic_data','political_data','political_history'));
 		?>
 			<legend class="text-muted">Basic Information</legend>
 			<div id="sign_up_error"><?php echo validation_errors('<div class="alert alert-danger alert-dismissable fade show">', '<button type="button" class="close" style="line-height:0.83;outline:none;" data-dismiss="alert"><span>&times;</span></button></div>'); ?></div>
@@ -124,7 +151,7 @@
 					</div>
 					<input type="text" name="age" hidden="">
 					<div class="d-flex justify-content-end">
-						<button type="submit" class="btn btn-info">Sign Up</button>
+						<button type="submit" class="btn btn-info" ><span>Next</span></button>
 					</div>
 				</div>
 			</form>
@@ -142,7 +169,7 @@
 						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-email="<?php echo $this->session->userdata('basic_data')['email'];?>" onclick="event.preventDefault();showLoader(this,'<?php echo site_url('register/resend_code')?>')" class="text-info">Resend Code . . .</a>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-info">Verify Email</button>
+				<button type="submit" class="btn btn-info"><span>Next</span></button>
 			</form>
 		<?php }elseif($form==='phone'){
 			if($this->session->userdata('basic_data')===null) redirect(site_url('sign_up/basic'),'location');
@@ -159,7 +186,7 @@
 						<a href="" data-username="<?php echo $this->session->userdata('basic_data')['user'];?>" data-phone="<?php echo $this->session->userdata('basic_data')['number'];?>" data-type="call" onclick="event.preventDefault();showLoader(this,'<?php echo site_url('register/resend_code')?>')" class="text-info">Call Me . . .</a>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-info">Verify Phone</button>
+				<button type="submit" class="btn btn-info"><span>Sign Up</span></button>
 			</form>
 		<?php }elseif($form==='politics'){
 			if($this->session->userdata('basic_data')===null) redirect(site_url('sign_up/basic'),'location');
@@ -171,6 +198,12 @@
 				<div>
 					<div class="row">
 						<div class="col-lg-12">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">@</span>
+								</div>
+								<input type="text" class="form-control" name="user" readonly="" value="<?php echo $this->session->userdata('basic_data')['user']?>">
+							</div>
 							<div class="form-group">
 								<input type="text" value="<?php echo set_value('full_names')?>" class="form-control" name="full_names"placeholder="Full Names" required="">
 							</div>
@@ -196,12 +229,12 @@
 						</div>
 					</div>
 					<div class="d-flex justify-content-end">
-						<button type="submit" class="btn btn-info">Sign Up</button>
+						<button type="submit" class="btn btn-info"><span>Next</span></button>
 					</div>
 				</div>
 			</form>
 		<?php }elseif($form==='history'){
-			if($this->session->userdata('basic_data')===null||$this->session->userdata('political_data')===null) redirect(site_url('sign_up/basic'),'location');
+			if($this->session->userdata('basic_data')===null||$this->session->userdata('political_data')===null||$this->session->userdata('political_history')===null) redirect(site_url('sign_up/basic'),'location');
 			if(strtolower($this->session->userdata('basic_data')['type'])!=='politician') redirect(site_url('sign_up/basic'),'location');
 		?>
 			<style>
@@ -211,9 +244,9 @@
 			</style>
 			<legend class="text-muted">Political History</legend>
 			<div id="sign_up_error"></div>
-			<p>What posts did you hold in the <?php echo $this->session->userdata('political_data')['political_years'];?> years you were in politics? <br><strong>Note: </strong>The 'From' and 'To' columns require valid dates in the format DD-MM-YYYY.</p>
-			<div class="table-responsive-sm">
-				<table class="table table-light mt-3" ng-controller="history">
+			<p>What posts did you hold in the <?php echo $this->session->userdata('political_data')['political_years'];?> years you were in politics? <br><strong>Note: </strong>The 'From' and 'To' columns require valid dates in the format YYYY-MM-DD. Use 'today' for today's date.</p>
+			<div class="table-responsive-sm" ng-controller="history">
+				<table class="table table-light mt-3">
 					<thead class="thead-light">
 						<tr>
 							<th scope="col">Username</th>
@@ -231,25 +264,94 @@
 							<td>{{x[4]}}</td>
 							<td class="text-center"><button class="close fas fa-times text-danger float-none" ng-click="remove_data($event)" data-id="{{x[0]}}" title="Remove"></button></td>
 						</tr>
-						<tr class="table-info">
+						<tr class="table-secondary">
 							<th scope="row" id="user"><?php echo $this->session->userdata('basic_data')['user'];?></th>
 							<td><select class="form-control" ng-model="seat" name="political_seat"><option ng-repeat="x in seats" value="{{x.seatID}}">{{x.seat}}</option></select></td>
-							<td><input class="form-control" id="fromDate" placeholder="Date from"></td>
-							<td><input class="form-control" id="toDate" placeholder="Date to"></td>
-							<td class="d-flex justify-content-around">
-								<button class="close fas fa-plus text-muted float-none" ng-click="add_data()" title="Add"></button>
-								<button class="close fas fa-share text-success float-none" title="Next"></button>
-							</td>
+							<td><input class="form-control" ng-keyup="key_up($event)" id="fromDate" placeholder="Date from"></td>
+							<td><input class="form-control" ng-keyup="key_up($event)" id="toDate" placeholder="Date to"></td>
+							<td class="text-center"><button class="close fas fa-plus text-dark float-none" ng-click="add_data()" title="Add"></button></td>
 						</tr>
 					</tbody>
 				</table>
+				<div class="d-flex justify-content-center">
+					<button class="btn btn-secondary mr-5" onclick='var url="<?php echo site_url('register/political_history')?>";location.assign(url)'><span>Skip</span></button>
+					<button class="btn btn-info fade" id="finish" ng-click="finish()"><span>Next</span></button>
+				</div>
 			</div>
+		<?php }elseif($form==='education'){
+			if($this->session->userdata('basic_data')===null||$this->session->userdata('political_data')===null||$this->session->userdata('political_history')===null) redirect(site_url('sign_up/basic'),'location');
+			if(strtolower($this->session->userdata('basic_data')['type'])!=='politician') redirect(site_url('sign_up/basic'),'location');
+		?>
+			<legend class="text-muted">Educational Information</legend>
+			<div id="sign_up_error"><?php echo validation_errors('<div class="alert alert-danger alert-dismissable fade show">', '<button type="button" class="close" style="line-height:0.83;outline:none;" data-dismiss="alert"><span>&times;</span></button></div>'); ?></div>
+			<form style="width: 100%;" method="post" action="" enctype="multipart/form-data">
+				<fieldset>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text">@</span>
+								</div>
+								<input type="text" class="form-control" name="user" readonly="" value="<?php echo $this->session->userdata('basic_data')['user']?>">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6">
+							<legend class="lead mt-3"><i class="fas fa-school"> Schools:</i></legend>
+							<div class="form-group">
+								<input type="text" class="form-control" name="pSchool" placeholder="Primary School" required="">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="sSchool" placeholder="Secondary School" required="">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="uSchool" placeholder="University/College/Tertiary Institution" required="">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="mSchool" placeholder="Masters School (Optional)">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="phdSchool" placeholder="PhD School (Optional)">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<legend class="lead mt-3"><i class="fas fa-graduation-cap"> Grades & Courses:</i></legend>
+							<div class="form-group">
+								<input type="text" class="form-control" name="pGrade" placeholder="Primary School Grade" required="">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="sGrade" placeholder="Secondary School Grade" required="">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="uCourse" placeholder="University Course" required="">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="mCourse" placeholder="Masters Course (Optional)">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="pCourse" placeholder="PhD Course (Optional)">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<legend class="lead"><i class="fas fa-user-tag"> Miscelleneous:</i></legend>
+							<div class="form-group">
+								<textarea placeholder="Other Courses Undertaken (Optional)..." class="form-control" name="oCourse"></textarea>
+							</div>
+						</div>
+						
+					</div>
+					<input type="text" name="age" hidden="">
+					<div class="d-flex justify-content-end">
+						<button type="submit" class="btn btn-info" ><span>Next</span></button>
+					</div>
+				</fieldset>
+			</form>
 		<?php }?>
 	</div>
 	<script>
-		import DateTime from './resources/js/luxon/luxon';
-		//alert(DateTime.fromISO('2016-05-25'))
-		alert(DateTime.local())
 		function showLoader(event,url){
 			$('div#sign_up_error').html('<div class="d-flex justify-content-center"><div class="loader"></div></div>');
 			$(event).hide()
@@ -357,37 +459,7 @@
 
 		app.controller('history',function($scope){
 			$scope.seats=JSON.parse('<?php echo $seats?>');
-			$scope.data=[]
-			$scope.seat='0'
-			$scope.add_data=function(){
-				$('div#sign_up_error').html('')
-				var from=$('#fromDate').val().trim(),to=$('#toDate').val().trim(),user=$('#user').text().trim()
-				if(from.length<1||to.length<1){
-					$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>Input valid dates in "From" and "To" columns.</div>')
-					return
-				}
-				var temp=-1
-				for (var i = 0; i < $scope.seats.length; i++) {
-					if($scope.seat==$scope.seats[i].seatID)
-						temp=$scope.seats[i]
-				}
-				if(temp!==-1){
-					$scope.data.push([$scope.data.length,user,temp,from,to])
-				}else{
-					$('div#sign_up_error').html('<div class="alert alert-danger"><strong>Error! </strong>An unknown error occurred.</div>')
-					return
-				}
-			}
-			$scope.remove_data=function($event){
-				var index=parseInt($($event.currentTarget).attr('data-id'))
-				for (var i = 0; i < $scope.data.length; i++) {
-					if(parseInt($scope.data[i][0])==index)
-						$scope.data.splice(i,1)
-				}
-			}
-			$scope.sort_data=function($event){
-
-			}
+			history($scope,"<?php echo site_url('register/political_history')?>","<?php echo site_url('sign_up/education')?>","<?php echo $this->session->userdata('political_data')['political_years']?>")
 		})
 	</script>
 </body>
