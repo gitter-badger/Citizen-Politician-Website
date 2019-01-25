@@ -22,7 +22,7 @@ class Sendresetemail extends CI_Model {
 			return "<div class='alert alert-danger'><strong>Fail!</strong> Password Reset Instructions NOT Sent to your Email because your email is not verified.</div>";
 		}
 		if($this->log_event($email->user)){
-			$response=$this->email->send_email($email->email,"Password Reset Instructions.","We hope that you are well. Follow <a href='".site_url("reset_user_password/$email->user/$this->passcode")."'> this </a> link to reset your password.<br/>If you never requested for a password reset then please ignore this email.<br>",$email->user,'passwordreset');
+			$response=$this->email->send_email($email->email,"Password Reset Instructions.","We hope that you are well. Follow <a href='".site_url("reset_user_password/$email->user/$this->passcode")."'> THIS </a> link to reset your password.<br>If you never requested for a password reset then please ignore this email.<br>",$email->user,'passwordreset');
 			if($response==202){//sends email and if successful, displays a success message.
 				return "<div class='alert alert-success'><strong>Success!</strong> Password Reset Instructions Successfully Sent to your Email.</div>";
 			}else{//if email sending fails, shows an error message.
